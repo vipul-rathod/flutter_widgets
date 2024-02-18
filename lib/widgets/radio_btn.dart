@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 enum Gender {male, female}
 
 class MyRadioWidget extends StatefulWidget {
-  const MyRadioWidget({super.key});
+
+  final Function(String)? onChanged;
+
+  const MyRadioWidget({super.key, required this.onChanged});
 
   @override
   State<MyRadioWidget> createState() => MyRadioWidgetState();
@@ -22,6 +25,7 @@ class MyRadioWidgetState extends State<MyRadioWidget> {
             value: Gender.male,
             groupValue: gender,
             onChanged: (Gender? value){
+              widget.onChanged?.call(value.toString());
               setState((){
                 gender = value;
               });
@@ -33,9 +37,10 @@ class MyRadioWidgetState extends State<MyRadioWidget> {
           leading: Radio(
             value: Gender.female,
             groupValue: gender,
-            onChanged: (Gender? value){
+            onChanged: (Gender? val){
+              widget.onChanged?.call(val.toString());
               setState((){
-                gender = value;
+                gender = val;
               });
             },
           ),
