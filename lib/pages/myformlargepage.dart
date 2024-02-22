@@ -158,7 +158,6 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                       child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()){
-                          print(nameCtrl.text);
                         }
                         // print(nameCtrl.text);
                         // print(dobCtrl.text);
