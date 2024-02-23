@@ -24,9 +24,8 @@ class MyFormLargePageState extends State<MyFormLargePage>{
   TextEditingController phoneCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   var dropdownValue = list.first;
-  // Gender gen = Gender.male;
-  Gender? gen = Gender.male;
   var confirmationBool = false;
+  String? genGroupVal = 'male';
 
   void showDatePickerTool(){
     showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
@@ -137,9 +136,11 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                 Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyRadioWidget(
                     fontSize: 25,
-                    onChanged: (value){
-                      print(value);
-                      // gen = value!;
+                    groupVal: genGroupVal,
+                    onChanged: (value) {
+                      setState(() {
+                        genGroupVal = value;
+                      });
                     }
                   ),
                 ),
@@ -164,8 +165,6 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                         if (formKey.currentState!.validate()){
                           Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: 'male', confirm: confirmationBool);
                           objectbox.employeeBox.put(employee);
-                          var tempData = objectbox.employeeBox.getAll();
-                          // debugPrint('Data added to dabase successfully and the id is ${tempData[-1].id}');
                         }
                       },
                       child: const Text('Submit',

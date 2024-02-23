@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-enum Gender {male, female}
+// enum Gender {male, female}
 
 class MyRadioWidget extends StatefulWidget{
   final Function(String?) onChanged;
   final double fontSize;
-  MyRadioWidget({super.key, required this.onChanged, required this.fontSize});
+  String? groupVal;
+
+  MyRadioWidget({super.key, required this.onChanged, required this.fontSize, this.groupVal});
 
   @override
   State<MyRadioWidget> createState() => MyRadioWidgetState();
 }
 
 class MyRadioWidgetState extends State<MyRadioWidget>{
-  Gender? gender  = Gender.male;
+  // Gender? gender  = Gender.male;
+  // String? gender;
 
   @override
   Widget build(BuildContext context){
@@ -38,13 +41,13 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
                 fontWeight: FontWeight.bold
                 ),
               ),
-              leading: Radio<Gender?>(
-                value: Gender.male,
-                groupValue: gender,
-                onChanged: (Gender? value){
-                  widget.onChanged.call(value!.name);
+              leading: Radio<String?>(
+                value: 'male',
+                groupValue: widget.groupVal,
+                onChanged: (String? value){
+                  widget.onChanged.call(value!);
                   setState((){
-                    gender = value;
+                    widget.groupVal = value.toString();
                   });
                 },
               ),
@@ -58,14 +61,15 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
                 fontWeight: FontWeight.bold
                 ),
               ),
-              leading: Radio<Gender>(
-                value: Gender.female,
-                groupValue: gender,
-                onChanged: (Gender? value){
-                  widget.onChanged.call(value!.name);
-                  setState((){
-                    gender = value;
-                  });
+              leading: Radio<String?>(
+                value: 'female',
+                groupValue: widget.groupVal,
+                // onChanged: (val) {},
+                onChanged: (String? value){
+                  widget.onChanged.call(value!);
+                  // setState((){
+                  //   widget.groupVal = value.toString();
+                  // });
                 },
               ),
             ),
