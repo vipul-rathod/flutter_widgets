@@ -137,7 +137,6 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                 Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyRadioWidget(
                     fontSize: 25,
-                    val: Gender.female,
                     onChanged: (value){
                       print(value);
                       // gen = value!;

@@ -21,10 +21,7 @@ class MyViewFormLargePage extends StatefulWidget{
 
 class MyViewFormLargePageState extends State<MyViewFormLargePage>{
   final formKey = GlobalKey<FormState>();
-  String dropdownValue = '';
-  Gender? gend;
-  String gen_value = '';
-  
+  String dropdownValue = '';  
 
   @override
   Widget build(BuildContext context){
@@ -33,20 +30,10 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
     TextEditingController dobCtrl = TextEditingController(text: data.dob.toString());
     TextEditingController phoneCtrl = TextEditingController(text: data.phone.toString());
     TextEditingController emailCtrl = TextEditingController(text: data.email.toString());
-    
+
     setState((){
     dropdownValue = data.expLevel.toString();
-    gen_value = data.gender.toString();
-    if (gen_value == 'male'){
-      gend = Gender.male;
-    }
-    else{
-      gend = Gender.female;
-    }
     });
-    
-    
-    
 
     return MyScaffold(
       fontSize: 25,
@@ -141,7 +128,6 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                 Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyRadioWidget(
                     fontSize: 25,
-                    val: gend,
                     onChanged: (val) {print(val);},
                   ),
                 ),
