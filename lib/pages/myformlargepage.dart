@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
+import 'package:test_widgets/pages/mylistpage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 
-List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
-
 class MyFormLargePage extends StatefulWidget{
-  const MyFormLargePage({super.key});
+  const MyFormLargePage({super.key, this.onChanged});
+  final Function(String?)? onChanged;
 
   @override
   State<MyFormLargePage> createState() => MyFormLargePageState();
@@ -33,6 +33,11 @@ class MyFormLargePageState extends State<MyFormLargePage>{
         dobCtrl.text = '${value.day}-${value.month}-${value.year}';
       }
     });
+  }
+
+Future<List<Employee>> getEmployees() async {
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
   }
 
   @override
@@ -128,9 +133,15 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                     list: list,
                     fontSize: 25,
                     iconSize: 40,
-                    onChanged: (value){
-                      dropdownValue=value!;
-                    }
+                    value: dropdownValue,
+                    onChanged: (String? value){
+                      setState(() {
+                        dropdownValue=value!;
+                      });
+                    },
+                    itemsList: list.map<DropdownMenuItem<String>>((String? value){
+                      return DropdownMenuItem<String>(value: value, child: Text(value!),);
+                      }).toList(),
                   ),
                 ),
                 Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
@@ -138,6 +149,7 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                     fontSize: 25,
                     groupVal: genGroupVal,
                     onChanged: (value) {
+                      
                       setState(() {
                         genGroupVal = value;
                       });
@@ -163,8 +175,9 @@ class MyFormLargePageState extends State<MyFormLargePage>{
                       child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()){
-                          Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: 'male', confirm: confirmationBool);
+                          Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
                           objectbox.employeeBox.put(employee);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
                         }
                       },
                       child: const Text('Submit',

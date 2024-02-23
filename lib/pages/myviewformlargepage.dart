@@ -24,6 +24,8 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
   String dropdownValue = '';
   String genderValue = '';
 
+
+
   @override
   Widget build(BuildContext context){
     Employee? data = objectbox.employeeBox.get(widget.id);
@@ -118,12 +120,18 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                   padding: const EdgeInsets.fromLTRB(8,60,8, 10),
                   child: MyDropdownWidget(
                     focusNode: AlwaysDisabledFocusNode(),
+                    disHint: Text(dropdownValue),
                     list: list,
                     fontSize: 25,
                     iconSize: 40,
                     value: dropdownValue,
-                    itemsList: list.map<DropdownMenuItem<String>>((String value){
-                      return DropdownMenuItem<String>(value: value, child: Text(value),);
+                    onChanged: (value) {
+                      setState(() {
+                        return null;
+                      });
+                    },
+                    itemsList: list.map<DropdownMenuItem<String>>((String? value){
+                      return DropdownMenuItem<String>(value: value, child: Text(value!),);
                     }).toList(),
                   ),
                 ),
@@ -134,7 +142,6 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                     groupVal: data.gender,
                     onChanged: (val) {
                       setState(() {
-                        
                       });
                     },
                   ),
