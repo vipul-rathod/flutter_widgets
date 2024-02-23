@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
+import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/models/models.dart';
+import 'package:test_widgets/main.dart';
 
 class MyDrawer extends StatefulWidget{
   final double fontSize;
@@ -11,6 +14,11 @@ class MyDrawer extends StatefulWidget{
 }
 
 class MyDrawerState extends State<MyDrawer>{
+
+  Future<List<Employee>> getEmployees() async {
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
+  }
 
   @override
   Widget build(BuildContext context){
@@ -39,6 +47,11 @@ class MyDrawerState extends State<MyDrawer>{
             leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
             title: Text('Hive App Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
             onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
+            title: Text('ObjectBox List Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
+            onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app, color: Colors.white,),

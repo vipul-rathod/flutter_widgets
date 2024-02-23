@@ -9,6 +9,7 @@ class MyTextFormField extends StatefulWidget{
   final String label;
   final String hint;
   final TextEditingController controller;
+  // final String? initialText;
   final IconData prefixIcon;
   final double iconSize;
   final Color iconColor;
@@ -33,6 +34,7 @@ class MyTextFormFieldState extends State<MyTextFormField>{
   Widget build(BuildContext context){
     return TextFormField(
       controller: widget.controller,
+      // initialValue: widget.initialText,
       autocorrect: false,
       focusNode: widget.focusNode,
       inputFormatters: widget.inputFormatter,

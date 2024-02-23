@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
+import 'package:test_widgets/utils/database_helper.dart';
 
-void main() {
+late ObjectBox objectbox;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  objectbox = await ObjectBox.create();
   runApp(const MyApp());
 }
 
