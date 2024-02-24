@@ -8,8 +8,7 @@ import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:test_widgets/main.dart';
 
-List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
-// enum Gender{male, female}
+// List<String> list = [data.expLevel];
 
 class MyViewFormLargePage extends StatefulWidget{
   final int id;
@@ -33,6 +32,7 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
     TextEditingController dobCtrl = TextEditingController(text: data.dob.toString());
     TextEditingController phoneCtrl = TextEditingController(text: data.phone.toString());
     TextEditingController emailCtrl = TextEditingController(text: data.email.toString());
+    List<String> list1 = [data.expLevel!];
 
     setState((){
     dropdownValue = data.expLevel.toString();
@@ -121,16 +121,12 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                   child: MyDropdownWidget(
                     focusNode: AlwaysDisabledFocusNode(),
                     disHint: Text(dropdownValue),
-                    list: list,
+                    list: list1,
                     fontSize: 25,
                     iconSize: 40,
                     value: dropdownValue,
-                    onChanged: (value) {
-                      setState(() {
-                        return null;
-                      });
-                    },
-                    itemsList: list.map<DropdownMenuItem<String>>((String? value){
+                    onChanged: null,
+                    itemsList: list1.map<DropdownMenuItem<String>>((String? value){
                       return DropdownMenuItem<String>(value: value, child: Text(value!),);
                     }).toList(),
                   ),
@@ -142,6 +138,7 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                     groupVal: data.gender,
                     onChanged: (val) {
                       setState(() {
+                        print(1);
                       });
                     },
                   ),
@@ -150,6 +147,7 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyCheckBoxWidget(
+                    val: data.confirm,
                     onChanged: (value){
                       return null;
                     },
@@ -164,7 +162,7 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                       height: 50,
                       child: ElevatedButton(
                       onPressed: () {},
-                      child: const Text('Submit',
+                      child: const Text('Edit',
                         style: TextStyle(
                           color: Colors.indigo,
                           fontSize: 25)

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
+// List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
 class MyDropdownWidget extends StatefulWidget{
-  final Function(String?) onChanged;
+  final Function(String?)? onChanged;
   final FocusNode? focusNode;
   final double fontSize;
   final double iconSize;
   final String? value;
-  final List list;
+  final List<String> list;
   final Widget? disHint;
 
   final List<DropdownMenuItem<String>>? itemsList;
@@ -47,14 +47,13 @@ class MyDropdownWidgetState extends State<MyDropdownWidget>{
           underline: DropdownButtonHideUnderline(
             child: Container(),
           ),
+          value: dropdownVal,
           onChanged: (String? newValue){
-            widget.onChanged.call(newValue!);
+            widget.onChanged?.call(newValue);
             setState(() {
-              dropdownVal = newValue;
             });
           },
-          value: dropdownVal,
-          items: list.map<DropdownMenuItem<String>>((String? value){
+          items: widget.list.map<DropdownMenuItem<String>>((String? value){
             return DropdownMenuItem<String>(value: value, child: Text(value!),);
           }).toList(),
         ),

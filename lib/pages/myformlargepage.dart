@@ -9,6 +9,8 @@ import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 
+List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
+
 class MyFormLargePage extends StatefulWidget{
   const MyFormLargePage({super.key, this.onChanged});
   final Function(String?)? onChanged;
@@ -23,8 +25,8 @@ class MyFormLargePageState extends State<MyFormLargePage>{
   TextEditingController dobCtrl = TextEditingController();
   TextEditingController phoneCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
-  var dropdownValue = list.first;
-  var confirmationBool = false;
+  String? dropdownValue = list.first;
+  bool? confirmationBool = false;
   String? genGroupVal = 'male';
 
   void showDatePickerTool(){
@@ -149,7 +151,6 @@ Future<List<Employee>> getEmployees() async {
                     fontSize: 25,
                     groupVal: genGroupVal,
                     onChanged: (value) {
-                      
                       setState(() {
                         genGroupVal = value;
                       });
@@ -160,8 +161,11 @@ Future<List<Employee>> getEmployees() async {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyCheckBoxWidget(
+                    val: confirmationBool,
                     onChanged: (value){
-                      confirmationBool=value;
+                      setState(() {
+                        confirmationBool=value!;
+                      });
                     },
                   ),
                 ),

@@ -4,6 +4,8 @@ import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 
+List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
+
 class MyFormSmallPage extends StatefulWidget{
   const MyFormSmallPage({super.key});
 
