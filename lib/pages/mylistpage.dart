@@ -35,6 +35,7 @@ class MyListPage extends StatelessWidget{
             floatingActionButton: FloatingActionButton(
               onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyForm()));},
               tooltip: 'Add Employee',
+              backgroundColor: Colors.tealAccent,
               child: const Icon(Icons.add),
             ),
           );
@@ -50,7 +51,7 @@ class MyListPage extends StatelessWidget{
       color: Colors.white,
       elevation: 2,
       child: ListTile(
-        leading: CircleAvatar(backgroundColor: Colors.yellow, child: Text('${employee.id}'),),
+        leading: CircleAvatar(backgroundColor: Colors.tealAccent, child: Text('${employee.id}'),),
         title: Text(employee.name.toString(), style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
         subtitle: Text(employee.phone.toString()),
         trailing: IconButton(
