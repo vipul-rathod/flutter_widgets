@@ -1,75 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
-import 'package:test_widgets/pages/myeditformlargepage.dart';
+import 'package:test_widgets/pages/mylistpage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
-import 'package:test_widgets/main.dart';
 
-// List<String> list = [data.expLevel];
+List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
-class MyViewFormLargePage extends StatefulWidget{
+class MyEditFormLargePage extends StatefulWidget{
+  const MyEditFormLargePage({super.key, this.onChanged, required this.id, required this.name,
+    required this.dob, required this.phone, required this.email, required this.expLevel, required this.gender, required this.confirm});
+
+  final Function(String?)? onChanged;
   final int? id;
-  const MyViewFormLargePage({super.key, required this.id});
+  final String? name;
+  final String? dob;
+  final String? phone;
+  final String? email;
+  final String? expLevel;
+  final String? gender;
+  final bool? confirm;
 
   @override
-  State<MyViewFormLargePage> createState() => MyViewFormLargePageState(id);
+  State<MyEditFormLargePage> createState() => MyEditFormLargePageState(id, name, dob, phone, email, expLevel, gender, confirm);
 }
 
-class MyViewFormLargePageState extends State<MyViewFormLargePage>{
-  int? tempID;
-  MyViewFormLargePageState(this.tempID);
+class MyEditFormLargePageState extends State<MyEditFormLargePage>{
+  int? updateID;
+  String? name;
+  String? dob;
+  String? phone;
+  String? email;
+  String? expLevel;
+  String? gender;
+  bool? confirm;
+
   final formKey = GlobalKey<FormState>();
-  String dropdownValue = '';
-  String genderValue = '';
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController dobCtrl = TextEditingController();
+  TextEditingController phoneCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
+  String? dropdownValue;
+  bool? confirmationBool;
+  String? genGroupVal;
 
-
-
-  Employee? data;
-  TextEditingController? nameCtrl;
-  TextEditingController? dobCtrl;
-  TextEditingController? phoneCtrl;
-  TextEditingController? emailCtrl;
-  List<String> list1 = [];
+  MyEditFormLargePageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm);
 
   @override
   void initState() {
     super.initState();
-    data = objectbox.employeeBox.get(tempID!);
-    nameCtrl = TextEditingController(text: data!.name.toString());
-    dobCtrl = TextEditingController(text: data!.dob.toString());
-    phoneCtrl = TextEditingController(text: data!.phone.toString());
-    emailCtrl = TextEditingController(text: data!.email.toString());
-    if (data?.expLevel != null){
-      list1 = [data!.expLevel!];
-    }
-    else{
-      list1 = ['Fresher'];
-      debugPrint("expLevel is null");
-    }
+    nameCtrl.text = name.toString();
+    dobCtrl.text = dob.toString();
+    phoneCtrl.text = phone.toString();
+    emailCtrl.text = email.toString();
+    dropdownValue = expLevel.toString();
+    genGroupVal = gender.toString();
+    confirmationBool = confirm;
   }
 
+  void showDatePickerTool(){
+    showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
+      if (value != null){
+        dobCtrl.text = '${value.day}-${value.month}-${value.year}';
+      }
+    });
+  }
 
-
-
+Future<List<Employee>> getEmployees() async {
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
+  }
 
   @override
   Widget build(BuildContext context){
-    // Employee? data = objectbox.employeeBox.get(widget.id);
-    // TextEditingController nameCtrl = TextEditingController(text: data!.name.toString());
-    // TextEditingController dobCtrl = TextEditingController(text: data.dob.toString());
-    // TextEditingController phoneCtrl = TextEditingController(text: data.phone.toString());
-    // TextEditingController emailCtrl = TextEditingController(text: data.email.toString());
-    // List<String> list1 = [data.expLevel!];
-
-    setState((){
-    dropdownValue = data!.expLevel.toString();
-    genderValue = data!.gender.toString();
-    });
-
     return MyScaffold(
       fontSize: 25,
       iconSize: 40,
@@ -92,21 +99,27 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
-                  // initialText: nameCtrl.text,
-                        controller: nameCtrl!,
+                        controller: nameCtrl, 
                         prefixIcon: Icons.people, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                        fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))], focusNode: AlwaysDisabledFocusNode(),
+                        fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))], 
+                        validator: (value){
+                          if(value == null || value.isEmpty){
+                            return "*** enter some text in the field ***";
+                          }
+                          else{
+                            return null;
+                          }
+                        },
                   ),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,60,8, 10),
                   child: MyTextFormField(label: 'Date Of Birth', hint: 'Enter the date of birth', 
-                  // initialText: dobCtrl.text,
-                    controller: dobCtrl!,
+                    controller: dobCtrl,
                     prefixIcon: Icons.calendar_today,
                     iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                    fontSize: 25, onTap: () {}, focusNode: AlwaysDisabledFocusNode(),
+                    fontSize: 25, onTap: () {showDatePickerTool();}, focusNode: AlwaysDisabledFocusNode(),
                     validator: (value){
                       if (value==null || value.isEmpty){
                         return "*** Select the Date Of Birth ***";
@@ -122,10 +135,9 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                     children: [
                       Expanded(
                         child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
-                        // initialText: phoneCtrl.text,
-                          controller: phoneCtrl!,
+                          controller: phoneCtrl,
                           prefixIcon: Icons.phone, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
-                          inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)], focusNode: AlwaysDisabledFocusNode(),
+                          inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                           validator: (value){
                             if (value!.length >= 11 || value.length<=9){
                               return "${10 - value.length} digit more to go.";
@@ -139,10 +151,9 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                       ),
                       Expanded(
                         child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
-                        // initialText: emailCtrl.text,
-                          controller: emailCtrl!,
+                          controller: emailCtrl,
                           prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
-                          inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),], focusNode: AlwaysDisabledFocusNode(),
+                          inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),],
                           validator: (value){
                             if (value == null || value.isEmpty){
                               return "*** enter email id ***";
@@ -158,36 +169,40 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,60,8, 10),
                   child: MyDropdownWidget(
-                    focusNode: AlwaysDisabledFocusNode(),
-                    disHint: Text(dropdownValue),
-                    list: list1,
+                    list: list,
                     fontSize: 25,
                     iconSize: 40,
                     value: dropdownValue,
-                    onChanged: null,
-                    itemsList: list1.map<DropdownMenuItem<String>>((String? value){
+                    onChanged: (String? value){
+                      setState(() {
+                        dropdownValue=value!;
+                      });
+                    },
+                    itemsList: list.map<DropdownMenuItem<String>>((String? value){
                       return DropdownMenuItem<String>(value: value, child: Text(value!),);
-                    }).toList(),
+                      }).toList(),
                   ),
                 ),
-
                 Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyRadioWidget(
                     fontSize: 25,
-                    groupVal: data!.gender,
-                    onChanged: (val) {
+                    groupVal: genGroupVal,
+                    onChanged: (value) {
                       setState(() {
+                        genGroupVal = value;
                       });
-                    },
+                    }
                   ),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyCheckBoxWidget(
-                    val: data!.confirm,
+                    val: confirmationBool,
                     onChanged: (value){
-                      return null;
+                      setState(() {
+                        confirmationBool=value!;
+                      });
                     },
                   ),
                 ),
@@ -199,8 +214,15 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEditFormLargePage(id: data!.id, name: data!.name, dob: data!.dob, phone: data!.phone, email: data!.email, expLevel: data!.expLevel, gender: data!.gender, confirm: data!.confirm)));},
-                      child: const Text('Edit',
+                      onPressed: () {
+                        if (formKey.currentState!.validate()){
+                          // print (nameCtrl.text);
+                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                          objectbox.employeeBox.put(employee);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
+                        }
+                      },
+                      child: const Text('Submit',
                         style: TextStyle(
                           color: Colors.indigo,
                           fontSize: 25)

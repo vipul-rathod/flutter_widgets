@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class MyRadioWidget extends StatefulWidget{
   final Function(String?) onChanged;
   final double fontSize;
-  String? groupVal;
+  final String? groupVal;
 
-  MyRadioWidget({super.key, required this.onChanged, required this.fontSize, this.groupVal});
+  const MyRadioWidget({super.key, required this.onChanged, required this.fontSize, this.groupVal});
 
   @override
   State<MyRadioWidget> createState() => MyRadioWidgetState();
@@ -15,7 +15,13 @@ class MyRadioWidget extends StatefulWidget{
 
 class MyRadioWidgetState extends State<MyRadioWidget>{
   // Gender? gender  = Gender.male;
-  // String? gender;
+  String? gender;
+
+  @override
+  void initState() {
+    super.initState();
+    gender = widget.groupVal;
+  }
 
   @override
   Widget build(BuildContext context){
@@ -43,12 +49,9 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
               ),
               leading: Radio<String?>(
                 value: 'male',
-                groupValue: widget.groupVal,
+                groupValue: gender,
                 onChanged: (String? value){
                   widget.onChanged.call(value!);
-                  setState((){
-                    widget.groupVal = value.toString();
-                  });
                 },
               ),
             ),
@@ -63,13 +66,9 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
               ),
               leading: Radio<String?>(
                 value: 'female',
-                groupValue: widget.groupVal,
-                // onChanged: (val) {},
+                groupValue: gender,
                 onChanged: (String? value){
                   widget.onChanged.call(value!);
-                  // setState((){
-                  //   widget.groupVal = value.toString();
-                  // });
                 },
               ),
             ),

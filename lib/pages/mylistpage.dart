@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_widgets/main.dart';
 import 'package:test_widgets/pages/myviewformlargepage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/models/models.dart';
@@ -52,7 +53,14 @@ class MyListPage extends StatelessWidget{
         leading: CircleAvatar(backgroundColor: Colors.yellow, child: Text('${employee.id}'),),
         title: Text(employee.name.toString(), style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
         subtitle: Text(employee.phone.toString()),
-        trailing: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
+          onPressed: () {
+            objectbox.employeeBox.remove(employee.id);
+            
+          },
+        ),
+        // trailing: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyViewFormLargePage(id: employee.id)));
         },

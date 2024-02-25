@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextFormField extends StatefulWidget{
-  const MyTextFormField({super.key, required this.label, required this.hint,
-    required this.controller, required this.prefixIcon, required this.iconSize, this.onTap, this.focusNode, this.validator,
+  const MyTextFormField({super.key, required this.label, required this.hint, required this.controller,
+    required this.prefixIcon, required this.iconSize, this.onTap, this.focusNode, this.validator,
     required this.iconColor, required this.fontColor, required this.fontSize, this.inputFormatter, this.suffixIcon});
 
   final String label;
   final String hint;
   final TextEditingController controller;
-  // final String? initialText;
+  // String? initialText;
   final IconData prefixIcon;
   final double iconSize;
   final Color iconColor;
@@ -34,7 +34,7 @@ class MyTextFormFieldState extends State<MyTextFormField>{
   Widget build(BuildContext context){
     return TextFormField(
       controller: widget.controller,
-      // initialValue: widget.initialText,
+      // initialValue: widget.initialText!,
       autocorrect: false,
       focusNode: widget.focusNode,
       inputFormatters: widget.inputFormatter,

@@ -65,24 +65,28 @@ Future<List<Employee>> getEmployees() async {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee',
-                        controller: nameCtrl, prefixIcon: Icons.people, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                        fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))],
-                        validator: (value){
-                          if(value == null || value.isEmpty){
-                            return "*** enter some text in the field ***";
-                          }
-                          else{
-                            return null;
-                          }
-                        },
+                  child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
+                    // initialText: '',
+                    controller: nameCtrl,
+                    prefixIcon: Icons.people, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
+                    fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))],
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "*** enter some text in the field ***";
+                      }
+                      else{
+                        return null;
+                      }
+                    },
                   ),
                 ),
 
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,60,8, 10),
-                  child: MyTextFormField(label: 'Date Of Birth', hint: 'Enter the date of birth',
-                    controller: dobCtrl, prefixIcon: Icons.calendar_today,
+                  child: MyTextFormField(label: 'Date Of Birth', hint: 'Enter the date of birth', 
+                  // initialText: dobCtrl.text,
+                    controller: dobCtrl,
+                    prefixIcon: Icons.calendar_today,
                     iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
                     fontSize: 25, onTap: () {showDatePickerTool();}, focusNode: AlwaysDisabledFocusNode(),
                     validator: (value){
@@ -99,8 +103,10 @@ Future<List<Employee>> getEmployees() async {
                   child: Row(
                     children: [
                       Expanded(
-                        child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number',
-                          controller: phoneCtrl, prefixIcon: Icons.phone, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
+                        child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
+                          // initialText: '',
+                          controller: phoneCtrl,
+                          prefixIcon: Icons.phone, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
                           inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                           validator: (value){
                             if (value!.length >= 11 || value.length<=9){
@@ -114,8 +120,10 @@ Future<List<Employee>> getEmployees() async {
                         width: 20,
                       ),
                       Expanded(
-                        child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id',
-                          controller: emailCtrl, prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
+                        child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
+                          // initialText: '',
+                          controller: emailCtrl,
+                          prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
                           inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),],
                           validator: (value){
                             if (value == null || value.isEmpty){

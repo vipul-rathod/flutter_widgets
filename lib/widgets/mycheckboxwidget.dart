@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class MyCheckBoxWidget extends StatefulWidget{
   final Function(bool?) onChanged;
-  bool? val;
+  final bool? val;
 
-  MyCheckBoxWidget({super.key, required this.onChanged, required this.val});
+  const MyCheckBoxWidget({super.key, required this.onChanged, required this.val});
 
   @override
   State<MyCheckBoxWidget> createState() => MyCheckBoxWidgetState();
