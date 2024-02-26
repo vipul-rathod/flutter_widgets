@@ -70,8 +70,6 @@ class MyListPage extends StatelessWidget{
     );
   }
 
-
-
   Widget buildEmployeeCard(Employee employee, BuildContext context){
     return Card(
       color: Colors.white,
@@ -84,8 +82,6 @@ class MyListPage extends StatelessWidget{
           icon: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
           onPressed: () {
             _showDialog(context, employee);
-            // objectbox.employeeBox.remove(employee.id);
-            
           },
         ),
         onTap: () {

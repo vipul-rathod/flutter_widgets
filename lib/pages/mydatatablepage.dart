@@ -43,6 +43,11 @@ class MyDataTablePage extends StatelessWidget{
     final columns = ['ID', 'Name', 'DOB', 'Phone No.', 'Email', 'Experiece', 'Gender'];
     List<Employee>? data = objectbox.employeeBox.getAll();
     return DataTable(
+      decoration: const BoxDecoration(
+      ),
+      dataRowMinHeight: 50,
+      dataRowMaxHeight: 100,
+      headingRowColor: MaterialStateProperty.all<Color>(Colors.grey),
       columns: getColumns(columns),
       rows: getRows(data),
     );
@@ -50,7 +55,7 @@ class MyDataTablePage extends StatelessWidget{
   List<DataColumn> getColumns(List<String>columns){
     return columns.map((String column){
       return DataColumn(
-        label: Text(column, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: Colors.indigo),),
+        label: Text(column, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.indigo),),
       );
     }).toList();
   }

@@ -59,38 +59,6 @@ class MyScaffold extends StatelessWidget{
         backgroundColor: Colors.indigo[200],
         child: const Icon(Icons.add),
       ),
-
-      // bottomNavigationBar: BottomNavigationBar(
-      //   iconSize: 40,
-      //   elevation: 2,
-      //   backgroundColor: const Color.fromARGB(255, 20, 45, 90),
-      //   unselectedFontSize: 25,
-      //   selectedItemColor: Colors.amber,
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.pink[200],), label: 'Home'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.list, color: Colors.pink[200],), label: 'List'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.table_chart, color: Colors.pink[200],), label: 'Table'),
-      //   ],
-      //   onTap: (value) {
-      //     print(value);
-      //   },
-      // ),
-
-      // bottomNavigationBar: const BottomAppBar(
-      //   color: Color.fromARGB(255, 20, 45, 90),
-      //   child: SingleChildScrollView(
-      //     child: Column(
-      //     children:[ListTile(
-      //       leading: Icon(Icons.home, size: 25,),
-      //       title: Text('Home', style: TextStyle(fontSize: 25),),
-      //     ),
-      //     ListTile(
-      //       leading: Icon(Icons.people, size: 25,),
-      //     ),
-      //     ],
-      //   ),
-      //   ),
-      // ),
       body: body,
     );
   }
