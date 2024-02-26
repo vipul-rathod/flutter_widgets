@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/pages/largedeviceviewpage.dart';
 import 'package:test_widgets/pages/smalldeviceviewpage.dart';
+import 'package:test_widgets/widgets/myscaffold.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,7 +14,11 @@ class MyHomePageState extends State<MyHomePage>{
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return MyScaffold(
+      title: 'Home Page',
+      fontSize: 25,
+      iconSize: 25,
+      width: 450,
       body: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
           if (constraints.maxWidth < 600){

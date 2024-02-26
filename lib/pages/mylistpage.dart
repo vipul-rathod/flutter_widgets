@@ -3,19 +3,51 @@ import 'package:test_widgets/main.dart';
 import 'package:test_widgets/pages/myviewformlargepage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/models/models.dart';
-import 'package:test_widgets/pages/myform.dart';
 
 class MyListPage extends StatelessWidget{
   const MyListPage({super.key, required this.future});
   final Future<List<Employee>> future;
 
+  Future<List<Employee>> getEmployees() async {
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
+  }
+
+  Future<void> _showDialog(context, employee) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: const Text('Delete Dialog'),
+          content: const SingleChildScrollView(
+            child: Text('Are you sure to Delete from the database?'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                objectbox.employeeBox.remove(employee.id);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
+              },
+              child: const Text('Yes')
+            ),
+            TextButton(
+              onPressed: () {Navigator.of(context).pop();},
+              child: const Text('No')
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
       title: 'List View Page',
-      fontSize: 40,
+      fontSize: 25,
       iconSize: 40,
-      width: 25,
+      width: 450,
       body: FutureBuilder<List<Employee>>(
         future: future,
         builder: (context, snapshot) {
@@ -31,12 +63,6 @@ class MyListPage extends StatelessWidget{
                 final employee = snapshot.data![index];
                 return buildEmployeeCard(employee, context);
               }
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyForm()));},
-              tooltip: 'Add Employee',
-              backgroundColor: Colors.tealAccent,
-              child: const Icon(Icons.add),
             ),
           );
         },
@@ -57,11 +83,11 @@ class MyListPage extends StatelessWidget{
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
           onPressed: () {
-            objectbox.employeeBox.remove(employee.id);
+            _showDialog(context, employee);
+            // objectbox.employeeBox.remove(employee.id);
             
           },
         ),
-        // trailing: const Icon(Icons.delete, color: Colors.deepOrangeAccent,),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyViewFormLargePage(id: employee.id)));
         },

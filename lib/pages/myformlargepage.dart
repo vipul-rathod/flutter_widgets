@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
-import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
+import 'package:email_validator/email_validator.dart';
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
@@ -121,11 +122,13 @@ Future<List<Employee>> getEmployees() async {
                       ),
                       Expanded(
                         child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
-                          // initialText: '',
                           controller: emailCtrl,
                           prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
-                          inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),],
                           validator: (value){
+                            final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                            if (!isValid){
+                              return "*** enter email id ***";
+                            }
                             if (value == null || value.isEmpty){
                               return "*** enter email id ***";
                             }
@@ -189,7 +192,7 @@ Future<List<Employee>> getEmployees() async {
                         if (formKey.currentState!.validate()){
                           Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
                           objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         }
                       },
                       child: const Text('Submit',

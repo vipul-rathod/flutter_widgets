@@ -74,7 +74,7 @@ class MyViewFormLargePageState extends State<MyViewFormLargePage>{
       fontSize: 25,
       iconSize: 40,
       width: 450,
-      title: 'Employee Registration Form',
+      title: 'View Form',
       body: Container(
         alignment: Alignment.topCenter,
         decoration: const BoxDecoration(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/widgets/mydrawer.dart';
+import 'package:test_widgets/pages/myform.dart';
 
 class MyScaffold extends StatelessWidget{
   final Widget body;
@@ -19,7 +20,77 @@ class MyScaffold extends StatelessWidget{
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
       ),
       drawer: MyDrawer(fontSize: fontSize, width: width,),
-      bottomNavigationBar: const BottomAppBar(color: Color.fromARGB(255, 20, 45, 90)),
+
+      bottomNavigationBar: BottomAppBar(
+        color: const Color.fromARGB(255, 20, 45, 90),
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        clipBehavior: Clip.antiAlias,
+        child: SizedBox(
+          height: kBottomNavigationBarHeight,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.home, size: 50, color: Colors.yellow[200],),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.search, size: 50, color: Colors.yellow[200]),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.favorite_border_outlined, size: 50, color: Colors.yellow[200]),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.account_circle_outlined, size: 50, color: Colors.yellow[200]),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyForm()));},
+        tooltip: 'Add Employee',
+        backgroundColor: Colors.indigo[200],
+        child: const Icon(Icons.add),
+      ),
+
+      // bottomNavigationBar: BottomNavigationBar(
+      //   iconSize: 40,
+      //   elevation: 2,
+      //   backgroundColor: const Color.fromARGB(255, 20, 45, 90),
+      //   unselectedFontSize: 25,
+      //   selectedItemColor: Colors.amber,
+      //   items: <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.pink[200],), label: 'Home'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.list, color: Colors.pink[200],), label: 'List'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.table_chart, color: Colors.pink[200],), label: 'Table'),
+      //   ],
+      //   onTap: (value) {
+      //     print(value);
+      //   },
+      // ),
+
+      // bottomNavigationBar: const BottomAppBar(
+      //   color: Color.fromARGB(255, 20, 45, 90),
+      //   child: SingleChildScrollView(
+      //     child: Column(
+      //     children:[ListTile(
+      //       leading: Icon(Icons.home, size: 25,),
+      //       title: Text('Home', style: TextStyle(fontSize: 25),),
+      //     ),
+      //     ListTile(
+      //       leading: Icon(Icons.people, size: 25,),
+      //     ),
+      //     ],
+      //   ),
+      //   ),
+      // ),
       body: body,
     );
   }

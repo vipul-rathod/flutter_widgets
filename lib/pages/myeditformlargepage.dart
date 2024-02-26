@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
-import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
@@ -81,7 +81,7 @@ Future<List<Employee>> getEmployees() async {
       fontSize: 25,
       iconSize: 40,
       width: 450,
-      title: 'Employee Registration Form',
+      title: 'Edit Form',
       body: Container(
         alignment: Alignment.topCenter,
         decoration: const BoxDecoration(
@@ -219,7 +219,7 @@ Future<List<Employee>> getEmployees() async {
                           // print (nameCtrl.text);
                           Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
                           objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         }
                       },
                       child: const Text('Submit',

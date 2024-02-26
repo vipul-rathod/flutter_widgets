@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:test_widgets/pages/myform.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
-import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/main.dart';
+import 'package:test_widgets/pages/mylistpage.dart';
 
 class MyDrawer extends StatefulWidget{
   final double fontSize;
@@ -71,6 +72,11 @@ class MyDrawerState extends State<MyDrawer>{
             leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
             title: Text('ObjectBox List Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
             onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));},
+          ),
+          ListTile(
+            leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
+            title: Text('ObjectBox Table View Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
+            onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app, color: Colors.white,),

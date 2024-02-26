@@ -7,9 +7,11 @@ environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies:
+  email_validator: ^2.1.17
   flutter:
     sdk: flutter
   flutter_exit_app: ^1.1.2
+  flutter_native_splash: ^2.3.10
   objectbox: ^2.5.0
   objectbox_flutter_libs: any
   path: ^1.8.3
