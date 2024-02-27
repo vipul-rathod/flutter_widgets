@@ -4,7 +4,6 @@ import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
-import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
@@ -29,6 +28,7 @@ class MyFormLargePageState extends State<MyFormLargePage>{
   String? dropdownValue = list.first;
   bool? confirmationBool = false;
   String? genGroupVal = 'male';
+  bool isButtonPressed = false;
 
   void showDatePickerTool(){
     showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
@@ -45,12 +45,7 @@ Future<List<Employee>> getEmployees() async {
 
   @override
   Widget build(BuildContext context){
-    return MyScaffold(
-      fontSize: 25,
-      iconSize: 40,
-      width: 450,
-      title: 'Employee Registration Form',
-      body: Container(
+    return Container(
         alignment: Alignment.topCenter,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 225, 245, 245)
@@ -67,10 +62,10 @@ Future<List<Employee>> getEmployees() async {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
-                    // initialText: '',
                     controller: nameCtrl,
                     prefixIcon: Icons.people, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                    fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))],
+                    fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                      LengthLimitingTextInputFormatter(25),],
                     validator: (value){
                       if(value == null || value.isEmpty){
                         return "*** enter some text in the field ***";
@@ -85,7 +80,6 @@ Future<List<Employee>> getEmployees() async {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,60,8, 10),
                   child: MyTextFormField(label: 'Date Of Birth', hint: 'Enter the date of birth', 
-                  // initialText: dobCtrl.text,
                     controller: dobCtrl,
                     prefixIcon: Icons.calendar_today,
                     iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
@@ -105,7 +99,6 @@ Future<List<Employee>> getEmployees() async {
                     children: [
                       Expanded(
                         child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
-                          // initialText: '',
                           controller: phoneCtrl,
                           prefixIcon: Icons.phone, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
                           inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
@@ -188,13 +181,11 @@ Future<List<Employee>> getEmployees() async {
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()){
-                          Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
-                          objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                        }
-                      },
+                        onPressed: () {
+                        Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                        objectbox.employeeBox.put(employee);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        },
                       child: const Text('Submit',
                         style: TextStyle(
                           color: Colors.indigo,
@@ -209,7 +200,7 @@ Future<List<Employee>> getEmployees() async {
           ),
         ),
 
-      ),
+      // ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/main.dart';
+import 'package:test_widgets/pages/myviewformlargepage.dart';
 import 'package:test_widgets/utils/utils.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/models/models.dart';
@@ -31,7 +32,7 @@ class MyDataTablePage extends StatelessWidget{
           return Scaffold(
             body:SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: buildDataTable(),
+              child: buildDataTable(context),
             ),
           );
         },
@@ -39,7 +40,7 @@ class MyDataTablePage extends StatelessWidget{
     );
   }
 
-  Widget buildDataTable(){
+  Widget buildDataTable(context){
     final columns = ['ID', 'Name', 'DOB', 'Phone No.', 'Email', 'Experiece', 'Gender'];
     List<Employee>? data = objectbox.employeeBox.getAll();
     return DataTable(
@@ -49,7 +50,7 @@ class MyDataTablePage extends StatelessWidget{
       dataRowMaxHeight: 100,
       headingRowColor: MaterialStateProperty.all<Color>(Colors.grey),
       columns: getColumns(columns),
-      rows: getRows(data),
+      rows: getRows(context, data),
     );
   }
   List<DataColumn> getColumns(List<String>columns){
@@ -60,12 +61,13 @@ class MyDataTablePage extends StatelessWidget{
     }).toList();
   }
   
-  List<DataRow> getRows(List<Employee> data) => data.map((Employee employee){
+  List<DataRow> getRows(context, List<Employee> data) => data.map((Employee employee){
     final cells = [employee.id, employee.name, employee.dob, employee.phone, employee.email, employee.expLevel, employee.gender];
     return DataRow(
       cells: Utils.modelBuilder(cells, (index, cell) {
         return DataCell(
           Text('$cell', style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.indigo),),
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyViewFormLargePage(id: employee.id))),
         );
       }),
     );

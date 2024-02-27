@@ -15,13 +15,14 @@ class MyRadioWidget extends StatefulWidget{
 
 class MyRadioWidgetState extends State<MyRadioWidget>{
   // Gender? gender  = Gender.male;
-  String? gender;
+  // String? gender;
 
-  @override
-  void initState() {
-    super.initState();
-    gender = widget.groupVal;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   gender = widget.groupVal;
+  //   print (gender);
+  // }
 
   @override
   Widget build(BuildContext context){
@@ -49,7 +50,7 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
               ),
               leading: Radio<String?>(
                 value: 'male',
-                groupValue: gender,
+                groupValue: widget.groupVal,
                 onChanged: (String? value){
                   widget.onChanged.call(value!);
                 },
@@ -66,7 +67,7 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
               ),
               leading: Radio<String?>(
                 value: 'female',
-                groupValue: gender,
+                groupValue: widget.groupVal,
                 onChanged: (String? value){
                   widget.onChanged.call(value!);
                 },

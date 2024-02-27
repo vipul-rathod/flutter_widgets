@@ -22,6 +22,7 @@ class SmallDeviceViewPageState extends State<SmallDeviceViewPage>{
       body: Container(
         color: const Color.fromARGB(255, 193, 221, 235),
         child: MyIndexedStacked(
+          isButtonPressed: false,
           fontSize: 20,
           index: _currentIndex,
           onPressed: () {

@@ -8,6 +8,8 @@ import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
+import 'package:email_validator/email_validator.dart';
+
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
@@ -153,8 +155,11 @@ Future<List<Employee>> getEmployees() async {
                         child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
                           controller: emailCtrl,
                           prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
-                          inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),],
                           validator: (value){
+                            final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                            if (!isValid){
+                              return "*** enter email id ***";
+                            }
                             if (value == null || value.isEmpty){
                               return "*** enter email id ***";
                             }

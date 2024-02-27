@@ -8,6 +8,7 @@ class MyScaffold extends StatelessWidget{
   final double fontSize;
   final double iconSize;
   final double width;
+
   const MyScaffold({super.key, required this.body, required this.title, required this.fontSize, required this.iconSize, required this.width});
 
   @override
@@ -20,6 +21,7 @@ class MyScaffold extends StatelessWidget{
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
       ),
       drawer: MyDrawer(fontSize: fontSize, width: width,),
+      // drawer: const MyZoomDrawer(),
 
       bottomNavigationBar: BottomAppBar(
         color: const Color.fromARGB(255, 20, 45, 90),

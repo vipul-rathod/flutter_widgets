@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_widgets/pages/myformlargepage.dart';
 import 'package:test_widgets/pages/myformsmallpage.dart';
+import 'package:test_widgets/widgets/myscaffold.dart';
 
 class MyForm extends StatefulWidget{
   const MyForm({super.key});
@@ -14,11 +15,11 @@ class MyFormState extends State<MyForm>{
 
   @override
   Widget build(BuildContext context){
-    // return const MyScaffold(
-    //   title: 'Employee Registration Form',
-    //   body: Text('Hello Vipul! How Are You?'),
-
-    return Scaffold(
+    return MyScaffold(
+      fontSize: 25,
+      iconSize: 40,
+      width: 450,
+      title: 'Employee Registration Formmmmm',
       body: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
           if(constraints.maxWidth < 600){

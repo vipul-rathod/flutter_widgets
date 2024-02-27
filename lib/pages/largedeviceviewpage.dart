@@ -1,17 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:test_widgets/widgets/mydrawer.dart';
 import 'package:test_widgets/widgets/myindexedstacked.dart';
 import 'package:test_widgets/pages/myform.dart';
 
 class LargeDeviceViewPage extends StatefulWidget {
-  const LargeDeviceViewPage({super.key});
+  const LargeDeviceViewPage({super.key,});
 
   @override
   State<LargeDeviceViewPage> createState() => LargeDeviceViewPageState();
 }
 
 class LargeDeviceViewPageState extends State<LargeDeviceViewPage>{
-final int _index = 0;
+  final int _index = 0;
+  bool isButtonPressed = false;
+
+
+
+  startTime() async {
+    var duration = const Duration(milliseconds: 100);
+    return Timer(duration, () {Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));});
+  }
 
   @override
   Widget build(BuildContext context){
@@ -19,17 +28,25 @@ final int _index = 0;
       padding: EdgeInsets.zero,
       child: Row(
         children: [
-          const Expanded(
-            flex: 2,
-            child: MyDrawer(fontSize: 25, width: 450,),
-          ),
           Expanded(
             flex: 3,
             child: MyIndexedStacked(
+              isButtonPressed: isButtonPressed,
               fontSize: 25,
               index: _index,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));
+              onPressed: () async {
+                setState(() {
+                  if (isButtonPressed == false){
+                    isButtonPressed = true;
+                    startTime();
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));
+                  }
+                  else if (isButtonPressed == true) {
+                    isButtonPressed = false;
+                  }
+                });
+                
+                // Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));
               },
             ),
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
-import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
@@ -26,12 +25,7 @@ class MyFormSmallPageState extends State<MyFormSmallPage>{
 
   @override
   Widget build(BuildContext context){
-    return MyScaffold(
-      fontSize: 15,
-      iconSize: 15,
-      width: 300,
-      title: 'Employee Registration Form',
-      body: Container(
+    return Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         color: const Color.fromARGB(255, 225, 245, 245),
         child: Form(
@@ -169,7 +163,6 @@ class MyFormSmallPageState extends State<MyFormSmallPage>{
             ),
           ),
         ),
-      ),
     );
   }
 }
