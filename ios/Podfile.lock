@@ -4,6 +4,8 @@ PODS:
     - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
+  - image_picker_ios (0.0.1):
+    - Flutter
   - ObjectBox (1.9.2)
   - objectbox_flutter_libs (0.0.1):
     - Flutter
@@ -16,6 +18,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_exit_app (from `.symlinks/plugins/flutter_exit_app/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
@@ -30,6 +33,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_exit_app/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   objectbox_flutter_libs:
     :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
   path_provider_foundation:
@@ -39,10 +44,11 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_exit_app: f2e47c6d0b9c5137c33fab74bc4a9d5d54113bdc
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   ObjectBox: 46757a559717ab49b1cc0612eaff82b705acf394
   objectbox_flutter_libs: 103f3a273b594cb664255086a386740bc179f97d
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
 
-PODFILE CHECKSUM: fd10430bbbbe0d32705d39297f250dfc033d998e
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
 COCOAPODS: 1.15.2

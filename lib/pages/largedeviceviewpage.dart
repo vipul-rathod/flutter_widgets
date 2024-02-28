@@ -19,7 +19,11 @@ class LargeDeviceViewPageState extends State<LargeDeviceViewPage>{
 
   startTime() async {
     var duration = const Duration(milliseconds: 100);
-    return Timer(duration, () {Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));});
+    return Timer(duration, () {route();});
+  }
+
+  route() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> const MyForm()));
   }
 
   @override

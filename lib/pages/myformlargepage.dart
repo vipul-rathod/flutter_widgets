@@ -4,6 +4,7 @@ import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
+import 'package:test_widgets/widgets/myprofileimage.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
@@ -59,6 +60,8 @@ Future<List<Employee>> getEmployees() async {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                const MyProfileImage(),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
