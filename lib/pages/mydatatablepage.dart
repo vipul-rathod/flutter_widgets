@@ -61,7 +61,8 @@ class MyDataTablePage extends StatelessWidget{
       'Phone No.',
       'Email',
       'Experiece',
-      'Gender'
+      'Gender',
+      'Profile Image',
     ];
     List<Employee>? data = objectbox.employeeBox.getAll();
     return DataTable(
@@ -94,7 +95,8 @@ class MyDataTablePage extends StatelessWidget{
       employee.phone,
       employee.email,
       employee.expLevel,
-      employee.gender
+      employee.gender,
+      employee.profileImage,
     ];
     return DataRow(
       cells: Utils.modelBuilder(cells, (index, cell) {

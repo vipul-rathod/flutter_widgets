@@ -36,6 +36,8 @@ class MyFormPageState extends State<MyFormPage>{
   double? width;
   double? screenWidth;
 
+  String? pathToImage;
+
   void showDatePickerTool(){
     showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
       if (value != null){
@@ -44,13 +46,26 @@ class MyFormPageState extends State<MyFormPage>{
     });
   }
 
-Future<List<Employee>> getEmployees() async {
-    List<Employee> data = objectbox.employeeBox.getAll();
-    return data;
+  Future<List<Employee>> getEmployees() async {
+      List<Employee> data = objectbox.employeeBox.getAll();
+      return data;
+    }
+
+  Future<String?> getImageFilePath() async {
+    if (MyProfileImageState.newFilePath != null){
+      String getImagePath = MyProfileImageState.newFilePath!.path;
+      return getImagePath;
+    }
+    else{
+      return 'Please select profile Image';
+    }
+
+
   }
 
   @override
   Widget build(BuildContext context){
+    // final tmpPath = getImageFilePath();
     if (MediaQuery.of(context).size.width < 600){
       fontSize = 15;
       iconSize = 25;
@@ -234,10 +249,14 @@ Future<List<Employee>> getEmployees() async {
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                        Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
-                        objectbox.employeeBox.put(employee);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        onPressed: () async {
+                          final tmpPath = await getImageFilePath();
+                          pathToImage = tmpPath.toString();
+                          Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                          objectbox.employeeBox.put(employee);
+                          if (context.mounted){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          }
                         },
                       child: Text('Submit',
                         style: TextStyle(

@@ -15,19 +15,19 @@ class MyProfileImage extends StatefulWidget {
 
 class MyProfileImageState extends State<MyProfileImage> {
   static XFile? imageFile;
+  XFile? pickedFile;
   final ImagePicker picker = ImagePicker();
   final uuid = const Uuid();
   static File? newFilePath;
-  static String? newFile;
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         CircleAvatar(
           radius: 80,
-          backgroundImage: imageFile == null 
-          ? const AssetImage("assets/images/profile_img02.jpeg") as ImageProvider
-          : FileImage(File(imageFile!.path))
+          backgroundImage: imageFile == null
+          ? null
+          : FileImage(File(imageFile!.path)),
         ),
         Positioned(
           bottom: 20,
@@ -70,7 +70,9 @@ class MyProfileImageState extends State<MyProfileImage> {
                 icon: const Icon(Icons.camera),
                 label: const Text('Camera'),
                 onPressed: () {
-                  takePhoto(ImageSource.camera);
+                  setState(() {
+                    takePhoto(ImageSource.camera);
+                  });
                 },
               ),
               const SizedBox(width: 100,),
@@ -78,7 +80,9 @@ class MyProfileImageState extends State<MyProfileImage> {
                 icon: const Icon(Icons.image),
                 label: const Text('Gallery'),
                 onPressed: () {
-                  takePhoto(ImageSource.gallery);
+                  setState(() {
+                    takePhoto(ImageSource.gallery);
+                  });
                 },
               ),
             ],
@@ -88,26 +92,43 @@ class MyProfileImageState extends State<MyProfileImage> {
     );
   }
 
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await picker.pickImage(
+  Future<XFile?> takePhoto(ImageSource source) async {
+    pickedFile = await picker.pickImage(
       source: source,
       preferredCameraDevice: CameraDevice.front
     );
+  Future<File?> saveImage(XFile? pickFile)async{
+    try{
+      final sourcePath = File(pickFile!.path);
+      final directory = await getApplicationDocumentsDirectory();
+      final newPath = directory.path;
+      if (newPath.isNotEmpty){
+        final basenameWithExtension = '${uuid.v1()}${path.extension(pickFile.path)}';
+        newFilePath = await sourcePath.copy('$newPath/$basenameWithExtension');
+        imageFile = pickFile;
+        // return newFilePath;
+      }
+    }
+      on Error catch(e){
+        throw "Error in loading image path";
+      }
+      return newFilePath;
+    }
+    if (pickedFile!.path.isNotEmpty){
+      saveImage(pickedFile);
+      setState(() {
+        imageFile = pickedFile;
+      });
+      return imageFile;
+    }
+    else{
+      return imageFile;
+    }
 
-  void saveImage(imageFile)async{
-    final sourcePath = File(imageFile!.path);
-    final directory = await getApplicationDocumentsDirectory();
-    final newPath = directory.path;
 
-    final basenameWithExtension = '${uuid.v1()}${path.extension(imageFile!.path)}';
-    newFilePath = await sourcePath.copy('$newPath/$basenameWithExtension');
-    newFile = '$newPath/$basenameWithExtension';
-    print ('Destination path is $newFile');
-  }
-
-    setState(() {
-      imageFile = pickedFile;
-      saveImage(imageFile);
-    });
+  // setState(() {
+  //   imageFile = pickedFile;
+  //   saveImage(imageFile);
+  // });
   }
 }
