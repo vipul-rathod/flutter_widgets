@@ -34,6 +34,7 @@ class MyTextFormFieldState extends State<MyTextFormField>{
     return TextFormField(
       controller: widget.controller,
       autocorrect: false,
+      maxLength: 25,
       focusNode: widget.focusNode,
       inputFormatters: widget.inputFormatter,
       style: TextStyle(fontSize: widget.fontSize, color: widget.fontColor),

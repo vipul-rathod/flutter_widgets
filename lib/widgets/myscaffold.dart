@@ -21,9 +21,9 @@ class MyScaffold extends StatelessWidget{
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
       ),
       drawer: MyDrawer(fontSize: fontSize, width: width,),
-      // drawer: const MyZoomDrawer(),
 
       bottomNavigationBar: BottomAppBar(
+        height: 60,
         color: const Color.fromARGB(255, 20, 45, 90),
         shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
@@ -35,19 +35,19 @@ class MyScaffold extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.home, size: 50, color: Colors.yellow[200],),
+                icon: Icon(Icons.home, size: iconSize*1.5, color: Colors.yellow[200],),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.search, size: 50, color: Colors.yellow[200]),
+                icon: Icon(Icons.search, size: iconSize*1.5, color: Colors.yellow[200]),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.favorite_border_outlined, size: 50, color: Colors.yellow[200]),
+                icon: Icon(Icons.favorite_border_outlined, size: iconSize*1.5, color: Colors.yellow[200]),
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.account_circle_outlined, size: 50, color: Colors.yellow[200]),
+                icon: Icon(Icons.account_circle_outlined, size: iconSize*1.5, color: Colors.yellow[200]),
                 onPressed: () {},
               ),
             ],

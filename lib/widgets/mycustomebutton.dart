@@ -18,6 +18,9 @@ class MyCustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isButtonPressed ? Colors.grey.shade200 : Colors.grey.shade300
+          ),
           boxShadow: isButtonPressed ? [
             // no shadows if the button is pressed
           ] : [

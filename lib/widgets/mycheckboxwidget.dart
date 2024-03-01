@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class MyCheckBoxWidget extends StatefulWidget{
   final Function(bool?) onChanged;
   final bool? val;
+  final double fontSize;
 
-  const MyCheckBoxWidget({super.key, required this.onChanged, required this.val});
+
+  const MyCheckBoxWidget({super.key, required this.onChanged, required this.val, required this.fontSize});
 
   @override
   State<MyCheckBoxWidget> createState() => MyCheckBoxWidgetState();
@@ -27,7 +29,7 @@ class MyCheckBoxWidgetState extends State<MyCheckBoxWidget>{
       checkColor: Colors.white,
       side: const BorderSide(width: 20, color: Colors.indigo, style: BorderStyle.solid, strokeAlign: -0.7),
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      title: const Text('Confim the above details', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.indigo),),
+      title: Text('Confim the above details', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.indigo),),
       value: isChecked,
       onChanged: (bool? value){
         widget.onChanged.call(value);

@@ -35,7 +35,7 @@ class MyBottomSheetState extends State<MyBottomSheet> {
                 icon: const Icon(Icons.camera),
                 label: const Text('Camera'),
                 onPressed: () {
-                  // takePhoto(ImageSource.camera);
+                  takePhoto(ImageSource.camera);
                 },
               ),
               const SizedBox(width: 100,),
@@ -55,7 +55,7 @@ class MyBottomSheetState extends State<MyBottomSheet> {
   void takePhoto(ImageSource source) async {
     final pickedFile = await picker.pickImage(
       source: source,
-      preferredCameraDevice: CameraDevice.rear
+      preferredCameraDevice: CameraDevice.front
     );
     setState(() {
       imageFile = pickedFile;
