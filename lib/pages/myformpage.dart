@@ -29,6 +29,7 @@ class MyFormPageState extends State<MyFormPage>{
   String? dropdownValue = list.first;
   bool? confirmationBool = false;
   String? genGroupVal = 'male';
+  String? profileImage;
   bool isButtonPressed = false;
   double? fontSize;
   double? iconSize;
@@ -234,9 +235,10 @@ Future<List<Employee>> getEmployees() async {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                        Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
-                        objectbox.employeeBox.put(employee);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          // tempFile();
+                        // Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                        // objectbox.employeeBox.put(employee);
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         },
                       child: Text('Submit',
                         style: TextStyle(

@@ -1,8 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-// import 'package:test_widgets/pages/mybottomsheet.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 
 class MyProfileImage extends StatefulWidget {
@@ -15,7 +16,9 @@ class MyProfileImage extends StatefulWidget {
 class MyProfileImageState extends State<MyProfileImage> {
   static XFile? imageFile;
   final ImagePicker picker = ImagePicker();
-  // String imgfile = MyBottomSheetState.imageFile!.path;
+  final uuid = const Uuid();
+  static File? newFilePath;
+  static String? newFile;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -90,8 +93,21 @@ class MyProfileImageState extends State<MyProfileImage> {
       source: source,
       preferredCameraDevice: CameraDevice.front
     );
+
+  void saveImage(imageFile)async{
+    final sourcePath = File(imageFile!.path);
+    final directory = await getApplicationDocumentsDirectory();
+    final newPath = directory.path;
+
+    final basenameWithExtension = '${uuid.v1()}${path.extension(imageFile!.path)}';
+    newFilePath = await sourcePath.copy('$newPath/$basenameWithExtension');
+    newFile = '$newPath/$basenameWithExtension';
+    print ('Destination path is $newFile');
+  }
+
     setState(() {
       imageFile = pickedFile;
+      saveImage(imageFile);
     });
   }
 }

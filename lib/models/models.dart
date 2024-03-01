@@ -12,6 +12,7 @@ class Employee{
   String? expLevel;
   String? gender;
   bool? confirm;
+  String? profileImage;
   
   @Property(type: PropertyType.date)
   DateTime? date = DateTime.now();
@@ -19,5 +20,5 @@ class Employee{
   @Transient()
   int? computedProperty;
 
-  Employee(this.name, {this.id=0, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.date});
+  Employee(this.name, {this.id=0, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.date, this.profileImage});
 }
