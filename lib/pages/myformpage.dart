@@ -235,10 +235,9 @@ Future<List<Employee>> getEmployees() async {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          // tempFile();
-                        // Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
-                        // objectbox.employeeBox.put(employee);
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                        objectbox.employeeBox.put(employee);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         },
                       child: Text('Submit',
                         style: TextStyle(
