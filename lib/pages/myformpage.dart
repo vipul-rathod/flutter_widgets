@@ -165,7 +165,7 @@ class MyFormPageState extends State<MyFormPage>{
                   Column(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(8,20,8, 10),
+                        padding: const EdgeInsets.fromLTRB(0,20,0, 10),
                         child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
                             controller: phoneCtrl,
                             prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/pages/myeditformpage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
+import 'package:test_widgets/widgets/myprofileimage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
@@ -55,10 +56,6 @@ class MyViewFormPageState extends State<MyViewFormPage>{
     }
   }
 
-
-    
-
-
   @override
   Widget build(BuildContext context){
     if (MediaQuery.of(context).size.width < 600){
@@ -96,6 +93,8 @@ class MyViewFormPageState extends State<MyViewFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                MyViewProfileImage(imagePath: data!.profileImage),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 

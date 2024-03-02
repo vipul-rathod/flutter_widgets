@@ -43,10 +43,24 @@ class MyDataTablePage extends StatelessWidget{
             );
           }
           return Scaffold(
-            body:SingleChildScrollView(
+            body: ListView(
               scrollDirection: Axis.horizontal,
-              child: buildDataTable(context),
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width * 5,
+                  child: ListView(
+                    children: [
+                      buildDataTable(context),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            // body:SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: buildDataTable(context),
+            // ),
           );
         },
       ),

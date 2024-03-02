@@ -132,3 +132,29 @@ class MyProfileImageState extends State<MyProfileImage> {
   // });
   }
 }
+
+
+class MyViewProfileImage extends StatefulWidget {
+  String? imagePath;
+  MyViewProfileImage({super.key, required this.imagePath});
+
+  @override
+  State<MyViewProfileImage> createState() => MyViewProfileImageState(imagePath);
+}
+
+class MyViewProfileImageState extends State<MyViewProfileImage> {
+  String? imagePath;
+  MyViewProfileImageState(this.imagePath);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        CircleAvatar(
+          radius: 80,
+          backgroundImage: FileImage(File(imagePath!)),
+        ),
+      ],
+    );
+  }
+}
