@@ -9,13 +9,15 @@ import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:test_widgets/widgets/myprofileimage.dart';
+
 
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
 class MyEditFormPage extends StatefulWidget{
   const MyEditFormPage({super.key, this.onChanged, required this.id, required this.name,
-    required this.dob, required this.phone, required this.email, required this.expLevel, required this.gender, required this.confirm});
+    required this.dob, required this.phone, required this.email, required this.expLevel, required this.gender, required this.confirm, required this.profileImage});
 
   final Function(String?)? onChanged;
   final int? id;
@@ -26,9 +28,10 @@ class MyEditFormPage extends StatefulWidget{
   final String? expLevel;
   final String? gender;
   final bool? confirm;
+  final String? profileImage;
 
   @override
-  State<MyEditFormPage> createState() => MyEditFormPageState(id, name, dob, phone, email, expLevel, gender, confirm);
+  State<MyEditFormPage> createState() => MyEditFormPageState(id, name, dob, phone, email, expLevel, gender, confirm, profileImage);
 }
 
 class MyEditFormPageState extends State<MyEditFormPage>{
@@ -40,10 +43,12 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   String? expLevel;
   String? gender;
   bool? confirm;
+  String? profileImage;
   double? fontSize;
   double? iconSize;
   double? width;
   double? screenWidth;
+  String? pathToImage;
 
 
   final formKey = GlobalKey<FormState>();
@@ -54,8 +59,9 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   String? dropdownValue;
   bool? confirmationBool;
   String? genGroupVal;
+  String? pi;
 
-  MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm);
+  MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.profileImage);
 
   @override
   void initState() {
@@ -67,6 +73,14 @@ class MyEditFormPageState extends State<MyEditFormPage>{
     dropdownValue = expLevel.toString();
     genGroupVal = gender.toString();
     confirmationBool = confirm;
+    if (profileImage != null){
+      print ("I am at init $profileImage");
+      pi = profileImage.toString();
+    }
+    else{
+      print ('I am at esle at init');
+      pi = null;
+    }
   }
 
   void showDatePickerTool(){
@@ -81,6 +95,19 @@ class MyEditFormPageState extends State<MyEditFormPage>{
     List<Employee> data = objectbox.employeeBox.getAll();
     return data;
   }
+
+  Future<String?> getImageFilePath() async {
+    if (MyProfileImageState.newFilePath == null){
+      String getImagePath = MyProfileImageState.newFilePath!.path;
+      print("I am at getImageFilePath function $getImagePath");
+      return getImagePath;
+    }
+    else{
+      print ("I am at getImageFile path function else condition");
+      return 'Please select profile Image';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -115,6 +142,8 @@ class MyEditFormPageState extends State<MyEditFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                MyEditProfileImage(path: profileImage,),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
@@ -269,10 +298,20 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()){
-                          // print (nameCtrl.text);
-                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                          print ("001");
+                          final tmpPath = await getImageFilePath();
+                          print ("01");
+                          if (pi == null){
+                            pathToImage = tmpPath.toString();
+                            print ('I am at if $pathToImage');
+                          }
+                          else{
+                            pathToImage = pi;
+                            print('I am at else $pathToImage');
+                          }
+                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
                           objectbox.employeeBox.put(employee);
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         }

@@ -4,11 +4,12 @@ import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
-import 'package:test_widgets/widgets/myprofileimage.dart';
+import 'package:test_widgets/widgets/mycreateprofileimage.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
@@ -37,6 +38,7 @@ class MyFormPageState extends State<MyFormPage>{
   double? screenWidth;
 
   String? pathToImage;
+  String? tmpPath;
 
   void showDatePickerTool(){
     showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
@@ -51,21 +53,37 @@ class MyFormPageState extends State<MyFormPage>{
       return data;
     }
 
+  // Future<void> getImageFilePath() async {
+  //   CreateProfileImage.funcPath();
+  // }
+
   Future<String?> getImageFilePath() async {
-    if (MyProfileImageState.newFilePath != null){
-      String getImagePath = MyProfileImageState.newFilePath!.path;
-      return getImagePath;
-    }
-    else{
-      return 'Please select profile Image';
-    }
-
-
+    String? tmpimgpath = await CreateProfileImage.funcPath();
+    print ('I am at formpage $tmpimgpath');
+    return tmpimgpath;
+    // if (tmpimgpath != null){
+    //   return tmpimgpath;
+    // }
+    // else{
+    //   return null;
+    // }
   }
+
+
+
+  // Future<String?> getImageFilePath() async {
+  //   if (MyProfileImageState.newFilePath != null){
+  //     String getImagePath = MyProfileImageState.newFilePath!.path;
+  //     return getImagePath;
+  //   }
+  //   else{
+  //     String message = "Please select profile image";
+  //     showFlashError(context, message);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context){
-    // final tmpPath = getImageFilePath();
     if (MediaQuery.of(context).size.width < 600){
       fontSize = 15;
       iconSize = 25;
@@ -92,7 +110,7 @@ class MyFormPageState extends State<MyFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const MyProfileImage(),
+                const CreateProfileImage(),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
@@ -250,13 +268,21 @@ class MyFormPageState extends State<MyFormPage>{
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final tmpPath = await getImageFilePath();
-                          pathToImage = tmpPath.toString();
-                          Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                          objectbox.employeeBox.put(employee);
-                          if (context.mounted){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                          }
+                          getImageFilePath();
+                          // if (formKey.currentState!.validate()){
+                            // tmpPath = await getImageFilePath();
+                            // if (tmpPath != null){
+                            //   pathToImage = tmpPath.toString();
+                            //   // Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                            //   // objectbox.employeeBox.put(employee);
+                            //   if (context.mounted){
+                            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                            //   }
+                            // }
+                          // }
+
+
+
                         },
                       child: Text('Submit',
                         style: TextStyle(
@@ -273,6 +299,11 @@ class MyFormPageState extends State<MyFormPage>{
         ),
 
       // ),
+    );
+  }
+  void showFlashError(BuildContext context, String message){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red,),
     );
   }
 }

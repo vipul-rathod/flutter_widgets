@@ -230,7 +230,7 @@ class MyViewFormPageState extends State<MyViewFormPage>{
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEditFormPage(id: data!.id, name: data!.name, dob: data!.dob, phone: data!.phone, email: data!.email, expLevel: data!.expLevel, gender: data!.gender, confirm: data!.confirm)));},
+                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEditFormPage(id: data!.id, name: data!.name, dob: data!.dob, phone: data!.phone, email: data!.email, expLevel: data!.expLevel, gender: data!.gender, confirm: data!.confirm, profileImage: data!.profileImage,)));},
                       child: Text('Edit',
                         style: TextStyle(
                           color: Colors.indigo,
