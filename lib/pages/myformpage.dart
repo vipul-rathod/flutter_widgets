@@ -9,7 +9,6 @@ import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
@@ -54,7 +53,7 @@ class MyFormPageState extends State<MyFormPage>{
     }
 
   Future<String?> getImageFilePath() async {
-    String? tmpimgpath = await CreateProfileImage.funcPath();
+    String? tmpimgpath = await CreateViewProfileImage.funcPath();
     return tmpimgpath;
   }
 
@@ -99,7 +98,7 @@ class MyFormPageState extends State<MyFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const CreateProfileImage(),
+                const CreateViewProfileImage(),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),

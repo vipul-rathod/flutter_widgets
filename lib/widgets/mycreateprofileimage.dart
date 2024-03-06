@@ -5,38 +5,35 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as syspath;
 import 'package:uuid/uuid.dart';
 
-
-class CreateProfileImage extends StatefulWidget {
-  const CreateProfileImage({super.key});
+class CreateViewProfileImage extends StatefulWidget {
+  const CreateViewProfileImage({super.key, this.imagelocalpath});
   static String? pathToImage;
+  final String? imagelocalpath;
   
   static Future<String?> funcPath() async{
-    if (_CreateProfileImageState._imagepath == null){
-      pathToImage = _CreateProfileImageState.galleryImagePath!.path;
-      print ("Functool $pathToImage");
+    if (_CreateViewProfileImageState._imagepath == null){
+      pathToImage = _CreateViewProfileImageState.galleryImagePath!.path;
       return pathToImage;
     }
     else {
-    pathToImage = _CreateProfileImageState._imagepath;
-      print ("Functool $pathToImage");
+    pathToImage = _CreateViewProfileImageState._imagepath;
       return pathToImage;
     }
   }
 
   @override
-  State<CreateProfileImage> createState() => _CreateProfileImageState();
+  State<CreateViewProfileImage> createState() => _CreateViewProfileImageState();
 }
 
-class _CreateProfileImageState extends State<CreateProfileImage> {
+class _CreateViewProfileImageState extends State<CreateViewProfileImage> {
   File? _image;
   static String? _imagepath;
   static File? galleryImagePath;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    LoadImage().then((value) {
+    loadImage().then((value) {
       setState(() {
         _imagepath = null;
       });
@@ -45,14 +42,15 @@ class _CreateProfileImageState extends State<CreateProfileImage> {
 
   @override
   Widget build(BuildContext context) {
-    // print ("Does this exists $_imagepath");
     return Container(
       alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
           children: <Widget>[
-            _imagepath != null
+            widget.imagelocalpath != null
+            ? CircleAvatar(backgroundImage: FileImage(File(widget.imagelocalpath!)), radius: 80,)
+            : _imagepath != null
             ? CircleAvatar(backgroundImage: FileImage(File(_imagepath!)), radius: 80,)
             : CircleAvatar(
               radius: 80,
@@ -81,17 +79,12 @@ class _CreateProfileImageState extends State<CreateProfileImage> {
   void pickImage() async {
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
-      // if (_image!.path.isEmpty){
-        _image = File(image!.path);
-        SaveImage(_image!.path);
-      // }
-      // else{
-      //   print ("There's already image at $_image");
-      // }
+      _image = File(image!.path);
+      saveImage(_image!.path);
     });
   }
 
-  Future<void> SaveImage(path) async {
+  Future<void> saveImage(path) async {
     final sourcePath = File(path);
     final directory = await getApplicationDocumentsDirectory();
     final newPath = directory.path;
@@ -108,13 +101,12 @@ class _CreateProfileImageState extends State<CreateProfileImage> {
     }
   }
 
-  Future<String?> LoadImage() async {
+  Future<String?> loadImage() async {
     _imagepath = galleryImagePath!.path;
     setState(() {
       _imagepath = galleryImagePath!.path;
-      print ("At load image function $_imagepath");
     });
-    print ("Outside setState function $_imagepath");
     return _imagepath;
   }
 }
+
