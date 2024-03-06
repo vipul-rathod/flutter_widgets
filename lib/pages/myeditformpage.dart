@@ -4,12 +4,12 @@ import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
+import 'package:test_widgets/widgets/mycreateprofileimage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:test_widgets/widgets/myprofileimage.dart';
 
 
 
@@ -60,7 +60,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   bool? confirmationBool;
   String? genGroupVal;
   String? pi;
-
+  bool editmode = false;
   MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.profileImage);
 
   @override
@@ -74,7 +74,6 @@ class MyEditFormPageState extends State<MyEditFormPage>{
     genGroupVal = gender.toString();
     confirmationBool = confirm;
     if (profileImage != null){
-      print ("I am at init $profileImage");
       pi = profileImage.toString();
     }
     else{
@@ -97,13 +96,13 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   }
 
   Future<String?> getImageFilePath() async {
-    if (MyProfileImageState.newFilePath == null){
-      String getImagePath = MyProfileImageState.newFilePath!.path;
+    if (MyProfileImage.pathToImage == null){
+      String getImagePath = MyProfileImage.pathToImage!;
       print("I am at getImageFilePath function $getImagePath");
       return getImagePath;
     }
     else{
-      print ("I am at getImageFile path function else condition");
+      print ("I am at getImageFile path function else condition ${MyProfileImage.pathToImage}");
       return 'Please select profile Image';
     }
   }
@@ -142,7 +141,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                MyEditProfileImage(path: profileImage,),
+                MyProfileImage(imagelocalpath: profileImage, editmode: true,),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
@@ -299,10 +298,8 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                       height: 50,
                       child: ElevatedButton(
                       onPressed: () async {
-                        if (formKey.currentState!.validate()){
-                          print ("001");
+                        // if (formKey.currentState!.validate()){
                           final tmpPath = await getImageFilePath();
-                          print ("01");
                           if (pi == null){
                             pathToImage = tmpPath.toString();
                             print ('I am at if $pathToImage');
@@ -311,10 +308,10 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                             pathToImage = pi;
                             print('I am at else $pathToImage');
                           }
-                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                          objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                        }
+                          // Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                          // objectbox.employeeBox.put(employee);
+                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        // }
                       },
                       child: Text('Submit',
                         style: TextStyle(
@@ -325,11 +322,11 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                     )],
                   ),
                 ),
+
               ],
             ),
           ),
         ),
-
       ),
     );
   }
