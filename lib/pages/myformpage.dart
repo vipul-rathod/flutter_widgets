@@ -53,20 +53,9 @@ class MyFormPageState extends State<MyFormPage>{
       return data;
     }
 
-  // Future<void> getImageFilePath() async {
-  //   CreateProfileImage.funcPath();
-  // }
-
   Future<String?> getImageFilePath() async {
     String? tmpimgpath = await CreateProfileImage.funcPath();
-    print ('I am at formpage $tmpimgpath');
     return tmpimgpath;
-    // if (tmpimgpath != null){
-    //   return tmpimgpath;
-    // }
-    // else{
-    //   return null;
-    // }
   }
 
 
@@ -268,21 +257,17 @@ class MyFormPageState extends State<MyFormPage>{
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () async {
-                          getImageFilePath();
-                          // if (formKey.currentState!.validate()){
-                            // tmpPath = await getImageFilePath();
-                            // if (tmpPath != null){
-                            //   pathToImage = tmpPath.toString();
-                            //   // Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                            //   // objectbox.employeeBox.put(employee);
-                            //   if (context.mounted){
-                            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                            //   }
-                            // }
-                          // }
-
-
-
+                          if (formKey.currentState!.validate()){
+                            tmpPath = await getImageFilePath();
+                            if (tmpPath != null){
+                              pathToImage = tmpPath.toString();
+                              Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                              objectbox.employeeBox.put(employee);
+                              if (context.mounted){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                              }
+                            }
+                          }
                         },
                       child: Text('Submit',
                         style: TextStyle(
