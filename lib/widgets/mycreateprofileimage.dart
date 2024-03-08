@@ -119,7 +119,7 @@ class MyProfileImage extends StatefulWidget {
   static Future<String?> funcPath() async{
     if (_MyProfileImageState._imagepath == null){
       print (" I am here at if functool");
-      pathToImage = _MyProfileImageState.galleryImagePath!.path;
+      pathToImage = _MyProfileImageState.galleryImagePath?.path;
       return pathToImage;
     }
     else {
@@ -142,46 +142,40 @@ class _MyProfileImageState extends State<MyProfileImage> {
   @override
   void initState() {
     super.initState();
-    loadImage().then((value) {
       setState(() {
         if (widget.editmode == false){
           print ("I am at setState if condition");
           _imagepath = null;
-        }
+          }
         else{
-          isImageChanged = false;
-          _imagepath = galleryImagePath!.path;
+          _imagepath = galleryImagePath?.path;
           print (" I am at setState else condition which is $isImageChanged");
         }
         
       });
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print ("01..... $isImageChanged");
     return Container(
       alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Stack(
           children: <Widget>[
-            widget.editmode != false
-            ? widget.imagelocalpath != null
-              ? CircleAvatar(radius: 80, backgroundImage:
-                isImageChanged != false
-                ? FileImage(File(_imagepath!))
-                : FileImage(File(widget.imagelocalpath!)) )
-              : _imagepath != null
-                ? CircleAvatar(backgroundImage: FileImage(File(_imagepath!)), radius: 80,)
-                : CircleAvatar(backgroundImage: FileImage(File(widget.imagelocalpath!)), radius: 80,)
-            : widget.imagelocalpath != null
-              ? _imagepath != null
-                ? CircleAvatar(backgroundImage: FileImage(File(_imagepath!)), radius: 80,)
-                : CircleAvatar(backgroundImage: FileImage(File(widget.imagelocalpath!)), radius: 80,)
-            : _imagepath != null
-              ? CircleAvatar(backgroundImage: FileImage(File(_imagepath!)), radius: 80,)
-              : const CircleAvatar(backgroundImage: AssetImage('assets/images/profile_img02.jpeg')),
+            widget.editmode != false // This means edit mode is true
+              ? CircleAvatar(radius: 80, backgroundImage: isImageChanged != false
+                ? FileImage(_image!) // This means image changed in editmode
+                : FileImage(File(widget.imagelocalpath!))) // This assigns profile image from db.
+              : widget.imagelocalpath != null //View form condition
+                ? CircleAvatar(backgroundImage: FileImage(File(widget.imagelocalpath!)), radius: 80,) // View form profile image
+                : _imagepath != null // Create profile image form
+                  ? CircleAvatar(backgroundImage: FileImage(File(_imagepath!)), radius: 80,)
+                  : CircleAvatar(
+                        radius: 80,
+                        backgroundImage: _image != null ? FileImage(_image!) : const AssetImage('assets/images/profile_img02.jpeg') as ImageProvider,
+                      ),
 
             Positioned(
               bottom: 20,
@@ -218,11 +212,12 @@ class _MyProfileImageState extends State<MyProfileImage> {
     final directory = await getApplicationDocumentsDirectory();
     final newPath = directory.path;
     const uuid = Uuid();
-    
 
     if (newPath.isNotEmpty){
       final basenameWithExtension = '${uuid.v1()}${syspath.extension(path)}';
-      galleryImagePath = await sourcePath.copy('$newPath/$basenameWithExtension');
+      // '$newPath/$basenameWithExtension'
+      galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
+      // print (galleryImagePath!.path);
     }
     else{
       throw "Please select profile image";
@@ -230,10 +225,15 @@ class _MyProfileImageState extends State<MyProfileImage> {
   }
 
   Future<String?> loadImage() async {
-    setState(() {
-      _imagepath = galleryImagePath!.path;
-    });
-    return _imagepath!;
+    // if (editmode == false){
+      setState(() {
+        _imagepath = galleryImagePath?.path;
+      });
+    // }
+      // setState(() {
+      //   _imagepath = galleryImagePath?.path;
+      // });
+      // return _imagepath;
   }
 }
 

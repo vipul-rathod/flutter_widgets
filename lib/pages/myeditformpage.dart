@@ -60,7 +60,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   bool? confirmationBool;
   String? genGroupVal;
   String? pi;
-  bool editmode = false;
+  // bool editmode = false;
   MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.profileImage);
 
   @override
@@ -97,7 +97,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
 
   Future<String?> getImageFilePath() async {
     if (MyProfileImage.pathToImage == null){
-      String getImagePath = MyProfileImage.pathToImage!;
+      String? getImagePath = MyProfileImage.pathToImage!;
       print("I am at getImageFilePath function $getImagePath");
       return getImagePath;
     }
@@ -298,7 +298,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                       height: 50,
                       child: ElevatedButton(
                       onPressed: () async {
-                        // if (formKey.currentState!.validate()){
+                        if (formKey.currentState!.validate()){
                           final tmpPath = await getImageFilePath();
                           if (pi == null){
                             pathToImage = tmpPath.toString();
@@ -308,10 +308,10 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                             pathToImage = pi;
                             print('I am at else $pathToImage');
                           }
-                          // Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                          // objectbox.employeeBox.put(employee);
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                        // }
+                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                          objectbox.employeeBox.put(employee);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        }
                       },
                       child: Text('Submit',
                         style: TextStyle(

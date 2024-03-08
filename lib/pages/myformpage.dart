@@ -53,22 +53,9 @@ class MyFormPageState extends State<MyFormPage>{
     }
 
   Future<String?> getImageFilePath() async {
-    String? tmpimgpath = await CreateViewProfileImage.funcPath();
+    String? tmpimgpath = await MyProfileImage.funcPath();
     return tmpimgpath;
   }
-
-
-
-  // Future<String?> getImageFilePath() async {
-  //   if (MyProfileImageState.newFilePath != null){
-  //     String getImagePath = MyProfileImageState.newFilePath!.path;
-  //     return getImagePath;
-  //   }
-  //   else{
-  //     String message = "Please select profile image";
-  //     showFlashError(context, message);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context){
@@ -98,7 +85,7 @@ class MyFormPageState extends State<MyFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                const CreateViewProfileImage(),
+                const MyProfileImage(),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
