@@ -111,10 +111,11 @@ class _CreateViewProfileImageState extends State<CreateViewProfileImage> {
 }
 
 class MyProfileImage extends StatefulWidget {
-  const MyProfileImage({super.key, this.imagelocalpath, this.editmode = false});
+  const MyProfileImage({super.key, this.imagelocalpath, this.editmode = false, this.viewmode=true});
   static String? pathToImage;
   final String? imagelocalpath;
   final bool editmode;
+  final bool viewmode;
   
 
   // static String? pathToImage = _MyProfileImageState._imagepath;
@@ -182,21 +183,22 @@ class _MyProfileImageState extends State<MyProfileImage> {
                         radius: 80,
                         backgroundImage: _image != null ? FileImage(_image!) : const AssetImage('assets/images/profile_img02.jpeg') as ImageProvider,
                       ),
-
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: InkWell(
-                onTap: () {
-                  pickImage();
-                },
-                child: const Icon(
-                  Icons.camera_alt,
-                  color: Colors.teal,
-                  size: 28,
+            widget.viewmode != false
+              ? Positioned(
+                bottom: 20,
+                right: 20,
+                child: InkWell(
+                  onTap: () {
+                    pickImage();
+                  },
+                  child: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.teal,
+                    size: 28,
+                  ),
                 ),
-              ),
-            ),
+              )
+              : const SizedBox(),
           ],
         ),
       ),

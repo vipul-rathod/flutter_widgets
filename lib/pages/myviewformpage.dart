@@ -91,7 +91,7 @@ class MyViewFormPageState extends State<MyViewFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                MyProfileImage(imagelocalpath: data!.profileImage),
+                MyProfileImage(imagelocalpath: data!.profileImage, viewmode: false,),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
