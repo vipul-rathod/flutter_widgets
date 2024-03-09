@@ -60,6 +60,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   bool? confirmationBool;
   String? genGroupVal;
   String? pi;
+  String? tmpPath;
   // bool editmode = false;
   MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.profileImage);
 
@@ -73,6 +74,8 @@ class MyEditFormPageState extends State<MyEditFormPage>{
     dropdownValue = expLevel.toString();
     genGroupVal = gender.toString();
     confirmationBool = confirm;
+    tmpPath = null;
+    print ("TMPPATH is $tmpPath");
     if (profileImage != null){
       pi = profileImage.toString();
     }
@@ -96,16 +99,24 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   }
 
   Future<String?> getImageFilePath() async {
-    if (MyProfileImage.pathToImage == null){
+    if (MyProfileImage.pathToImage != null){
       String? getImagePath = MyProfileImage.pathToImage!;
       print("I am at getImageFilePath function $getImagePath");
       return getImagePath;
     }
     else{
-      print ("I am at getImageFile path function else condition ${MyProfileImage.pathToImage}");
-      return 'Please select profile Image';
+      print ("PathToImage is null");
+      String? getImagePath = profileImage;
+      return getImagePath;
     }
+
   }
+
+  // Future<String?> getImageFilePath() async {
+  //     String? getImagePath = MyProfileImage.pathToImage;
+  //     print("I am at getImageFilePath function $getImagePath");
+  //     return getImagePath;
+  // }
 
 
   @override
@@ -300,18 +311,24 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                       onPressed: () async {
                         if (formKey.currentState!.validate()){
                           final tmpPath = await getImageFilePath();
-                          if (pi == null){
-                            pathToImage = tmpPath.toString();
-                            print ('I am at if $pathToImage');
-                          }
-                          else{
-                            pathToImage = pi;
-                            print('I am at else $pathToImage');
-                          }
-                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                          objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          print ("New Image path is $tmpPath");
+                          print ("Old Image path is $pi");
                         }
+                        // if (formKey.currentState!.validate()){
+                        //   final tmpPath = await getImageFilePath();
+                        //   print (tmpPath);
+                        //   if (pi == tmpPath){
+                        //     pathToImage = tmpPath.toString();
+                        //     print ('I am at if $pathToImage');
+                        //   }
+                        //   else{
+                        //     pathToImage = tmpPath;
+                        //     print('I am at else $pathToImage');
+                        //   }
+                        //   Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
+                        //   objectbox.employeeBox.put(employee);
+                        //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                        // }
                       },
                       child: Text('Submit',
                         style: TextStyle(

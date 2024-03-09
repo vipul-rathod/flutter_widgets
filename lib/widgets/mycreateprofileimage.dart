@@ -112,22 +112,28 @@ class _CreateViewProfileImageState extends State<CreateViewProfileImage> {
 
 class MyProfileImage extends StatefulWidget {
   const MyProfileImage({super.key, this.imagelocalpath, this.editmode = false});
-  static String? pathToImage;
+  // static String? pathToImage;
   final String? imagelocalpath;
   final bool editmode;
   
-  static Future<String?> funcPath() async{
-    if (_MyProfileImageState._imagepath == null){
-      print (" I am here at if functool");
-      pathToImage = _MyProfileImageState.galleryImagePath?.path;
-      return pathToImage;
-    }
-    else {
-      print (" I am here at else functool");
-      pathToImage = _MyProfileImageState._imagepath;
-      return pathToImage;
-    }
-  }
+
+  static String? pathToImage = _MyProfileImageState._imagepath;
+  
+  // print ("Path to image is $pathToImage");
+
+
+  // static Future<String?> funcPath() async{
+  //   if (_MyProfileImageState._imagepath != null){
+  //     print (" I am here at if functool");
+  //     pathToImage = _MyProfileImageState.galleryImagePath?.path;
+  //     return pathToImage;
+  //   }
+  //   else {
+  //     print (" I am here at else functool");
+  //     pathToImage = _MyProfileImageState.galleryImagePath?.path;
+  //     return pathToImage;
+  //   }
+  // }
 
   @override
   State<MyProfileImage> createState() => _MyProfileImageState();
@@ -144,12 +150,13 @@ class _MyProfileImageState extends State<MyProfileImage> {
     super.initState();
       setState(() {
         if (widget.editmode == false){
-          print ("I am at setState if condition");
+          debugPrint ("I am at setState if condition");
           _imagepath = null;
           }
         else{
           _imagepath = galleryImagePath?.path;
-          print (" I am at setState else condition which is $isImageChanged");
+          // MyProfileImage.pathToImage = _imagepath;
+          debugPrint (" I am at setState else condition which is $isImageChanged");
         }
         
       });
@@ -157,7 +164,6 @@ class _MyProfileImageState extends State<MyProfileImage> {
 
   @override
   Widget build(BuildContext context) {
-    print ("01..... $isImageChanged");
     return Container(
       alignment: Alignment.center,
       child: Padding(

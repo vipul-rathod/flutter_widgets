@@ -53,9 +53,14 @@ class MyFormPageState extends State<MyFormPage>{
     }
 
   Future<String?> getImageFilePath() async {
-    String? tmpimgpath = await MyProfileImage.funcPath();
+    String? tmpimgpath = MyProfileImage.pathToImage;
     return tmpimgpath;
   }
+
+  // Future<String?> getImageFilePath() async {
+  //   String? tmpimgpath = await MyProfileImage.funcPath();
+  //   return tmpimgpath;
+  // }
 
   @override
   Widget build(BuildContext context){
@@ -140,19 +145,19 @@ class MyFormPageState extends State<MyFormPage>{
                         width: 20,
                       ),
                       MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
-                          controller: emailCtrl,
-                          prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
-                          validator: (value){
-                            final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
-                            if (!isValid){
-                              return "*** enter email id ***";
-                            }
-                            if (value == null || value.isEmpty){
-                              return "*** enter email id ***";
-                            }
-                            return null;
-                          },
-                        ),
+                        controller: emailCtrl,
+                        prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                        validator: (value){
+                          final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                          if (!isValid){
+                            return "*** enter email id ***";
+                          }
+                          if (value == null || value.isEmpty){
+                            return "*** enter email id ***";
+                          }
+                          return null;
+                        },
+                      ),
                     ],
                   ) :
                   Column(
@@ -206,7 +211,7 @@ class MyFormPageState extends State<MyFormPage>{
                     },
                     itemsList: list.map<DropdownMenuItem<String>>((String? value){
                       return DropdownMenuItem<String>(value: value, child: Text(value!),);
-                      }).toList(),
+                    }).toList(),
                   ),
                 ),
 
@@ -259,17 +264,15 @@ class MyFormPageState extends State<MyFormPage>{
                         style: TextStyle(
                           color: Colors.indigo,
                           fontSize: fontSize!)
-                        )
-                      ),
-                    )],
-                  ),
+                      )
+                    ),
+                  )],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-
-      // ),
+      ),
     );
   }
   void showFlashError(BuildContext context, String message){
