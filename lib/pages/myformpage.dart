@@ -53,14 +53,9 @@ class MyFormPageState extends State<MyFormPage>{
     }
 
   Future<String?> getImageFilePath() async {
-    String? tmpimgpath = MyProfileImage.pathToImage;
+    String? tmpimgpath = await MyProfileImage.funcPath();
     return tmpimgpath;
   }
-
-  // Future<String?> getImageFilePath() async {
-  //   String? tmpimgpath = await MyProfileImage.funcPath();
-  //   return tmpimgpath;
-  // }
 
   @override
   Widget build(BuildContext context){

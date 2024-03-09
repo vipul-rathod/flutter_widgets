@@ -112,28 +112,28 @@ class _CreateViewProfileImageState extends State<CreateViewProfileImage> {
 
 class MyProfileImage extends StatefulWidget {
   const MyProfileImage({super.key, this.imagelocalpath, this.editmode = false});
-  // static String? pathToImage;
+  static String? pathToImage;
   final String? imagelocalpath;
   final bool editmode;
   
 
-  static String? pathToImage = _MyProfileImageState._imagepath;
+  // static String? pathToImage = _MyProfileImageState._imagepath;
   
   // print ("Path to image is $pathToImage");
 
 
-  // static Future<String?> funcPath() async{
-  //   if (_MyProfileImageState._imagepath != null){
-  //     print (" I am here at if functool");
-  //     pathToImage = _MyProfileImageState.galleryImagePath?.path;
-  //     return pathToImage;
-  //   }
-  //   else {
-  //     print (" I am here at else functool");
-  //     pathToImage = _MyProfileImageState.galleryImagePath?.path;
-  //     return pathToImage;
-  //   }
-  // }
+  static Future<String?> funcPath() async{
+    if (_MyProfileImageState._imagepath != null){
+      print (" I am here at if functool");
+      pathToImage = _MyProfileImageState.galleryImagePath?.path;
+      return pathToImage;
+    }
+    else {
+      print (" I am here at else functool");
+      pathToImage = _MyProfileImageState.galleryImagePath?.path;
+      return pathToImage;
+    }
+  }
 
   @override
   State<MyProfileImage> createState() => _MyProfileImageState();
