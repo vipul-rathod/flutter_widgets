@@ -15,12 +15,10 @@ class MyViewFormPage extends StatefulWidget{
   const MyViewFormPage({super.key, required this.id});
 
   @override
-  State<MyViewFormPage> createState() => MyViewFormPageState(id);
+  State<MyViewFormPage> createState() => MyViewFormPageState();
 }
 
 class MyViewFormPageState extends State<MyViewFormPage>{
-  int? tempID;
-  MyViewFormPageState(this.tempID);
   final formKey = GlobalKey<FormState>();
   String dropdownValue = '';
   String genderValue = '';
@@ -40,7 +38,8 @@ class MyViewFormPageState extends State<MyViewFormPage>{
   @override
   void initState() {
     super.initState();
-    data = objectbox.employeeBox.get(tempID!);
+    data = objectbox.employeeBox.get(widget.id!);
+    // data = objectbox.employeeBox.get(tempID!);
     nameCtrl = TextEditingController(text: data!.name.toString());
     dobCtrl = TextEditingController(text: data!.dob.toString());
     phoneCtrl = TextEditingController(text: data!.phone.toString());

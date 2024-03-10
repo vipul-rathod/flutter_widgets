@@ -31,23 +31,14 @@ class MyEditFormPage extends StatefulWidget{
   final String? profileImage;
 
   @override
-  State<MyEditFormPage> createState() => MyEditFormPageState(id, name, dob, phone, email, expLevel, gender, confirm);
+  State<MyEditFormPage> createState() => MyEditFormPageState();
 }
 
 class MyEditFormPageState extends State<MyEditFormPage>{
-  int? updateID;
-  String? name;
-  String? dob;
-  String? phone;
-  String? email;
-  String? expLevel;
-  String? gender;
-  bool? confirm;
   double? fontSize;
   double? iconSize;
   double? width;
   double? screenWidth;
-
 
   final formKey = GlobalKey<FormState>();
   TextEditingController nameCtrl = TextEditingController();
@@ -58,18 +49,16 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   bool? confirmationBool;
   String? genGroupVal;
 
-  MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm);
-
   @override
   void initState() {
     super.initState();
-    nameCtrl.text = name.toString();
-    dobCtrl.text = dob.toString();
-    phoneCtrl.text = phone.toString();
-    emailCtrl.text = email.toString();
-    dropdownValue = expLevel.toString();
-    genGroupVal = gender.toString();
-    confirmationBool = confirm;
+    nameCtrl.text = widget.name.toString();
+    dobCtrl.text = widget.dob.toString();
+    phoneCtrl.text = widget.phone.toString();
+    emailCtrl.text = widget.email.toString();
+    dropdownValue = widget.expLevel.toString();
+    genGroupVal = widget.gender.toString();
+    confirmationBool = widget.confirm;
   }
 
   void showDatePickerTool(){
@@ -282,11 +271,13 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                       onPressed: () async {
                         if (formKey.currentState!.validate()){
                           final tmpPath = await getImageFilePath();
-                          print ("New Image path is $tmpPath");
-                          print ("Old Image path is ");
-                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
+                          Employee employee = Employee(nameCtrl.text, id: widget.id!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
+                          // Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
                           objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          if (context.mounted) {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          }
+                          
                         }
                       },
                       child: Text('Submit',

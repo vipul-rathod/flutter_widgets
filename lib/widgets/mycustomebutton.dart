@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyCustomButton extends StatelessWidget {
-  final onTap;
+  final dynamic onTap;
   final bool isButtonPressed;
   final double? height;
   final double? width;
