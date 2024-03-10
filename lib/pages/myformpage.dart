@@ -160,33 +160,33 @@ class MyFormPageState extends State<MyFormPage>{
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0,20,0, 10),
                         child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
-                            controller: phoneCtrl,
-                            prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
-                            inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-                            validator: (value){
-                              if (value!.length >= 11 || value.length<=9){
-                                return "${10 - value.length} digit more to go.";
-                              }
-                              return null;
-                            },
-                          ),
+                          controller: phoneCtrl,
+                          prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                          inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                          validator: (value){
+                            if (value!.length >= 11 || value.length<=9){
+                              return "${10 - value.length} digit more to go.";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0,20,0, 0),
                         child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
-                            controller: emailCtrl,
-                            prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
-                            validator: (value){
-                              final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
-                              if (!isValid){
-                                return "*** enter email id ***";
-                              }
-                              if (value == null || value.isEmpty){
-                                return "*** enter email id ***";
-                              }
-                              return null;
-                            },
-                          ),
+                          controller: emailCtrl,
+                          prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                          validator: (value){
+                            final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                            if (!isValid){
+                              return "*** enter email id ***";
+                            }
+                            if (value == null || value.isEmpty){
+                              return "*** enter email id ***";
+                            }
+                            return null;
+                          },
+                        ),
                       ),
                     ]
                   ),

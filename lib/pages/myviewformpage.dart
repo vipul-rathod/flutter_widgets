@@ -154,34 +154,34 @@ class MyViewFormPageState extends State<MyViewFormPage>{
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                       child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
-                            controller: phoneCtrl!,
-                            prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
-                            inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)], focusNode: AlwaysDisabledFocusNode(),
-                            validator: (value){
-                              if (value!.length >= 11 || value.length<=9){
-                                return "${10 - value.length} digit more to go.";
-                              }
-                              return null;
-                            },
-                          ),
+                        controller: phoneCtrl!,
+                        prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                        inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)], focusNode: AlwaysDisabledFocusNode(),
+                        validator: (value){
+                          if (value!.length >= 11 || value.length<=9){
+                            return "${10 - value.length} digit more to go.";
+                          }
+                          return null;
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8,20,8, 10),
-                        child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
-                            controller: emailCtrl!,
-                            prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
-                            inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),], focusNode: AlwaysDisabledFocusNode(),
-                            validator: (value){
-                              if (value == null || value.isEmpty){
-                                return "*** enter email id ***";
-                              }
-                              return null;
-                            },
-                          ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8,20,8, 10),
+                      child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
+                        controller: emailCtrl!,
+                        prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                        inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),], focusNode: AlwaysDisabledFocusNode(),
+                        validator: (value){
+                          if (value == null || value.isEmpty){
+                            return "*** enter email id ***";
+                          }
+                          return null;
+                        },
                       ),
-                    ]
-                  ),
+                    ),
+                  ]
                 ),
+              ),
 
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8,10),
@@ -242,7 +242,6 @@ class MyViewFormPageState extends State<MyViewFormPage>{
             ),
           ),
         ),
-
       ),
     );
   }

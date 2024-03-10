@@ -113,7 +113,7 @@ class _CreateViewProfileImageState extends State<CreateViewProfileImage> {
 class MyProfileImage extends StatefulWidget {
   const MyProfileImage({super.key, this.imagelocalpath, this.editmode = false, this.viewmode=true});
   static String? pathToImage;
-  final String? imagelocalpath;
+  final String? imagelocalpath; //62cb7700-dcff-1f01-b8d1-136638bdb657.jpg
   final bool editmode;
   final bool viewmode;
   
@@ -122,15 +122,23 @@ class MyProfileImage extends StatefulWidget {
   
   // print ("Path to image is $pathToImage");
 
+  static Future<String?> funcPaths(String? imagepath) async {
+    if (_MyProfileImageState.isImageChanged != false){
+      pathToImage = _MyProfileImageState.galleryImagePath!.path;
+      return pathToImage;
+    }
+    else{
+      pathToImage = imagepath;
+      return pathToImage;
+    }
+  }
 
   static Future<String?> funcPath() async{
     if (_MyProfileImageState._imagepath != null){
-      print (" I am here at if functool");
       pathToImage = _MyProfileImageState.galleryImagePath?.path;
       return pathToImage;
     }
     else {
-      print (" I am here at else functool");
       pathToImage = _MyProfileImageState.galleryImagePath?.path;
       return pathToImage;
     }
@@ -144,7 +152,7 @@ class _MyProfileImageState extends State<MyProfileImage> {
   File? _image;
   static String? _imagepath;
   static File? galleryImagePath;
-  bool isImageChanged = false;
+  static bool isImageChanged = false;
 
   @override
   void initState() {
@@ -155,9 +163,13 @@ class _MyProfileImageState extends State<MyProfileImage> {
           _imagepath = null;
           }
         else{
-          _imagepath = galleryImagePath?.path;
-          // MyProfileImage.pathToImage = _imagepath;
-          debugPrint (" I am at setState else condition which is $isImageChanged");
+          if (isImageChanged != false){
+            _imagepath = galleryImagePath?.path;
+          }
+          else{
+            _imagepath = galleryImagePath?.path;
+          }
+          
         }
         
       });
@@ -172,8 +184,8 @@ class _MyProfileImageState extends State<MyProfileImage> {
         child: Stack(
           children: <Widget>[
             widget.editmode != false // This means edit mode is true
-              ? CircleAvatar(radius: 80, backgroundImage: isImageChanged != false
-                ? FileImage(_image!) // This means image changed in editmode
+              ? CircleAvatar(radius: 80, backgroundImage: _image != null
+                ? FileImage(File(_image!.path)) // This means image changed in editmode
                 : FileImage(File(widget.imagelocalpath!))) // This assigns profile image from db.
               : widget.imagelocalpath != null //View form condition
                 ? CircleAvatar(backgroundImage: FileImage(File(widget.imagelocalpath!)), radius: 80,) // View form profile image
@@ -211,7 +223,6 @@ class _MyProfileImageState extends State<MyProfileImage> {
       _image = File(image!.path);
       saveImage(_image!.path);
       isImageChanged = true;
-      print ("Pick image is $isImageChanged");
     });
   }
 
@@ -223,9 +234,7 @@ class _MyProfileImageState extends State<MyProfileImage> {
 
     if (newPath.isNotEmpty){
       final basenameWithExtension = '${uuid.v1()}${syspath.extension(path)}';
-      // '$newPath/$basenameWithExtension'
       galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
-      // print (galleryImagePath!.path);
     }
     else{
       throw "Please select profile image";
@@ -233,15 +242,9 @@ class _MyProfileImageState extends State<MyProfileImage> {
   }
 
   Future<String?> loadImage() async {
-    // if (editmode == false){
-      setState(() {
-        _imagepath = galleryImagePath?.path;
-      });
-    // }
-      // setState(() {
-      //   _imagepath = galleryImagePath?.path;
-      // });
-      // return _imagepath;
+    setState(() {
+      _imagepath = galleryImagePath?.path;
+    });
   }
 }
 

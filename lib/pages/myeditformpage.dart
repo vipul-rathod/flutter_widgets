@@ -31,7 +31,7 @@ class MyEditFormPage extends StatefulWidget{
   final String? profileImage;
 
   @override
-  State<MyEditFormPage> createState() => MyEditFormPageState(id, name, dob, phone, email, expLevel, gender, confirm, profileImage);
+  State<MyEditFormPage> createState() => MyEditFormPageState(id, name, dob, phone, email, expLevel, gender, confirm);
 }
 
 class MyEditFormPageState extends State<MyEditFormPage>{
@@ -43,12 +43,10 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   String? expLevel;
   String? gender;
   bool? confirm;
-  String? profileImage;
   double? fontSize;
   double? iconSize;
   double? width;
   double? screenWidth;
-  String? pathToImage;
 
 
   final formKey = GlobalKey<FormState>();
@@ -59,10 +57,8 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   String? dropdownValue;
   bool? confirmationBool;
   String? genGroupVal;
-  String? pi;
-  String? tmpPath;
-  // bool editmode = false;
-  MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm, this.profileImage);
+
+  MyEditFormPageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm);
 
   @override
   void initState() {
@@ -74,15 +70,6 @@ class MyEditFormPageState extends State<MyEditFormPage>{
     dropdownValue = expLevel.toString();
     genGroupVal = gender.toString();
     confirmationBool = confirm;
-    tmpPath = null;
-    print ("TMPPATH is $tmpPath");
-    if (profileImage != null){
-      pi = profileImage.toString();
-    }
-    else{
-      print ('I am at esle at init');
-      pi = null;
-    }
   }
 
   void showDatePickerTool(){
@@ -99,25 +86,9 @@ class MyEditFormPageState extends State<MyEditFormPage>{
   }
 
   Future<String?> getImageFilePath() async {
-    if (MyProfileImage.pathToImage != null){
-      String? getImagePath = MyProfileImage.pathToImage!;
-      print("I am at getImageFilePath function $getImagePath");
-      return getImagePath;
-    }
-    else{
-      print ("PathToImage is null");
-      String? getImagePath = profileImage;
-      return getImagePath;
-    }
-
+    String? getImagePath = await MyProfileImage.funcPaths(widget.profileImage);
+    return getImagePath;
   }
-
-  // Future<String?> getImageFilePath() async {
-  //     String? getImagePath = MyProfileImage.pathToImage;
-  //     print("I am at getImageFilePath function $getImagePath");
-  //     return getImagePath;
-  // }
-
 
   @override
   Widget build(BuildContext context){
@@ -152,7 +123,7 @@ class MyEditFormPageState extends State<MyEditFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                MyProfileImage(imagelocalpath: profileImage, editmode: true,),
+                MyProfileImage(imagelocalpath: widget.profileImage, editmode: true,),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
@@ -312,23 +283,11 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                         if (formKey.currentState!.validate()){
                           final tmpPath = await getImageFilePath();
                           print ("New Image path is $tmpPath");
-                          print ("Old Image path is $pi");
+                          print ("Old Image path is ");
+                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
+                          objectbox.employeeBox.put(employee);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                         }
-                        // if (formKey.currentState!.validate()){
-                        //   final tmpPath = await getImageFilePath();
-                        //   print (tmpPath);
-                        //   if (pi == tmpPath){
-                        //     pathToImage = tmpPath.toString();
-                        //     print ('I am at if $pathToImage');
-                        //   }
-                        //   else{
-                        //     pathToImage = tmpPath;
-                        //     print('I am at else $pathToImage');
-                        //   }
-                        //   Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                        //   objectbox.employeeBox.put(employee);
-                        //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
-                        // }
                       },
                       child: Text('Submit',
                         style: TextStyle(
@@ -339,7 +298,6 @@ class MyEditFormPageState extends State<MyEditFormPage>{
                     )],
                   ),
                 ),
-
               ],
             ),
           ),
