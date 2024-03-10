@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 2878940563858819677),
       name: 'Employee',
-      lastPropertyId: const obx_int.IdUid(9, 4731602544495995353),
+      lastPropertyId: const obx_int.IdUid(10, 3223018676784040793),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -70,6 +70,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(9, 4731602544495995353),
             name: 'confirm',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 3223018676784040793),
+            name: 'profileImage',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -146,7 +151,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
               : fbb.writeString(object.expLevel!);
           final genderOffset =
               object.gender == null ? null : fbb.writeString(object.gender!);
-          fbb.startTable(10);
+          final profileImageOffset = object.profileImage == null
+              ? null
+              : fbb.writeString(object.profileImage!);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.date?.millisecondsSinceEpoch);
@@ -156,6 +164,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(6, expLevelOffset);
           fbb.addOffset(7, genderOffset);
           fbb.addBool(8, object.confirm);
+          fbb.addOffset(9, profileImageOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -183,6 +192,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final dateParam = dateValue == null
               ? null
               : DateTime.fromMillisecondsSinceEpoch(dateValue);
+          final profileImageParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 22);
           final object = Employee(nameParam,
               id: idParam,
               dob: dobParam,
@@ -191,7 +203,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               expLevel: expLevelParam,
               gender: genderParam,
               confirm: confirmParam,
-              date: dateParam);
+              date: dateParam,
+              profileImage: profileImageParam);
 
           return object;
         })
@@ -237,4 +250,8 @@ class Employee_ {
   /// see [Employee.confirm]
   static final confirm =
       obx.QueryBooleanProperty<Employee>(_entities[0].properties[8]);
+
+  /// see [Employee.profileImage]
+  static final profileImage =
+      obx.QueryStringProperty<Employee>(_entities[0].properties[9]);
 }

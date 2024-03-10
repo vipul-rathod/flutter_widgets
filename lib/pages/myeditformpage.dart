@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/main.dart';
 import 'package:test_widgets/models/models.dart';
-import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/widgets/mycheckboxwidget.dart';
+import 'package:test_widgets/widgets/mycreateprofileimage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
+import 'package:email_validator/email_validator.dart';
+
+
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
-class MyEditFormLargePage extends StatefulWidget{
-  const MyEditFormLargePage({super.key, this.onChanged, required this.id, required this.name,
-    required this.dob, required this.phone, required this.email, required this.expLevel, required this.gender, required this.confirm});
+class MyEditFormPage extends StatefulWidget{
+  const MyEditFormPage({super.key, this.onChanged, required this.id, required this.name,
+    required this.dob, required this.phone, required this.email, required this.expLevel, required this.gender, required this.confirm, required this.profileImage});
 
   final Function(String?)? onChanged;
   final int? id;
@@ -24,20 +28,17 @@ class MyEditFormLargePage extends StatefulWidget{
   final String? expLevel;
   final String? gender;
   final bool? confirm;
+  final String? profileImage;
 
   @override
-  State<MyEditFormLargePage> createState() => MyEditFormLargePageState(id, name, dob, phone, email, expLevel, gender, confirm);
+  State<MyEditFormPage> createState() => MyEditFormPageState();
 }
 
-class MyEditFormLargePageState extends State<MyEditFormLargePage>{
-  int? updateID;
-  String? name;
-  String? dob;
-  String? phone;
-  String? email;
-  String? expLevel;
-  String? gender;
-  bool? confirm;
+class MyEditFormPageState extends State<MyEditFormPage>{
+  double? fontSize;
+  double? iconSize;
+  double? width;
+  double? screenWidth;
 
   final formKey = GlobalKey<FormState>();
   TextEditingController nameCtrl = TextEditingController();
@@ -48,18 +49,16 @@ class MyEditFormLargePageState extends State<MyEditFormLargePage>{
   bool? confirmationBool;
   String? genGroupVal;
 
-  MyEditFormLargePageState(this.updateID, this.name, this.dob, this.phone, this.email, this.expLevel, this.gender, this.confirm);
-
   @override
   void initState() {
     super.initState();
-    nameCtrl.text = name.toString();
-    dobCtrl.text = dob.toString();
-    phoneCtrl.text = phone.toString();
-    emailCtrl.text = email.toString();
-    dropdownValue = expLevel.toString();
-    genGroupVal = gender.toString();
-    confirmationBool = confirm;
+    nameCtrl.text = widget.name.toString();
+    dobCtrl.text = widget.dob.toString();
+    phoneCtrl.text = widget.phone.toString();
+    emailCtrl.text = widget.email.toString();
+    dropdownValue = widget.expLevel.toString();
+    genGroupVal = widget.gender.toString();
+    confirmationBool = widget.confirm;
   }
 
   void showDatePickerTool(){
@@ -70,18 +69,35 @@ class MyEditFormLargePageState extends State<MyEditFormLargePage>{
     });
   }
 
-Future<List<Employee>> getEmployees() async {
+  Future<List<Employee>> getEmployees() async {
     List<Employee> data = objectbox.employeeBox.getAll();
     return data;
   }
 
+  Future<String?> getImageFilePath() async {
+    String? getImagePath = await MyProfileImage.funcPaths(widget.profileImage);
+    return getImagePath;
+  }
+
   @override
   Widget build(BuildContext context){
+    if (MediaQuery.of(context).size.width < 600){
+      fontSize = 15;
+      iconSize = 25;
+      width = 300;
+      screenWidth = MediaQuery.of(context).size.width;
+    }
+    else{
+      fontSize = 25;
+      iconSize = 40;
+      width = 450;
+      screenWidth = MediaQuery.of(context).size.width;
+    }
     return MyScaffold(
-      fontSize: 25,
-      iconSize: 40,
-      width: 450,
-      title: 'Employee Registration Form',
+      fontSize: fontSize!,
+      iconSize: iconSize!,
+      width: width!,
+      title: 'Edit Form',
       body: Container(
         alignment: Alignment.topCenter,
         decoration: const BoxDecoration(
@@ -96,12 +112,14 @@ Future<List<Employee>> getEmployees() async {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                MyProfileImage(imagelocalpath: widget.profileImage, editmode: true,),
+                const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(label: 'Employee Name', hint: 'Please enter name of employee', 
                         controller: nameCtrl, 
-                        prefixIcon: Icons.people, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                        fontSize: 25, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))], 
+                        prefixIcon: Icons.people, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, 
+                        fontSize: fontSize!, inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))], 
                         validator: (value){
                           if(value == null || value.isEmpty){
                             return "*** enter some text in the field ***";
@@ -114,12 +132,12 @@ Future<List<Employee>> getEmployees() async {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8,60,8, 10),
+                  padding: const EdgeInsets.fromLTRB(8,20,8,0),
                   child: MyTextFormField(label: 'Date Of Birth', hint: 'Enter the date of birth', 
                     controller: dobCtrl,
                     prefixIcon: Icons.calendar_today,
-                    iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, 
-                    fontSize: 25, onTap: () {showDatePickerTool();}, focusNode: AlwaysDisabledFocusNode(),
+                    iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, 
+                    fontSize: fontSize!, onTap: () {showDatePickerTool();}, focusNode: AlwaysDisabledFocusNode(),
                     validator: (value){
                       if (value==null || value.isEmpty){
                         return "*** Select the Date Of Birth ***";
@@ -130,13 +148,12 @@ Future<List<Employee>> getEmployees() async {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8,60,8, 10),
-                  child: Row(
+                  padding: const EdgeInsets.fromLTRB(8,20,8,0),
+                  child: screenWidth! > 600 ? Row(
                     children: [
-                      Expanded(
-                        child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
+                      MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
                           controller: phoneCtrl,
-                          prefixIcon: Icons.phone, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
+                          prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
                           inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
                           validator: (value){
                             if (value!.length >= 11 || value.length<=9){
@@ -145,33 +162,68 @@ Future<List<Employee>> getEmployees() async {
                             return null;
                           },
                         ),
-                      ),
                       const SizedBox(
                         width: 20,
                       ),
-                      Expanded(
-                        child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
+                      MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
                           controller: emailCtrl,
-                          prefixIcon: Icons.email, iconSize: 40, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: 25,
-                          inputFormatter: [FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),],
+                          prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
                           validator: (value){
+                            final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                            if (!isValid){
+                              return "*** enter email id ***";
+                            }
                             if (value == null || value.isEmpty){
                               return "*** enter email id ***";
                             }
                             return null;
                           },
                         ),
+                    ],
+                  ) :
+                  Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8,20,8,0),
+                        child: MyTextFormField(label: 'Telephone No.', hint: 'Please enter phone number', 
+                            controller: phoneCtrl,
+                            prefixIcon: Icons.phone, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                            inputFormatter: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                            validator: (value){
+                              if (value!.length >= 11 || value.length<=9){
+                                return "${10 - value.length} digit more to go.";
+                              }
+                              return null;
+                            },
+                          ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8,20,8,0),
+                        child: MyTextFormField(label: 'Email ID', hint: 'Please enter email id', 
+                            controller: emailCtrl,
+                            prefixIcon: Icons.email, iconSize: iconSize!, iconColor: Colors.indigo, fontColor: Colors.black, fontSize: fontSize!,
+                            validator: (value){
+                              final bool isValid = EmailValidator.validate(emailCtrl.text.toString());
+                              if (!isValid){
+                                return "*** enter email id ***";
+                              }
+                              if (value == null || value.isEmpty){
+                                return "*** enter email id ***";
+                              }
+                              return null;
+                            },
+                          ),
+                      )
                     ],
                   ),
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(8,60,8, 10),
+                  padding: const EdgeInsets.fromLTRB(8,20,8,10),
                   child: MyDropdownWidget(
                     list: list,
-                    fontSize: 25,
-                    iconSize: 40,
+                    fontSize: fontSize!,
+                    iconSize: iconSize!,
                     value: dropdownValue,
                     onChanged: (String? value){
                       setState(() {
@@ -183,9 +235,10 @@ Future<List<Employee>> getEmployees() async {
                       }).toList(),
                   ),
                 ),
-                Padding(padding: const EdgeInsets.fromLTRB(8,20,8, 10),
+
+                Padding(padding: const EdgeInsets.fromLTRB(8,0,8,0),
                   child: MyRadioWidget(
-                    fontSize: 25,
+                    fontSize: fontSize!,
                     groupVal: genGroupVal,
                     onChanged: (value) {
                       setState(() {
@@ -198,6 +251,7 @@ Future<List<Employee>> getEmployees() async {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: MyCheckBoxWidget(
+                    fontSize: fontSize!,
                     val: confirmationBool,
                     onChanged: (value){
                       setState(() {
@@ -214,18 +268,22 @@ Future<List<Employee>> getEmployees() async {
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()){
-                          // print (nameCtrl.text);
-                          Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool);
+                          final tmpPath = await getImageFilePath();
+                          Employee employee = Employee(nameCtrl.text, id: widget.id!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
+                          // Employee employee = Employee(nameCtrl.text, id: updateID!, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: tmpPath);
                           objectbox.employeeBox.put(employee);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));
+                          if (context.mounted) {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                          }
+                          
                         }
                       },
-                      child: const Text('Submit',
+                      child: Text('Submit',
                         style: TextStyle(
                           color: Colors.indigo,
-                          fontSize: 25)
+                          fontSize: fontSize!)
                         )
                       ),
                     )],
@@ -235,7 +293,6 @@ Future<List<Employee>> getEmployees() async {
             ),
           ),
         ),
-
       ),
     );
   }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
+import 'package:test_widgets/pages/myform.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
-import 'package:test_widgets/pages/mylistpage.dart';
+import 'package:test_widgets/pages/mydatatablepage.dart';
 import 'package:test_widgets/models/models.dart';
 import 'package:test_widgets/main.dart';
+import 'package:test_widgets/pages/mylistpage.dart';
 
 class MyDrawer extends StatefulWidget{
   final double fontSize;
@@ -14,10 +18,31 @@ class MyDrawer extends StatefulWidget{
 }
 
 class MyDrawerState extends State<MyDrawer>{
+  String _platformVersion = 'UNKNOWN';
 
   Future<List<Employee>> getEmployees() async {
     List<Employee> data = objectbox.employeeBox.getAll();
     return data;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    try{
+      platformVersion = await FlutterExitApp.platformVersion ?? 'Unknown Platform Version';
+    }
+    on PlatformException {
+      platformVersion = 'Failed to get platform version';
+    }
+    if (!mounted) return;
+    setState(() {
+      _platformVersion = platformVersion;
+    });
   }
 
   @override
@@ -41,12 +66,7 @@ class MyDrawerState extends State<MyDrawer>{
           ListTile(
             leading: const Icon(Icons.dynamic_form, color: Colors.white,),
             title: Text('Application Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
-            title: Text('Hive App Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
-            onTap: () {},
+            onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyForm()));},
           ),
           ListTile(
             leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
@@ -54,9 +74,14 @@ class MyDrawerState extends State<MyDrawer>{
             onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyListPage(future: getEmployees(),)));},
           ),
           ListTile(
+            leading: const Icon(Icons.data_object_sharp, color: Colors.white,),
+            title: Text('ObjectBox Table View Page', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
+            onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));},
+          ),
+          ListTile(
             leading: const Icon(Icons.exit_to_app, color: Colors.white,),
-            title: Text('Exit App', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
-            onTap: () {},
+            title: Text('Exit App $_platformVersion', style: TextStyle(fontSize: widget.fontSize, fontWeight: FontWeight.bold, color: Colors.white)),
+            onTap: () {FlutterExitApp.exitApp(iosForceExit: true);},
           ),
         ],
       ),
