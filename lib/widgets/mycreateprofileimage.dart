@@ -47,15 +47,18 @@ class _MyProfileImageState extends State<MyProfileImage> {
   @override
   void initState() {
     super.initState();
+    loadImage();
       setState(() {
         if (widget.editmode == false){
           _imagepath = null;
           }
         else{
           if (isImageChanged != false){
+            print ("Image changed is set to TRUE");
             _imagepath = galleryImagePath?.path;
           }
           else{
+            print ("Image changed is set to FALSE");
             _imagepath = galleryImagePath?.path;
           }
           
@@ -133,6 +136,7 @@ class _MyProfileImageState extends State<MyProfileImage> {
   Future<String?> loadImage() async {
     setState(() {
       _imagepath = galleryImagePath?.path;
+      isImageChanged = false;
     });
     return _imagepath;
   }
