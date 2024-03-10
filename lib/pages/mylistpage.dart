@@ -4,6 +4,7 @@ import 'package:test_widgets/pages/myviewformpage.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/models/models.dart';
 
+//ignore: must_be_immutable
 class MyListPage extends StatelessWidget{
   MyListPage({super.key, required this.future});
   final Future<List<Employee>> future;

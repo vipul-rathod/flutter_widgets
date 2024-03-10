@@ -5,6 +5,7 @@ import 'package:test_widgets/utils/utils.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/models/models.dart';
 
+//ignore: must_be_immutable
 class MyDataTablePage extends StatelessWidget{
   MyDataTablePage({super.key, required this.future});
   final Future<List<Employee>> future;
