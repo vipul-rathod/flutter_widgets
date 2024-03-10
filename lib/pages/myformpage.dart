@@ -253,6 +253,11 @@ class MyFormPageState extends State<MyFormPage>{
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
                               }
                             }
+                            else{
+                              if (context.mounted){
+                                showFlashError(context, "Please select profile image");
+                              }
+                            }
                           }
                         },
                       child: Text('Submit',

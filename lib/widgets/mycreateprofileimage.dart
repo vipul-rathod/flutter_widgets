@@ -24,12 +24,12 @@ class MyProfileImage extends StatefulWidget {
   }
 
   static Future<String?> funcPath() async{
-    if (_MyProfileImageState._imagepath != null){
+    if (_MyProfileImageState.isImageChanged != false){
       pathToImage = _MyProfileImageState.galleryImagePath?.path;
       return pathToImage;
     }
     else {
-      pathToImage = _MyProfileImageState.galleryImagePath?.path;
+      pathToImage = _MyProfileImageState._imagepath;
       return pathToImage;
     }
   }
