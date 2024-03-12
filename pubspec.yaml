@@ -11,14 +11,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_exit_app: ^1.1.2
-  flutter_native_splash: ^2.3.10
-  flutter_zoom_drawer: ^3.2.0
+  image_gallery_saver: ^2.0.3
   image_picker: ^1.0.7
   objectbox: ^2.5.0
   objectbox_flutter_libs: any
   path: ^1.8.3
   path_provider: ^2.1.2
-  shared_preferences: ^2.2.2
+  permission_handler: ^11.3.0
+  signature: ^5.4.1
   uuid: ^4.3.3
 
 dev_dependencies:

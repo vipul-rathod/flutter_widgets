@@ -7,6 +7,7 @@ import 'package:test_widgets/widgets/mycheckboxwidget.dart';
 import 'package:test_widgets/widgets/mycreateprofileimage.dart';
 import 'package:test_widgets/widgets/myradiowidget.dart';
 import 'package:test_widgets/widgets/mydropdownwidget.dart';
+import 'package:test_widgets/widgets/mysignaturepage.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -267,6 +268,26 @@ class MyFormPageState extends State<MyFormPage>{
                       )
                     ),
                   )],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(8,20,8, 10),
+                  child: Column(
+                    children: <Widget>[SizedBox(
+                      width: 200,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySignaturePage()));
+                        },
+                        child: Text('Add Signature',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                          fontSize: fontSize!)
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
