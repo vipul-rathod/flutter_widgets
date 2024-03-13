@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_widgets/pages/myhomepage.dart';
 import 'package:test_widgets/widgets/mydrawer.dart';
 import 'package:test_widgets/pages/myform.dart';
 
@@ -36,7 +37,7 @@ class MyScaffold extends StatelessWidget{
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.home, size: iconSize*1.5, color: Colors.yellow[200],),
-                onPressed: () {},
+                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyHomePage()));},
               ),
               IconButton(
                 icon: Icon(Icons.search, size: iconSize*1.5, color: Colors.yellow[200]),

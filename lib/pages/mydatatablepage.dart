@@ -58,10 +58,6 @@ class MyDataTablePage extends StatelessWidget{
                 ),
               ],
             ),
-            // body:SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: buildDataTable(context),
-            // ),
           );
         },
       ),
@@ -77,15 +73,20 @@ class MyDataTablePage extends StatelessWidget{
       'Email',
       'Experiece',
       'Gender',
-      'Profile Image',
+      'Profile Image Name',
+      'Signature Image Name',
     ];
     List<Employee>? data = objectbox.employeeBox.getAll();
     return DataTable(
       decoration: const BoxDecoration(
+        boxShadow: [BoxShadow(color: Colors.grey, offset: Offset(8, 8), blurRadius: 5),
+                    BoxShadow(color: Colors.grey, offset: Offset(-8, -8), blurRadius: 5)]
       ),
-      dataRowMinHeight: 50,
-      dataRowMaxHeight: 100,
-      headingRowColor: MaterialStateProperty.all<Color>(Colors.grey),
+      dataRowMinHeight: 30,
+      dataRowMaxHeight: 50,
+      dividerThickness: 2,
+      border: TableBorder.all(width: 2, style: BorderStyle.solid),
+      headingRowColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 178, 218, 244)),
       columns: getColumns(columns),
       rows: getRows(context, data),
     );
@@ -97,7 +98,7 @@ class MyDataTablePage extends StatelessWidget{
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: fontSize!*1.25,
-            color: Colors.indigo),),
+            color: Colors.black),),
       );
     }).toList();
   }
@@ -111,18 +112,22 @@ class MyDataTablePage extends StatelessWidget{
       employee.email,
       employee.expLevel,
       employee.gender,
-      employee.profileImage,
+      employee.profileImageName,
+      employee.signatureImageName,
     ];
+
     return DataRow(
+      color: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 83, 123, 156)),
       cells: Utils.modelBuilder(cells, (index, cell) {
         return DataCell(
           Text('$cell',
             style: TextStyle(
               fontSize: fontSize!,
               fontWeight: FontWeight.bold,
-              color: Colors.indigo
+              color: Colors.white
             ),
           ),
+          placeholder: true,
           onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyViewFormPage(id: employee.id))),
         );
       }),

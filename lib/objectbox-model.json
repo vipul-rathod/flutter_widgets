@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2878940563858819677",
-      "lastPropertyId": "10:3223018676784040793",
+      "lastPropertyId": "15:6518678885433381389",
       "name": "Employee",
       "properties": [
         {
@@ -55,8 +55,23 @@
           "type": 1
         },
         {
-          "id": "10:3223018676784040793",
-          "name": "profileImage",
+          "id": "12:4415057771198863474",
+          "name": "profileImageName",
+          "type": 9
+        },
+        {
+          "id": "13:5143120882938608428",
+          "name": "profileImagePath",
+          "type": 9
+        },
+        {
+          "id": "14:7906738771444176452",
+          "name": "signatureImageName",
+          "type": 9
+        },
+        {
+          "id": "15:6518678885433381389",
+          "name": "signatureImagePath",
           "type": 9
         }
       ],
@@ -71,7 +86,10 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    3223018676784040793,
+    5069466478222444976
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

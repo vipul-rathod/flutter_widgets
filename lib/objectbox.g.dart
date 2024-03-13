@@ -23,7 +23,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 2878940563858819677),
       name: 'Employee',
-      lastPropertyId: const obx_int.IdUid(10, 3223018676784040793),
+      lastPropertyId: const obx_int.IdUid(15, 6518678885433381389),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -72,8 +72,23 @@ final _entities = <obx_int.ModelEntity>[
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 3223018676784040793),
-            name: 'profileImage',
+            id: const obx_int.IdUid(12, 4415057771198863474),
+            name: 'profileImageName',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 5143120882938608428),
+            name: 'profileImagePath',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 7906738771444176452),
+            name: 'signatureImageName',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 6518678885433381389),
+            name: 'signatureImagePath',
             type: 9,
             flags: 0)
       ],
@@ -122,7 +137,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [3223018676784040793, 5069466478222444976],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -151,10 +166,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
               : fbb.writeString(object.expLevel!);
           final genderOffset =
               object.gender == null ? null : fbb.writeString(object.gender!);
-          final profileImageOffset = object.profileImage == null
+          final profileImageNameOffset = object.profileImageName == null
               ? null
-              : fbb.writeString(object.profileImage!);
-          fbb.startTable(11);
+              : fbb.writeString(object.profileImageName!);
+          final profileImagePathOffset = object.profileImagePath == null
+              ? null
+              : fbb.writeString(object.profileImagePath!);
+          final signatureImageNameOffset = object.signatureImageName == null
+              ? null
+              : fbb.writeString(object.signatureImageName!);
+          final signatureImagePathOffset = object.signatureImagePath == null
+              ? null
+              : fbb.writeString(object.signatureImagePath!);
+          fbb.startTable(16);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addInt64(2, object.date?.millisecondsSinceEpoch);
@@ -164,7 +188,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(6, expLevelOffset);
           fbb.addOffset(7, genderOffset);
           fbb.addBool(8, object.confirm);
-          fbb.addOffset(9, profileImageOffset);
+          fbb.addOffset(11, profileImageNameOffset);
+          fbb.addOffset(12, profileImagePathOffset);
+          fbb.addOffset(13, signatureImageNameOffset);
+          fbb.addOffset(14, signatureImagePathOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -192,9 +219,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final dateParam = dateValue == null
               ? null
               : DateTime.fromMillisecondsSinceEpoch(dateValue);
-          final profileImageParam =
+          final profileImageNameParam =
               const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 22);
+                  .vTableGetNullable(buffer, rootOffset, 26);
+          final profileImagePathParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 28);
+          final signatureImageNameParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 30);
+          final signatureImagePathParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 32);
           final object = Employee(nameParam,
               id: idParam,
               dob: dobParam,
@@ -204,7 +240,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
               gender: genderParam,
               confirm: confirmParam,
               date: dateParam,
-              profileImage: profileImageParam);
+              profileImageName: profileImageNameParam,
+              profileImagePath: profileImagePathParam,
+              signatureImageName: signatureImageNameParam,
+              signatureImagePath: signatureImagePathParam);
 
           return object;
         })
@@ -251,7 +290,19 @@ class Employee_ {
   static final confirm =
       obx.QueryBooleanProperty<Employee>(_entities[0].properties[8]);
 
-  /// see [Employee.profileImage]
-  static final profileImage =
+  /// see [Employee.profileImageName]
+  static final profileImageName =
       obx.QueryStringProperty<Employee>(_entities[0].properties[9]);
+
+  /// see [Employee.profileImagePath]
+  static final profileImagePath =
+      obx.QueryStringProperty<Employee>(_entities[0].properties[10]);
+
+  /// see [Employee.signatureImageName]
+  static final signatureImageName =
+      obx.QueryStringProperty<Employee>(_entities[0].properties[11]);
+
+  /// see [Employee.signatureImagePath]
+  static final signatureImagePath =
+      obx.QueryStringProperty<Employee>(_entities[0].properties[12]);
 }

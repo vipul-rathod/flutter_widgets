@@ -10,6 +10,7 @@ import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mysignaturepage.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:path/path.dart' as p;
 
 List<String> list = ['Fresher', 'Mid Level', 'Senior Level'];
 
@@ -49,13 +50,22 @@ class MyFormPageState extends State<MyFormPage>{
   }
 
   Future<List<Employee>> getEmployees() async {
-      List<Employee> data = objectbox.employeeBox.getAll();
-      return data;
-    }
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
+  }
 
   Future<String?> getImageFilePath() async {
     String? tmpimgpath = await MyProfileImage.funcPath();
     return tmpimgpath;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+      if (MySignaturePreviewPage.isActive == false){
+        MySignaturePreviewPage.signatureImagePath = '';
+      }
+      MySignaturePreviewPage.isActive = false;
   }
 
   @override
@@ -245,21 +255,40 @@ class MyFormPageState extends State<MyFormPage>{
                       child: ElevatedButton(
                         onPressed: () async {
                           if (formKey.currentState!.validate()){
-                            tmpPath = await getImageFilePath();
-                            if (tmpPath != null){
-                              pathToImage = tmpPath.toString();
-                              Employee employee = Employee(nameCtrl.text, dob: dobCtrl.text, phone: phoneCtrl.text, email: emailCtrl.text, expLevel: dropdownValue, gender: genGroupVal, confirm: confirmationBool, profileImage: pathToImage);
-                              objectbox.employeeBox.put(employee);
-                              if (context.mounted){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                            // await Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySignaturePage())).then((value) async {
+                              tmpPath = await getImageFilePath();
+                              if (tmpPath != null){
+                                if (context.mounted){
+                                  await Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySignaturePage())).then((value) async {
+                                    pathToImage = tmpPath.toString();
+                                    String profileImageNameTmp = "${nameCtrl.text}-${p.basename(pathToImage!)}";
+                                    String signatureImageNameTmp = "${nameCtrl.text}-${p.basename(MySignaturePreviewPage.signatureImagePath)}";
+                                    Employee employee = Employee(nameCtrl.text,
+                                      dob: dobCtrl.text, 
+                                      phone: phoneCtrl.text, 
+                                      email: emailCtrl.text, 
+                                      expLevel: dropdownValue, 
+                                      gender: genGroupVal, 
+                                      confirm: confirmationBool, 
+                                      profileImageName: profileImageNameTmp, 
+                                      profileImagePath: pathToImage, 
+                                      signatureImageName: signatureImageNameTmp, 
+                                      signatureImagePath: MySignaturePreviewPage.signatureImagePath);
+                                    objectbox.employeeBox.put(employee);
+                                    if (context.mounted){
+                                      MySignaturePreviewPage.isActive = false;
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
+                                    }
+                                  });
+                                }
+                              }
+                              else{
+                                if (context.mounted){
+                                  showFlashError(context, "Please select profile image");
+                                }
                               }
                             }
-                            else{
-                              if (context.mounted){
-                                showFlashError(context, "Please select profile image");
-                              }
-                            }
-                          }
+                          // }
                         },
                       child: Text('Submit',
                         style: TextStyle(
@@ -268,26 +297,6 @@ class MyFormPageState extends State<MyFormPage>{
                       )
                     ),
                   )],
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(8,20,8, 10),
-                  child: Column(
-                    children: <Widget>[SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySignaturePage()));
-                        },
-                        child: Text('Add Signature',
-                        style: TextStyle(
-                          color: Colors.indigo,
-                          fontSize: fontSize!)
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],

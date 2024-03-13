@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
 import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:test_widgets/models/models.dart';
+import 'package:test_widgets/main.dart';
 
 class MySignaturePage extends StatefulWidget {
   const MySignaturePage({super.key});
@@ -114,8 +115,10 @@ class _MySignaturePageState extends State<MySignaturePage> {
       if (controller!.isNotEmpty){
         final signature = await exportSignature();
         if (context.mounted){
-          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => MySignaturePreviewPage(signature: signature)));
-          controller!.clear();
+          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => MySignaturePreviewPage(signature: signature))).then((value) async {
+            controller!.clear();
+            Navigator.of(context).pop();
+          });
         }
       }
     },
@@ -156,7 +159,9 @@ class _MySignaturePageState extends State<MySignaturePage> {
 }
 
 class MySignaturePreviewPage extends StatelessWidget {
+  static String signatureImagePath = '';
   final Uint8List signature;
+  static bool isActive = false;
   const MySignaturePreviewPage({super.key, required this.signature});
 
   @override
@@ -179,8 +184,15 @@ class MySignaturePreviewPage extends StatelessWidget {
       ),
     );
   }
+
+  Future<List<Employee>> getEmployees() async {
+    List<Employee> data = objectbox.employeeBox.getAll();
+    return data;
+  }
+
   Future storeSignature(BuildContext context) async {
-    var status;
+    bool status;
+    String directoryName = 'signature_images';
     if (Platform.isAndroid){
       status = await Permission.storage.status.isGranted;
     }
@@ -190,24 +202,18 @@ class MySignaturePreviewPage extends StatelessWidget {
     if (!status){
       await Permission.storage.request();
     }
+    // *********
     final time = DateTime.now().toIso8601String().replaceAll('.', ':');
-    final name = 'signature$time.png';
-    final result = await ImageGallerySaver.saveImage(signature, name: name, isReturnImagePathOfIOS: true);
-    final isSuccess = result['isSuccess'];
-    if (isSuccess){
-      if(context.mounted){
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Saved to signature folder", style: TextStyle(color: Colors.green),))
-        ); 
-      }
-    }
-    else{
-      if (context.mounted){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to signature folder", style: TextStyle(color: Colors.red),))
-        );
-      }
-    }
+    final name = 'signature_$time.png';
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = directory.path;
+    await Directory('$path/$directoryName').create(recursive: true);
+    signatureImagePath = '$path/$directoryName/$name';
+
+    File(signatureImagePath).writeAsBytesSync(signature);
+    Directory(signatureImagePath).exists().then((value) {
+      isActive = true;
+      Navigator.of(context).pop();
+    });
   }
 }

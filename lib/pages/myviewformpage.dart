@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/models/models.dart';
@@ -90,7 +91,7 @@ class MyViewFormPageState extends State<MyViewFormPage>{
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                MyProfileImage(imagelocalpath: data!.profileImage, viewmode: false,),
+                MyProfileImage(imagelocalpath: data!.profileImagePath, viewmode: false,),
                 const SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(8),
@@ -221,13 +222,42 @@ class MyViewFormPageState extends State<MyViewFormPage>{
                 ),
 
                 Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) => ImageDialog(path: data!.signatureImagePath!)
+                      );
+                    },
+                    child: const Text("View Signature", style: TextStyle(color: Colors.indigo),),
+                  ),
+                ),
+
+                // Padding(
+                //   padding: const EdgeInsets.all(8),
+                //   child: CircleAvatar(
+                //     radius: 80,
+                //     backgroundImage: FileImage(File(data!.signatureImage!)),
+                //     child: GestureDetector(
+                //       onTap: () async {
+                //         await showDialog(
+                //           context: context,
+                //           builder: (_) => ImageDialog(path: data!.signatureImage!)
+                //         );
+                //       },
+                //     ),
+                //   ),
+                // ),
+
+                Padding(
                   padding: const EdgeInsets.fromLTRB(8,20,8, 10),
                   child: Column(
                     children: <Widget>[SizedBox(
                       width: 200,
                       height: 50,
                       child: ElevatedButton(
-                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEditFormPage(id: data!.id, name: data!.name, dob: data!.dob, phone: data!.phone, email: data!.email, expLevel: data!.expLevel, gender: data!.gender, confirm: data!.confirm, profileImage: data!.profileImage,)));},
+                      onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyEditFormPage(id: data!.id, name: data!.name, dob: data!.dob, phone: data!.phone, email: data!.email, expLevel: data!.expLevel, gender: data!.gender, confirm: data!.confirm, profileImagePath: data!.profileImagePath, signatureImagePath: data!.signatureImagePath,)));},
                       child: Text('Edit',
                         style: TextStyle(
                           color: Colors.indigo,
@@ -239,6 +269,26 @@ class MyViewFormPageState extends State<MyViewFormPage>{
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImageDialog extends StatelessWidget {
+  final String path;
+  const ImageDialog({super.key, required this.path});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        width: 200,
+        height: 200,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(File(path))
           ),
         ),
       ),

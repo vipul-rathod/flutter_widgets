@@ -33,3 +33,4 @@ flutter:
   assets:
    - assets/images/profile_img01.png
    - assets/images/profile_img02.jpeg
+   - assets/images/no_signature.webp

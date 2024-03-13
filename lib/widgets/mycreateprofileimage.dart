@@ -54,11 +54,9 @@ class _MyProfileImageState extends State<MyProfileImage> {
           }
         else{
           if (isImageChanged != false){
-            print ("Image changed is set to TRUE");
             _imagepath = galleryImagePath?.path;
           }
           else{
-            print ("Image changed is set to FALSE");
             _imagepath = galleryImagePath?.path;
           }
           
