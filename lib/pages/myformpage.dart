@@ -42,7 +42,8 @@ class MyFormPageState extends State<MyFormPage>{
   String? tmpPath;
 
   void showDatePickerTool(){
-    showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2025),).then((value){
+    var date = DateTime.now();
+    showDatePicker(context: context, initialDate: DateTime(date.year-21, date.month, date.day), firstDate: DateTime(date.year-59), lastDate: DateTime(date.year-21, date.month, date.day),).then((value){
       if (value != null){
         dobCtrl.text = '${value.day}-${value.month}-${value.year}';
       }

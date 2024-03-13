@@ -78,11 +78,12 @@ class MyEditFormPageState extends State<MyEditFormPage> {
   }
 
   void showDatePickerTool() {
+    var date = DateTime.now();
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2025),
+      initialDate: DateTime(date.year-21, date.month, date.day),
+      firstDate: DateTime(date.year-59),
+      lastDate: DateTime(date.year-21, date.month, date.day),
     ).then((value) {
       if (value != null) {
         dobCtrl.text = '${value.day}-${value.month}-${value.year}';
