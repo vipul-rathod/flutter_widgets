@@ -525,7 +525,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
   }
   deleteSignatureFile(signatureImagePath) {
     File file = File(signatureImagePath);
-    file.delete().then((value) => print("Deleted"));
+    file.delete().then((value) => debugPrint("Deleted"));
   }
 }
 
