@@ -20,6 +20,12 @@ class MyScaffold extends StatelessWidget{
         toolbarHeight: 100,
         title: Text(title, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.picture_as_pdf, size: iconSize,),
+            onPressed: () {},
+          ),
+        ],
       ),
       drawer: MyDrawer(fontSize: fontSize, width: width,),
 

@@ -40,6 +40,7 @@ class MyFormPageState extends State<MyFormPage>{
 
   String? pathToImage;
   String? tmpPath;
+  Employee? employee;
 
   void showDatePickerTool(){
     var date = DateTime.now();
@@ -264,7 +265,7 @@ class MyFormPageState extends State<MyFormPage>{
                                     pathToImage = tmpPath.toString();
                                     String profileImageNameTmp = "${nameCtrl.text}-${p.basename(pathToImage!)}";
                                     String signatureImageNameTmp = "${nameCtrl.text}-${p.basename(MySignaturePreviewPage.signatureImagePath)}";
-                                    Employee employee = Employee(nameCtrl.text,
+                                    employee = Employee(nameCtrl.text,
                                       dob: dobCtrl.text, 
                                       phone: phoneCtrl.text, 
                                       email: emailCtrl.text, 
@@ -275,7 +276,7 @@ class MyFormPageState extends State<MyFormPage>{
                                       profileImagePath: pathToImage, 
                                       signatureImageName: signatureImageNameTmp, 
                                       signatureImagePath: MySignaturePreviewPage.signatureImagePath);
-                                    objectbox.employeeBox.put(employee);
+                                    objectbox.employeeBox.put(employee!);
                                     if (context.mounted){
                                       MySignaturePreviewPage.isActive = false;
                                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyDataTablePage(future: getEmployees(),)));
