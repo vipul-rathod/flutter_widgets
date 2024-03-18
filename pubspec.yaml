@@ -10,6 +10,7 @@ dependencies:
   email_validator: ^2.1.17
   flutter:
     sdk: flutter
+  flutter_email_sender: ^6.0.2
   flutter_exit_app: ^1.1.2
   image_gallery_saver: ^2.0.3
   image_picker: ^1.0.7
@@ -36,3 +37,4 @@ flutter:
    - assets/images/profile_img01.png
    - assets/images/profile_img02.jpeg
    - assets/images/no_signature.webp
+   - assets/images/footer.png

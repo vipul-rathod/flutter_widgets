@@ -11,9 +11,6 @@ import 'package:test_widgets/widgets/mydropdownwidget.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 import 'package:test_widgets/main.dart';
 import 'package:test_widgets/pages/pdfapi.dart';
-import 'package:open_file/open_file.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 
 class MyViewFormPage extends StatefulWidget{
   final int? id;
@@ -275,7 +272,7 @@ class MyViewFormPageState extends State<MyViewFormPage>{
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    child: const Text("Generate PDF"),
+                    child: const Text("Send PDF To Email"),
                     onPressed: () => onSubmit(data!.signatureImagePath, context, data!),
                   ),
                 ),
@@ -306,12 +303,12 @@ class MyViewFormPageState extends State<MyViewFormPage>{
     );
 
     Navigator.of(context).pop();
-    if (await Permission.manageExternalStorage.request().isGranted) {
-      await OpenFile.open(file.path);
-    }
-    else{
-      showFlashError(context, "Permission is not granted");
-    }
+    // if (await Permission.manageExternalStorage.request().isGranted) {
+    //   await OpenFile.open(file.path);
+    // }
+    // else{
+    //   showFlashError(context, "Permission is not granted");
+    // }
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:test_widgets/models/models.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class PdfApi {
   static Future<File> generatePDF({
@@ -15,9 +16,9 @@ class PdfApi {
 
     PdfPageTemplateElement header = PdfPageTemplateElement(Rect.fromLTWH(0, 0, pageSize.width, 100));
     header.graphics.drawString(
-      "MAYKING TECHNOLOGY PVT LTD", 
+      "MAYKING TECHNOLOGY PVT LTD",
       PdfStandardFont(
-        PdfFontFamily.helvetica, 20, 
+        PdfFontFamily.helvetica, 20,
         style: PdfFontStyle.bold
       ),
       bounds: Rect.fromLTWH(pageSize.width/5, 10, 0, 0)
@@ -110,7 +111,21 @@ class PdfApi {
     final fileName = '$employeePDFPath/${employee.name}_${DateTime.now().toIso8601String()}.pdf';
     final file = File(fileName);
     file.writeAsBytes(await document.save());
+    sendEmail(fileName, employee);
     document.dispose();
     return file;
   }
+
+  static void sendEmail(String fileName, Employee employee) async {
+    final Email email = Email(
+      body: 'Hello,\n\nBody of email\n\nThanks and Regards,\nMAYKING TECHNOLOGY PVT. LTD.',
+      subject: 'Subject of Email',
+      recipients: [employee.email!],
+      attachmentPaths: [fileName],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
+  }
+
 }
+
