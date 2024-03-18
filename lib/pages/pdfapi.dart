@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart';
@@ -111,21 +112,47 @@ class PdfApi {
     final fileName = '$employeePDFPath/${employee.name}_${DateTime.now().toIso8601String()}.pdf';
     final file = File(fileName);
     file.writeAsBytes(await document.save());
-    sendEmail(fileName, employee);
+    // sendEmail(fileName, employee);
     document.dispose();
     return file;
   }
 
-  static void sendEmail(String fileName, Employee employee) async {
-    final Email email = Email(
-      body: 'Hello,\n\nBody of email\n\nThanks and Regards,\nMAYKING TECHNOLOGY PVT. LTD.',
-      subject: 'Subject of Email',
-      recipients: [employee.email!],
-      attachmentPaths: [fileName],
-      isHTML: false,
-    );
-    await FlutterEmailSender.send(email);
+  static void sendEmail(Employee employee, BuildContext context) async {
+    final path = await getExternalStorageDirectory();
+    final employeePDFPath = '${path!.path}/employee_pdf/${employee.name}_${employee.id}_pdf';
+    if (Directory(employeePDFPath).existsSync()) {
+      if (employeePDFPath.isNotEmpty){
+        final fileName = await Directory(employeePDFPath).list().first;
+        final Email email = Email(
+          body: 'Hello ${employee.name},\n\nBody of email\n\nThanks and Regards,\nMAYKING TECHNOLOGY PVT. LTD.',
+          subject: 'Subject of Email',
+          recipients: [employee.email!],
+          attachmentPaths: [fileName.path],
+          isHTML: false,
+        );
+        await FlutterEmailSender.send(email);
+      }
+      else{
+        if (context.mounted){
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("PDF file doesn't exists.\nPlease generate one to send to email."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    }
+    else{
+      if (context.mounted){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("PDF file doesn't exists.\nPlease generate one to send to email."),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
-
 }
 
