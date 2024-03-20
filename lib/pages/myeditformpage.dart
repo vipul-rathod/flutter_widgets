@@ -81,9 +81,9 @@ class MyEditFormPageState extends State<MyEditFormPage> {
     var date = DateTime.now();
     showDatePicker(
       context: context,
-      initialDate: DateTime(date.year-21, date.month, date.day),
-      firstDate: DateTime(date.year-59),
-      lastDate: DateTime(date.year-21, date.month, date.day),
+      initialDate: DateTime(date.year - 21, date.month, date.day),
+      firstDate: DateTime(date.year - 59),
+      lastDate: DateTime(date.year - 21, date.month, date.day),
     ).then((value) {
       if (value != null) {
         dobCtrl.text = '${value.day}-${value.month}-${value.year}';
@@ -97,7 +97,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
   }
 
   Future<String?> getImageFilePath() async {
-    String? getImagePath = await MyProfileImage.funcPaths(widget.profileImagePath);
+    String? getImagePath =
+        await MyProfileImage.funcPaths(widget.profileImagePath);
     return getImagePath;
   }
 
@@ -187,56 +188,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                   child: screenWidth! > 600
                       ? Row(
                           children: [
-                            MyTextFormField(
-                              label: 'Telephone No.',
-                              hint: 'Please enter phone number',
-                              controller: phoneCtrl,
-                              prefixIcon: Icons.phone,
-                              iconSize: iconSize!,
-                              iconColor: Colors.indigo,
-                              fontColor: Colors.black,
-                              fontSize: fontSize!,
-                              inputFormatter: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10)
-                              ],
-                              validator: (value) {
-                                if (value!.length >= 11 || value.length <= 9) {
-                                  return "${10 - value.length} digit more to go.";
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            MyTextFormField(
-                              label: 'Email ID',
-                              hint: 'Please enter email id',
-                              controller: emailCtrl,
-                              prefixIcon: Icons.email,
-                              iconSize: iconSize!,
-                              iconColor: Colors.indigo,
-                              fontColor: Colors.black,
-                              fontSize: fontSize!,
-                              validator: (value) {
-                                final bool isValid = EmailValidator.validate(
-                                    emailCtrl.text.toString());
-                                if (!isValid) {
-                                  return "*** enter email id ***";
-                                }
-                                if (value == null || value.isEmpty) {
-                                  return "*** enter email id ***";
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        )
-                      : Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                            Expanded(
                               child: MyTextFormField(
                                 label: 'Telephone No.',
                                 hint: 'Please enter phone number',
@@ -259,8 +211,10 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                 },
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
                               child: MyTextFormField(
                                 label: 'Email ID',
                                 hint: 'Please enter email id',
@@ -281,6 +235,63 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                   }
                                   return null;
                                 },
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                              child: Expanded(
+                                child: MyTextFormField(
+                                  label: 'Telephone No.',
+                                  hint: 'Please enter phone number',
+                                  controller: phoneCtrl,
+                                  prefixIcon: Icons.phone,
+                                  iconSize: iconSize!,
+                                  iconColor: Colors.indigo,
+                                  fontColor: Colors.black,
+                                  fontSize: fontSize!,
+                                  inputFormatter: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(10)
+                                  ],
+                                  validator: (value) {
+                                    if (value!.length >= 11 ||
+                                        value.length <= 9) {
+                                      return "${10 - value.length} digit more to go.";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
+                              child: Expanded(
+                                child: MyTextFormField(
+                                  label: 'Email ID',
+                                  hint: 'Please enter email id',
+                                  controller: emailCtrl,
+                                  prefixIcon: Icons.email,
+                                  iconSize: iconSize!,
+                                  iconColor: Colors.indigo,
+                                  fontColor: Colors.black,
+                                  fontSize: fontSize!,
+                                  validator: (value) {
+                                    final bool isValid =
+                                        EmailValidator.validate(
+                                            emailCtrl.text.toString());
+                                    if (!isValid) {
+                                      return "*** enter email id ***";
+                                    }
+                                    if (value == null || value.isEmpty) {
+                                      return "*** enter email id ***";
+                                    }
+                                    return null;
+                                  },
+                                ),
                               ),
                             )
                           ],
@@ -336,33 +347,42 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                     children: [
                       CircleAvatar(
                         radius: 80,
-                        backgroundImage:
-                          File(widget.signatureImagePath!).existsSync() != false
+                        backgroundImage: File(widget.signatureImagePath!)
+                                    .existsSync() !=
+                                false
                             ? isDeleted != true
                                 ? FileImage(File(widget.signatureImagePath!))
-                                : const AssetImage("assets/images/no_signature.webp") as ImageProvider
-                            : const AssetImage("assets/images/no_signature.webp") as ImageProvider,
+                                : const AssetImage(
+                                        "assets/images/no_signature.webp")
+                                    as ImageProvider
+                            : const AssetImage(
+                                    "assets/images/no_signature.webp")
+                                as ImageProvider,
                         child: GestureDetector(
                           onTap: () async {
                             await showDialog(
-                              context: context,
-                              builder: (_) {
-                                if (File(widget.signatureImagePath!).existsSync() != false){
-                                  return ImageDialog(path: widget.signatureImagePath!);
-                                }
-                                else{
-                                  return AlertDialog(
-                                    title: const Text("No Signature Available"),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {Navigator.of(context).pop();},
-                                        child: const Text("ok"),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              }
-                            );   
+                                context: context,
+                                builder: (_) {
+                                  if (File(widget.signatureImagePath!)
+                                          .existsSync() !=
+                                      false) {
+                                    return ImageDialog(
+                                        path: widget.signatureImagePath!);
+                                  } else {
+                                    return AlertDialog(
+                                      title:
+                                          const Text("No Signature Available"),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("ok"),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                });
                           },
                         ),
                       ),
@@ -371,9 +391,9 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                         right: 20,
                         child: InkWell(
                           onTap: () async {
-                              await showMyDialog(context, widget.signatureImagePath!);
-                              isDeleted = true;
-
+                            await showMyDialog(
+                                context, widget.signatureImagePath!);
+                            isDeleted = true;
                           },
                           child: const Icon(
                             Icons.delete_forever,
@@ -396,58 +416,71 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                             onPressed: () async {
                               if (formKey.currentState!.validate()) {
                                 final tmpPath = await getImageFilePath();
-                                if (File(widget.signatureImagePath!).existsSync()){
-                                  String profileImageNameTmp = "${nameCtrl.text}-${p.basename(tmpPath!)}";
-                                  String signatureImageNameTmp = "${nameCtrl.text}-${p.basename(widget.signatureImagePath!)}";
+                                if (File(widget.signatureImagePath!)
+                                    .existsSync()) {
+                                  String profileImageNameTmp =
+                                      "${nameCtrl.text}-${p.basename(tmpPath!)}";
+                                  String signatureImageNameTmp =
+                                      "${nameCtrl.text}-${p.basename(widget.signatureImagePath!)}";
                                   Employee employee = Employee(nameCtrl.text,
-                                    id: widget.id!,
-                                    dob: dobCtrl.text,
-                                    phone: phoneCtrl.text,
-                                    email: emailCtrl.text,
-                                    expLevel: dropdownValue,
-                                    gender: genGroupVal,
-                                    confirm: confirmationBool,
-                                    profileImageName: profileImageNameTmp,
-                                    profileImagePath: tmpPath,
-                                    signatureImageName: signatureImageNameTmp,
-                                    signatureImagePath: widget.signatureImagePath!);
+                                      id: widget.id!,
+                                      dob: dobCtrl.text,
+                                      phone: phoneCtrl.text,
+                                      email: emailCtrl.text,
+                                      expLevel: dropdownValue,
+                                      gender: genGroupVal,
+                                      confirm: confirmationBool,
+                                      profileImageName: profileImageNameTmp,
+                                      profileImagePath: tmpPath,
+                                      signatureImageName: signatureImageNameTmp,
+                                      signatureImagePath:
+                                          widget.signatureImagePath!);
 
-                                    objectbox.employeeBox.put(employee);
-                                    if (context.mounted) {
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => MyDataTablePage(
-                                          future: getEmployees(),
-                                        )
-                                      )
-                                    );
+                                  objectbox.employeeBox.put(employee);
+                                  if (context.mounted) {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyDataTablePage(
+                                                  future: getEmployees(),
+                                                )));
                                   }
-                                }
-                                else{
-                                  if (context.mounted){
-                                    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MySignaturePage())).then((value) async {
-                                      String profileImageNameTmp = "${nameCtrl.text}-${p.basename(tmpPath!)}";
-                                      String signatureImageNameTmp = "${nameCtrl.text}-${p.basename(MySignaturePreviewPage.signatureImagePath)}";
-                                      Employee employee = Employee(nameCtrl.text,
-                                        id: widget.id!,
-                                        dob: dobCtrl.text,
-                                        phone: phoneCtrl.text,
-                                        email: emailCtrl.text,
-                                        expLevel: dropdownValue,
-                                        gender: genGroupVal,
-                                        confirm: confirmationBool,
-                                        profileImageName: profileImageNameTmp,
-                                        profileImagePath: tmpPath,
-                                        signatureImageName: signatureImageNameTmp,
-                                        signatureImagePath: MySignaturePreviewPage.signatureImagePath);
+                                } else {
+                                  if (context.mounted) {
+                                    await Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                const MySignaturePage()))
+                                        .then((value) async {
+                                      String profileImageNameTmp =
+                                          "${nameCtrl.text}-${p.basename(tmpPath!)}";
+                                      String signatureImageNameTmp =
+                                          "${nameCtrl.text}-${p.basename(MySignaturePreviewPage.signatureImagePath)}";
+                                      Employee employee = Employee(
+                                          nameCtrl.text,
+                                          id: widget.id!,
+                                          dob: dobCtrl.text,
+                                          phone: phoneCtrl.text,
+                                          email: emailCtrl.text,
+                                          expLevel: dropdownValue,
+                                          gender: genGroupVal,
+                                          confirm: confirmationBool,
+                                          profileImageName: profileImageNameTmp,
+                                          profileImagePath: tmpPath,
+                                          signatureImageName:
+                                              signatureImageNameTmp,
+                                          signatureImagePath:
+                                              MySignaturePreviewPage
+                                                  .signatureImagePath);
 
                                       objectbox.employeeBox.put(employee);
                                       if (context.mounted) {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => MyDataTablePage(
-                                            future: getEmployees(),
-                                            )
-                                          )
-                                        );
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MyDataTablePage(
+                                                      future: getEmployees(),
+                                                    )));
                                       }
                                     });
                                   }
@@ -469,60 +502,59 @@ class MyEditFormPageState extends State<MyEditFormPage> {
       ),
     );
   }
+
   Future<void> showMyDialog(context, signaturePath) async {
-    if (File(signaturePath).existsSync()){
+    if (File(signaturePath).existsSync()) {
       return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Delete from database"),
-          content: const SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Text("Are you sure, you want to delete Signature Image"),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Confirm'),
-              onPressed: () async {
-                await deleteSignatureFile(signaturePath);
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-              },
-            ),
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        );
-      }
-    );
-    }
-    else{
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Signature File not available"),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Ok'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Delete from database"),
+              content: const SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Text("Are you sure, you want to delete Signature Image"),
+                  ],
+                ),
               ),
-            ],
-          );
-        }
-      );
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Confirm'),
+                  onPressed: () async {
+                    await deleteSignatureFile(signaturePath);
+                    setState(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+                TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            );
+          });
+    } else {
+      return showDialog<void>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Signature File not available"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Ok'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
     }
   }
+
   deleteSignatureFile(signatureImagePath) {
     File file = File(signatureImagePath);
     file.delete().then((value) => debugPrint("Deleted"));

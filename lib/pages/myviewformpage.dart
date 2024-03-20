@@ -41,20 +41,15 @@ class MyViewFormPageState extends State<MyViewFormPage> {
 
   static File? pdfFilePath;
 
-  String configDesc = 'Operating System = ${Platform.operatingSystem}\n'
-                      'Operating System Version = ${Platform.operatingSystemVersion}\n'
-                      'Number of Processor = ${Platform.numberOfProcessors}\n';
-
   @override
   void initState() {
-    print (configDesc);
     super.initState();
     data = objectbox.employeeBox.get(widget.id!);
     nameCtrl = TextEditingController(text: data!.name.toString());
     dobCtrl = TextEditingController(text: data!.dob.toString());
     phoneCtrl = TextEditingController(text: data!.phone.toString());
     emailCtrl = TextEditingController(text: data!.email.toString());
-    descController = TextEditingController(text: configDesc);
+
     if (data?.expLevel != null) {
       list1 = [data!.expLevel!];
     } else {
@@ -95,30 +90,13 @@ class MyViewFormPageState extends State<MyViewFormPage> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                
                 MyProfileImage(
                   imagelocalpath: data!.profileImagePath,
                   viewmode: false,
                 ),
-                
                 const SizedBox(
                   height: 20,
                 ),
-                
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: TextFormField(
-                    controller: descController,
-                    maxLines: 8,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.description),
-                      label: Text("Desciption"),
-                      hintText: "Description Details",
-                    ),
-
-                  ),
-                ),
-
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: MyTextFormField(
@@ -136,7 +114,6 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     focusNode: AlwaysDisabledFocusNode(),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
                   child: MyTextFormField(
@@ -158,56 +135,60 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     },
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
                   child: screenWidth! > 600
                       ? Row(
                           children: [
-                            MyTextFormField(
-                              label: 'Telephone No.',
-                              hint: 'Please enter phone number',
-                              controller: phoneCtrl!,
-                              prefixIcon: Icons.phone,
-                              iconSize: iconSize!,
-                              iconColor: Colors.indigo,
-                              fontColor: Colors.black,
-                              fontSize: fontSize!,
-                              inputFormatter: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10)
-                              ],
-                              focusNode: AlwaysDisabledFocusNode(),
-                              validator: (value) {
-                                if (value!.length >= 11 || value.length <= 9) {
-                                  return "${10 - value.length} digit more to go.";
-                                }
-                                return null;
-                              },
+                            Expanded(
+                              child: MyTextFormField(
+                                label: 'Telephone No.',
+                                hint: 'Please enter phone number',
+                                controller: phoneCtrl!,
+                                prefixIcon: Icons.phone,
+                                iconSize: iconSize!,
+                                iconColor: Colors.indigo,
+                                fontColor: Colors.black,
+                                fontSize: fontSize!,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(10)
+                                ],
+                                focusNode: AlwaysDisabledFocusNode(),
+                                validator: (value) {
+                                  if (value!.length >= 11 ||
+                                      value.length <= 9) {
+                                    return "${10 - value.length} digit more to go.";
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
-                            MyTextFormField(
-                              label: 'Email ID',
-                              hint: 'Please enter email id',
-                              controller: emailCtrl!,
-                              prefixIcon: Icons.email,
-                              iconSize: iconSize!,
-                              iconColor: Colors.indigo,
-                              fontColor: Colors.black,
-                              fontSize: fontSize!,
-                              inputFormatter: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r"[a-zA-Z]+|\s")),
-                              ],
-                              focusNode: AlwaysDisabledFocusNode(),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "*** enter email id ***";
-                                }
-                                return null;
-                              },
+                            Expanded(
+                              child: MyTextFormField(
+                                label: 'Email ID',
+                                hint: 'Please enter email id',
+                                controller: emailCtrl!,
+                                prefixIcon: Icons.email,
+                                iconSize: iconSize!,
+                                iconColor: Colors.indigo,
+                                fontColor: Colors.black,
+                                fontSize: fontSize!,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r"[a-zA-Z]+|\s")),
+                                ],
+                                focusNode: AlwaysDisabledFocusNode(),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "*** enter email id ***";
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ],
                         )
@@ -260,9 +241,10 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                               },
                             ),
                           ),
-                        ]),
+                        ]
+                      ),
                 ),
-
+                
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                   child: MyDropdownWidget(
@@ -282,7 +264,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     }).toList(),
                   ),
                 ),
-
+                // RADIO WIDGET
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: MyRadioWidget(
@@ -293,7 +275,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     },
                   ),
                 ),
-
+                // CHECKBOX WIDGET
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: MyCheckBoxWidget(
@@ -304,7 +286,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     },
                   ),
                 ),
-
+                // VIEW SIGNATURE BUTTON
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: ElevatedButton(
@@ -314,13 +296,15 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                           builder: (_) =>
                               ImageDialog(path: data!.signatureImagePath!));
                     },
-                    child: const Text(
+                    child: Text(
                       "View Signature",
-                      style: TextStyle(color: Colors.indigo),
+                      style: TextStyle(
+                        color: Colors.indigo,
+                        fontSize: fontSize!),
                     ),
                   ),
                 ),
-
+                // EDIT BUTTON
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                   child: Column(
@@ -354,7 +338,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     ],
                   ),
                 ),
-
+                // GENERATE PDF BUTTON
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -364,7 +348,13 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                       Flexible(
                         flex: 2,
                         child: ElevatedButton(
-                          child: const Text("Generate PDF"),
+                          child: Text(
+                            "Generate PDF",
+                            style: TextStyle(
+                              color: Colors.indigo,
+                              fontSize: fontSize!
+                            ),
+                          ),
                           onPressed: () => onSubmit(
                               data!.signatureImagePath, context, data!),
                         ),
@@ -375,9 +365,13 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                       Flexible(
                         flex: 2,
                         child: ElevatedButton(
-                          child: const Text("Send PDF To Email"),
-                          onPressed: () => PdfApi.sendEmail(
-                              data!, context),
+                          child: Text(
+                            "Send PDF To Email",
+                            style: TextStyle(
+                              color: Colors.indigo,
+                              fontSize: fontSize!)
+                          ),
+                          onPressed: () => PdfApi.sendEmail(data!, context),
                         ),
                       ),
                     ],
@@ -411,8 +405,35 @@ class MyViewFormPageState extends State<MyViewFormPage> {
     final file = await PdfApi.generatePDF(
         employee: employee, signatureImageBytes: signatureImageBytes);
 
+    // final wifiName = await UserNetworkInfo.getUserWifiName();
+    // final wifiSignal = await UserNetworkInfo.getUserInternetSignal();
+    // final wifiIP = await UserNetworkInfo.getUserWifiIP();
+    // final wifiBroadcast = await UserNetworkInfo.getUserWifiBroadcast();
+    // final wifiSubmask = await UserNetworkInfo.getUserWifiSubmask();
+    // final wifiGatewayIP = await UserNetworkInfo.getUserWifiGatewayIP();
+    // final osInfo = await OSInfo.osVersion();
+    // print('************ WIFI Details ************');
+    // print('wifiName: $wifiName');
+    // print('wifiSignal: ${wifiSignal['WifiSignal']}');
+    // print('mobileSignal: ${wifiSignal['MobileSignal']}');
+    // print('wifiIP: $wifiIP');
+    // print('wifiBroadcast: $wifiBroadcast');
+    // print('wifiSubmask: $wifiSubmask');
+    // print('wifiGatewayIP: $wifiGatewayIP');
+    // print('************ WIFI Details ************');
+    // print('\n');
+    // print('************ Device Details ************');
+    // print("Model: ${osInfo['Model']}");
+    // print("Version: ${Platform.operatingSystem} ${osInfo['Version']}");
+    // print("SDK: ${osInfo['SDK']}");
+    // print("Manufacturer: ${osInfo['Manufacturer']}");
+    // print('************ Device Details ************');
+
     Navigator.of(context).pop();
     if (await Permission.manageExternalStorage.request().isGranted) {
+      await OpenFile.open(file.path);
+    }
+    else if (await Permission.storage.isGranted){
       await OpenFile.open(file.path);
     }
     else{

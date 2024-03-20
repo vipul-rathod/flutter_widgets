@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as syspath;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class MyProfileImage extends StatefulWidget {
@@ -118,13 +119,29 @@ class _MyProfileImageState extends State<MyProfileImage> {
 
   Future<void> saveImage(path) async {
     final sourcePath = File(path);
-    final directory = await getApplicationDocumentsDirectory();
+    Directory directory;
+    if (Platform.isAndroid){
+      directory = await getApplicationDocumentsDirectory();
+    }
+    else{
+      final tmpDirectoryPath = await getApplicationDocumentsDirectory();
+      Directory newDirectory = (tmpDirectoryPath.parent).parent;
+      if (!Directory('${newDirectory.path}/test_widget/profile_image').existsSync()){
+        directory = await Directory('${newDirectory.path}/test_widget/profile_image').create(recursive: true);
+      }
+      directory = Directory('${newDirectory.path}/test_widget/profile_image');
+    }
     final newPath = directory.path;
     const uuid = Uuid();
 
     if (newPath.isNotEmpty){
       final basenameWithExtension = '${uuid.v1()}${syspath.extension(path)}';
-      galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
+      if (await Permission.storage.isGranted){
+        galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
+      }
+      else{
+        throw "Permission is not granted";
+      }
     }
     else{
       throw "Please select profile image";

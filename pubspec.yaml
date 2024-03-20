@@ -7,13 +7,16 @@ environment:
   sdk: '>=3.2.6 <4.0.0'
 
 dependencies:
+  device_info_plus: ^9.1.2
   email_validator: ^2.1.17
   flutter:
     sdk: flutter
   flutter_email_sender: ^6.0.2
   flutter_exit_app: ^1.1.2
+  flutter_internet_signal: ^0.0.30
   image_gallery_saver: ^2.0.3
   image_picker: ^1.0.7
+  network_info_plus: ^4.1.0+1
   objectbox: ^2.5.0
   objectbox_flutter_libs: any
   open_file: ^3.3.2
@@ -22,6 +25,7 @@ dependencies:
   permission_handler: ^11.3.0
   signature: ^5.4.1
   syncfusion_flutter_pdf: ^24.2.9
+  url_launcher: ^6.2.5
   uuid: ^4.3.3
 
 dev_dependencies:

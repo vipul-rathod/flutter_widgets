@@ -6,6 +6,19 @@
 	<string>This app needs image library access to select invoice images</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs image library access to select invoice images</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key><true/>
+	</dict>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	<string>sms</string>
+	<string>tel</string>
+	</array>
 	
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>

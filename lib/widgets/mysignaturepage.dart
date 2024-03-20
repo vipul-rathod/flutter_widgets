@@ -205,7 +205,18 @@ class MySignaturePreviewPage extends StatelessWidget {
     // *********
     final time = DateTime.now().toIso8601String().replaceAll('.', ':');
     final name = 'signature_$time.png';
-    Directory directory = await getApplicationDocumentsDirectory();
+    Directory directory;
+    if (Platform.isAndroid){
+      directory = await getApplicationDocumentsDirectory();
+    }
+    else{
+      final tmpDirectoryPath = await getApplicationDocumentsDirectory();
+      Directory newDirectory = (tmpDirectoryPath.parent).parent;
+      if (!Directory('${newDirectory.path}/test_widget').existsSync()){
+        directory = await Directory('${newDirectory.path}/test_widget').create(recursive: true);
+      }
+      directory = Directory('${newDirectory.path}/test_widget');
+    }
     String path = directory.path;
     await Directory('$path/$directoryName').create(recursive: true);
     signatureImagePath = '$path/$directoryName/$name';
