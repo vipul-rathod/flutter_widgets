@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -137,7 +138,11 @@ class _MyProfileImageState extends State<MyProfileImage> {
     if (newPath.isNotEmpty){
       final basenameWithExtension = '${uuid.v1()}${syspath.extension(path)}';
       if (await Permission.storage.isGranted){
-        galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
+        showImageSize(path, syspath.join(newPath, basenameWithExtension));
+        // galleryImagePath = await sourcePath.copy(syspath.join(newPath, basenameWithExtension));
+      }
+      else if (await Permission.manageExternalStorage.isGranted){
+        showImageSize(path, syspath.join(newPath, basenameWithExtension));
       }
       else{
         throw "Permission is not granted";
@@ -146,6 +151,34 @@ class _MyProfileImageState extends State<MyProfileImage> {
     else{
       throw "Please select profile image";
     }
+  }
+
+  double showImageSize(String imageFile, targetPath) {
+    final file = File(imageFile);
+    int sizeInBytes = file.lengthSync();
+    double sizeInKB = sizeInBytes/1024;
+    if (sizeInKB <= 1024){
+      print ('$sizeInKB kb');
+      compressImageAndGetFile(imageFile, targetPath);
+    }
+    else{
+      print ('$sizeInKB kb');
+      compressImageAndGetFile(imageFile, targetPath);
+      // print ('Need to compress image as size exceeds maximum size limit.');
+    }
+    
+    return sizeInKB;
+  }
+
+  Future<File> compressImageAndGetFile(String file, String targetPath) async {
+    var tmpFile = File(file);
+
+    print ("**************SourceFile************\n$file");
+    print ("**************TargetFile************\n$targetPath");
+    var result = await FlutterImageCompress.compressAndGetFile(tmpFile.absolute.path, targetPath);
+    print (tmpFile.lengthSync());
+    print (File(result!.path).lengthSync());
+    return File(result.path);
   }
 
   Future<String?> loadImage() async {
