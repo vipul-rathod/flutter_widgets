@@ -48,10 +48,7 @@ class MyEditFormPage extends StatefulWidget {
 }
 
 class MyEditFormPageState extends State<MyEditFormPage> {
-  double? fontSize;
-  double? iconSize;
-  double? width;
-  double? screenWidth;
+
 
   final formKey = GlobalKey<FormState>();
   TextEditingController nameCtrl = TextEditingController();
@@ -104,21 +101,11 @@ class MyEditFormPageState extends State<MyEditFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) {
-      fontSize = 15;
-      iconSize = 25;
-      width = 300;
-      screenWidth = MediaQuery.of(context).size.width;
-    } else {
-      fontSize = 25;
-      iconSize = 40;
-      width = 450;
-      screenWidth = MediaQuery.of(context).size.width;
-    }
+    final size = MediaQuery.of(context).size;
     return MyScaffold(
-      fontSize: fontSize!,
-      iconSize: iconSize!,
-      width: width!,
+      fontSize: size.width > 600 ? 25 : 15,
+      iconSize: size.width > 600 ? 25 : 15,
+      width: size.width > 600 ? 450 : 300,
       title: 'Edit Form',
       body: Container(
         alignment: Alignment.topCenter,
@@ -144,10 +131,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                     hint: 'Please enter name of employee',
                     controller: nameCtrl,
                     prefixIcon: Icons.people,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     inputFormatter: [
                       FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))
                     ],
@@ -167,10 +152,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                     hint: 'Enter the date of birth',
                     controller: dobCtrl,
                     prefixIcon: Icons.calendar_today,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     onTap: () {
                       showDatePickerTool();
                     },
@@ -185,7 +168,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                  child: screenWidth! > 600
+                  child: size.width > 600
                       ? Row(
                           children: [
                             Expanded(
@@ -194,10 +177,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                 hint: 'Please enter phone number',
                                 controller: phoneCtrl,
                                 prefixIcon: Icons.phone,
-                                iconSize: iconSize!,
                                 iconColor: Colors.indigo,
                                 fontColor: Colors.black,
-                                fontSize: fontSize!,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(10)
@@ -220,10 +201,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                 hint: 'Please enter email id',
                                 controller: emailCtrl,
                                 prefixIcon: Icons.email,
-                                iconSize: iconSize!,
                                 iconColor: Colors.indigo,
                                 fontColor: Colors.black,
-                                fontSize: fontSize!,
                                 validator: (value) {
                                   final bool isValid = EmailValidator.validate(
                                       emailCtrl.text.toString());
@@ -243,55 +222,47 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                              child: Expanded(
-                                child: MyTextFormField(
-                                  label: 'Telephone No.',
-                                  hint: 'Please enter phone number',
-                                  controller: phoneCtrl,
-                                  prefixIcon: Icons.phone,
-                                  iconSize: iconSize!,
-                                  iconColor: Colors.indigo,
-                                  fontColor: Colors.black,
-                                  fontSize: fontSize!,
-                                  inputFormatter: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(10)
-                                  ],
-                                  validator: (value) {
-                                    if (value!.length >= 11 ||
-                                        value.length <= 9) {
-                                      return "${10 - value.length} digit more to go.";
-                                    }
-                                    return null;
-                                  },
-                                ),
+                              child: MyTextFormField(
+                                label: 'Telephone No.',
+                                hint: 'Please enter phone number',
+                                controller: phoneCtrl,
+                                prefixIcon: Icons.phone,
+                                iconColor: Colors.indigo,
+                                fontColor: Colors.black,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(10)
+                                ],
+                                validator: (value) {
+                                  if (value!.length >= 11 ||
+                                      value.length <= 9) {
+                                    return "${10 - value.length} digit more to go.";
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                              child: Expanded(
-                                child: MyTextFormField(
-                                  label: 'Email ID',
-                                  hint: 'Please enter email id',
-                                  controller: emailCtrl,
-                                  prefixIcon: Icons.email,
-                                  iconSize: iconSize!,
-                                  iconColor: Colors.indigo,
-                                  fontColor: Colors.black,
-                                  fontSize: fontSize!,
-                                  validator: (value) {
-                                    final bool isValid =
-                                        EmailValidator.validate(
-                                            emailCtrl.text.toString());
-                                    if (!isValid) {
-                                      return "*** enter email id ***";
-                                    }
-                                    if (value == null || value.isEmpty) {
-                                      return "*** enter email id ***";
-                                    }
-                                    return null;
-                                  },
-                                ),
+                              child: MyTextFormField(
+                                label: 'Email ID',
+                                hint: 'Please enter email id',
+                                controller: emailCtrl,
+                                prefixIcon: Icons.email,
+                                iconColor: Colors.indigo,
+                                fontColor: Colors.black,
+                                validator: (value) {
+                                  final bool isValid =
+                                      EmailValidator.validate(
+                                          emailCtrl.text.toString());
+                                  if (!isValid) {
+                                    return "*** enter email id ***";
+                                  }
+                                  if (value == null || value.isEmpty) {
+                                    return "*** enter email id ***";
+                                  }
+                                  return null;
+                                },
                               ),
                             )
                           ],
@@ -301,8 +272,8 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                   child: MyDropdownWidget(
                     list: list,
-                    fontSize: fontSize!,
-                    iconSize: iconSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
+                    iconSize: size.width > 600 ? 25 : 15,
                     value: dropdownValue,
                     onChanged: (String? value) {
                       setState(() {
@@ -321,7 +292,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: MyRadioWidget(
-                      fontSize: fontSize!,
+                      fontSize: size.width > 600 ? 25 : 15,
                       groupVal: genGroupVal,
                       onChanged: (value) {
                         setState(() {
@@ -332,7 +303,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                   child: MyCheckBoxWidget(
-                    fontSize: fontSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
                     val: confirmationBool,
                     onChanged: (value) {
                       setState(() {
@@ -490,7 +461,7 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                             child: Text('Submit',
                                 style: TextStyle(
                                     color: Colors.indigo,
-                                    fontSize: fontSize!))),
+                                    fontSize: size.width > 600 ? 25 : 15))),
                       )
                     ],
                   ),

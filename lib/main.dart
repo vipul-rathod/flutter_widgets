@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_widgets/pages/loginpage.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
 import 'package:test_widgets/utils/database_helper.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Employee Register Form',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MyHomePage(),
+      home: const LoginPage(),
+      // home: const MyHomePage(),
     );
   }
 }

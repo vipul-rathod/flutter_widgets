@@ -26,11 +26,6 @@ class MyViewFormPageState extends State<MyViewFormPage> {
   final formKey = GlobalKey<FormState>();
   String dropdownValue = '';
   String genderValue = '';
-  double? fontSize;
-  double? iconSize;
-  double? width;
-  double? screenWidth;
-
   Employee? data;
   TextEditingController? nameCtrl;
   TextEditingController? dobCtrl;
@@ -60,25 +55,16 @@ class MyViewFormPageState extends State<MyViewFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) {
-      fontSize = 15;
-      iconSize = 25;
-      width = 300;
-      screenWidth = MediaQuery.of(context).size.width;
-    } else {
-      fontSize = 25;
-      iconSize = 40;
-      width = 450;
-      screenWidth = MediaQuery.of(context).size.width;
-    }
+    final size = MediaQuery.of(context).size;
+
     setState(() {
       dropdownValue = data!.expLevel.toString();
       genderValue = data!.gender.toString();
     });
     return MyScaffold(
-      fontSize: fontSize!,
-      iconSize: iconSize!,
-      width: width!,
+      fontSize: size.width > 600 ? 25 : 15,
+      iconSize: size.width > 600 ? 25 : 15,
+      width: size.width > 600 ? 450 : 300,
       title: 'View Form',
       body: Container(
         alignment: Alignment.topCenter,
@@ -104,10 +90,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     hint: 'Please enter name of employee',
                     controller: nameCtrl!,
                     prefixIcon: Icons.people,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     inputFormatter: [
                       FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s"))
                     ],
@@ -121,10 +105,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     hint: 'Enter the date of birth',
                     controller: dobCtrl!,
                     prefixIcon: Icons.calendar_today,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     onTap: () {},
                     focusNode: AlwaysDisabledFocusNode(),
                     validator: (value) {
@@ -137,7 +119,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 10, 8, 0),
-                  child: screenWidth! > 600
+                  child: size.width > 600
                       ? Row(
                           children: [
                             Expanded(
@@ -146,10 +128,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                                 hint: 'Please enter phone number',
                                 controller: phoneCtrl!,
                                 prefixIcon: Icons.phone,
-                                iconSize: iconSize!,
                                 iconColor: Colors.indigo,
                                 fontColor: Colors.black,
-                                fontSize: fontSize!,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.digitsOnly,
                                   LengthLimitingTextInputFormatter(10)
@@ -173,10 +153,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                                 hint: 'Please enter email id',
                                 controller: emailCtrl!,
                                 prefixIcon: Icons.email,
-                                iconSize: iconSize!,
                                 iconColor: Colors.indigo,
                                 fontColor: Colors.black,
-                                fontSize: fontSize!,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.allow(
                                       RegExp(r"[a-zA-Z]+|\s")),
@@ -200,10 +178,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                               hint: 'Please enter phone number',
                               controller: phoneCtrl!,
                               prefixIcon: Icons.phone,
-                              iconSize: iconSize!,
                               iconColor: Colors.indigo,
                               fontColor: Colors.black,
-                              fontSize: fontSize!,
                               inputFormatter: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(10)
@@ -224,10 +200,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                               hint: 'Please enter email id',
                               controller: emailCtrl!,
                               prefixIcon: Icons.email,
-                              iconSize: iconSize!,
                               iconColor: Colors.indigo,
                               fontColor: Colors.black,
-                              fontSize: fontSize!,
                               inputFormatter: [
                                 FilteringTextInputFormatter.allow(
                                     RegExp(r"[a-zA-Z]+|\s")),
@@ -251,8 +225,8 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                     focusNode: AlwaysDisabledFocusNode(),
                     disHint: Text(dropdownValue),
                     list: list1,
-                    fontSize: fontSize!,
-                    iconSize: iconSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
+                    iconSize: size.width > 600 ? 25 : 15,
                     value: dropdownValue,
                     onChanged: null,
                     itemsList:
@@ -268,7 +242,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: MyRadioWidget(
-                    fontSize: fontSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
                     groupVal: data!.gender,
                     onChanged: (val) {
                       setState(() {});
@@ -279,7 +253,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: MyCheckBoxWidget(
-                    fontSize: fontSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
                     val: data!.confirm,
                     onChanged: (value) {
                       return null;
@@ -300,7 +274,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                       "View Signature",
                       style: TextStyle(
                         color: Colors.indigo,
-                        fontSize: fontSize!),
+                        fontSize: size.width > 600 ? 25 : 15),
                     ),
                   ),
                 ),
@@ -333,7 +307,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                             child: Text('Edit',
                                 style: TextStyle(
                                     color: Colors.indigo,
-                                    fontSize: fontSize!))),
+                                    fontSize: size.width > 600 ? 25 : 15))),
                       )
                     ],
                   ),
@@ -352,7 +326,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                             "Generate PDF",
                             style: TextStyle(
                               color: Colors.indigo,
-                              fontSize: fontSize!
+                              fontSize: size.width > 600 ? 25 : 15
                             ),
                           ),
                           onPressed: () => onSubmit(
@@ -369,7 +343,7 @@ class MyViewFormPageState extends State<MyViewFormPage> {
                             "Send PDF To Email",
                             style: TextStyle(
                               color: Colors.indigo,
-                              fontSize: fontSize!)
+                              fontSize: size.width > 600 ? 25 : 15)
                           ),
                           onPressed: () => PdfApi.sendEmail(data!, context),
                         ),

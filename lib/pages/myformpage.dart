@@ -33,11 +33,7 @@ class MyFormPageState extends State<MyFormPage> {
   String? genGroupVal = 'male';
   String? profileImage;
   bool isButtonPressed = false;
-  double? fontSize;
-  double? iconSize;
-  double? width;
   double? screenWidth;
-
   String? pathToImage;
   String? tmpPath;
   Employee? employee;
@@ -77,17 +73,7 @@ class MyFormPageState extends State<MyFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) {
-      fontSize = 15;
-      iconSize = 25;
-      width = 300;
-      screenWidth = MediaQuery.of(context).size.width;
-    } else {
-      fontSize = 25;
-      iconSize = 40;
-      width = 450;
-      screenWidth = MediaQuery.of(context).size.width;
-    }
+    final size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.topCenter,
       decoration:
@@ -110,10 +96,8 @@ class MyFormPageState extends State<MyFormPage> {
                     hint: 'Please enter name of employee',
                     controller: nameCtrl,
                     prefixIcon: Icons.people,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     inputFormatter: [
                       FilteringTextInputFormatter.allow(
                           RegExp(r"[a-zA-Z]+|\s")),
@@ -137,10 +121,8 @@ class MyFormPageState extends State<MyFormPage> {
                     hint: 'Enter the date of birth',
                     controller: dobCtrl,
                     prefixIcon: Icons.calendar_today,
-                    iconSize: iconSize!,
                     iconColor: Colors.indigo,
                     fontColor: Colors.black,
-                    fontSize: fontSize!,
                     onTap: () {
                       showDatePickerTool();
                     },
@@ -166,10 +148,8 @@ class MyFormPageState extends State<MyFormPage> {
                               hint: 'Please enter phone number',
                               controller: phoneCtrl,
                               prefixIcon: Icons.phone,
-                              iconSize: iconSize!,
                               iconColor: Colors.indigo,
                               fontColor: Colors.black,
-                              fontSize: fontSize!,
                               inputFormatter: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(10)
@@ -191,10 +171,8 @@ class MyFormPageState extends State<MyFormPage> {
                               hint: 'Please enter email id',
                               controller: emailCtrl,
                               prefixIcon: Icons.email,
-                              iconSize: iconSize!,
                               iconColor: Colors.indigo,
                               fontColor: Colors.black,
-                              fontSize: fontSize!,
                               validator: (value) {
                                 final bool isValid = EmailValidator.validate(
                                     emailCtrl.text.toString());
@@ -218,10 +196,8 @@ class MyFormPageState extends State<MyFormPage> {
                             hint: 'Please enter phone number',
                             controller: phoneCtrl,
                             prefixIcon: Icons.phone,
-                            iconSize: iconSize!,
                             iconColor: Colors.indigo,
                             fontColor: Colors.black,
-                            fontSize: fontSize!,
                             inputFormatter: [
                               FilteringTextInputFormatter.digitsOnly,
                               LengthLimitingTextInputFormatter(10)
@@ -241,10 +217,8 @@ class MyFormPageState extends State<MyFormPage> {
                             hint: 'Please enter email id',
                             controller: emailCtrl,
                             prefixIcon: Icons.email,
-                            iconSize: iconSize!,
                             iconColor: Colors.indigo,
                             fontColor: Colors.black,
-                            fontSize: fontSize!,
                             validator: (value) {
                               final bool isValid = EmailValidator.validate(
                                   emailCtrl.text.toString());
@@ -264,8 +238,8 @@ class MyFormPageState extends State<MyFormPage> {
                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                 child: MyDropdownWidget(
                   list: list,
-                  fontSize: fontSize!,
-                  iconSize: iconSize!,
+                  fontSize: size.width > 600 ? 25 : 15,
+                  iconSize: size.width > 600 ? 25 : 15,
                   value: dropdownValue,
                   onChanged: (String? value) {
                     setState(() {
@@ -284,7 +258,7 @@ class MyFormPageState extends State<MyFormPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                 child: MyRadioWidget(
-                    fontSize: fontSize!,
+                    fontSize: size.width > 600 ? 25 : 15,
                     groupVal: genGroupVal,
                     onChanged: (value) {
                       setState(() {
@@ -295,7 +269,7 @@ class MyFormPageState extends State<MyFormPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
                 child: MyCheckBoxWidget(
-                  fontSize: fontSize!,
+                  fontSize: size.width > 600 ? 25 : 15,
                   val: confirmationBool,
                   onChanged: (value) {
                     setState(() {
@@ -365,7 +339,7 @@ class MyFormPageState extends State<MyFormPage> {
                           },
                           child: Text('Submit',
                               style: TextStyle(
-                                  color: Colors.indigo, fontSize: fontSize!))),
+                                  color: Colors.indigo, fontSize: size.width > 600 ? 25 : 15))),
                     )
                   ],
                 ),

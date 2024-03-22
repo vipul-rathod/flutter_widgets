@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:test_widgets/pages/loginpage.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
 import 'package:test_widgets/widgets/mydrawer.dart';
 import 'package:test_widgets/pages/myform.dart';
+import 'package:test_widgets/widgets/scanbarcode.dart';
 
 class MyScaffold extends StatelessWidget{
   final Widget body;
@@ -14,16 +16,18 @@ class MyScaffold extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         iconTheme: IconThemeData(size: iconSize, color: Colors.white),
         toolbarHeight: 100,
         title: Text(title, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
         actions: [
           IconButton(
-            icon: Icon(Icons.picture_as_pdf, size: iconSize,),
-            onPressed: () {},
+            icon: Icon(Icons.more_vert, size: iconSize,),
+            onPressed: () {showPopUpMenu(context, size);},
           ),
         ],
       ),
@@ -55,7 +59,7 @@ class MyScaffold extends StatelessWidget{
               ),
               IconButton(
                 icon: Icon(Icons.account_circle_outlined, size: iconSize*1.5, color: Colors.yellow[200]),
-                onPressed: () {},
+                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));},
               ),
             ],
           ),
@@ -69,6 +73,20 @@ class MyScaffold extends StatelessWidget{
         child: const Icon(Icons.add),
       ),
       body: body,
+    );
+  }
+  void showPopUpMenu(context, size) {
+    showMenu<String>(
+      context: context,
+      position: size.width > 600 ? const RelativeRect.fromLTRB(25, 130, 0, 0) : const RelativeRect.fromLTRB(25, 110, 0, 0),
+      color: Colors.white,
+      items: [
+        PopupMenuItem<String>(
+          child: const Text('Scan Barcode'),
+          // onTap: () {ScanBarcode.scanBarcode();},
+          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ScanBarcode()));},
+        ),
+      ]
     );
   }
 }
