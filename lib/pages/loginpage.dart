@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
-import 'package:test_widgets/widgets/myscaffold.dart';
 import 'package:test_widgets/widgets/mytextformfield.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,9 +24,9 @@ class _LoginPageState extends State<LoginPage> {
       final qrResult = await BarcodeScanner.scan();
       setState(() {
         result = qrResult.rawContent;
-        final xyz = jsonDecode(result);
-        usernameCtrl = TextEditingController(text: xyz["username"]);
-        passwordCtrl = TextEditingController(text: xyz["password"]);
+        final resultJson = jsonDecode(result);
+        usernameCtrl = TextEditingController(text: resultJson["username"]);
+        passwordCtrl = TextEditingController(text: resultJson["password"]);
         validateLogin();
       });
     } on PlatformException catch(ex){
@@ -49,11 +47,16 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.of(context).size;
      usernameCtrl = TextEditingController(text: '');
      passwordCtrl = TextEditingController(text: '');
-    return MyScaffold(
-      title: 'Login Page',
-      fontSize: size.width > 600 ? 25 : 15,
-      iconSize: size.width > 600 ? 25 : 15,
-      width: size.width > 600 ? 450 : 300,
+    // return MyScaffold(
+    //   title: 'Login Page',
+    //   fontSize: size.width > 600 ? 25 : 15,
+    //   iconSize: size.width > 600 ? 25 : 15,
+    //   width: size.width > 600 ? 450 : 300,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login Page'),
+        centerTitle: true,
+      ),
       body: Center(
         child: Column(
           children: <Widget>[

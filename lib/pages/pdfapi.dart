@@ -107,7 +107,15 @@ class PdfApi {
   static Future<File> saveFile(PdfDocument document, Employee employee) async {
     Directory? directory;
     if (Platform.isAndroid){
-      directory = await getExternalStorageDirectory();
+      // directory = await getExternalStorageDirectory();
+      final newDirectory = await getExternalStorageDirectory();
+      // Directory newDirectory = (tmpDirectoryPath!.parent).parent;
+      print ('${newDirectory!.path}/employee_pdf');
+      if (!Directory('${newDirectory.path}/employee_pdf').existsSync()){
+        directory = await Directory('${newDirectory.path}/employee_pdf').create(recursive: true);
+      }
+      directory = Directory('${newDirectory.path}/employee_pdf');
+      print (directory);
     }
     else if (Platform.isIOS){
       final tmpDirectoryPath = await getApplicationDocumentsDirectory();
@@ -119,6 +127,7 @@ class PdfApi {
     }
 
     final employeePDFPath = '${directory!.path}/${employee.name}_${employee.id}_pdf';
+    print (employeePDFPath);
     if (!Directory(employeePDFPath).existsSync()){
       await Directory(employeePDFPath).create(recursive: false);
     }
@@ -128,6 +137,7 @@ class PdfApi {
     }
     final fileName = '$employeePDFPath/${employee.name}_${DateTime.now().toLocal()}.pdf';
     final file = File(fileName);
+    print (file.path);
     file.writeAsBytes(await document.save());
     // sendEmail(fileName, employee);
     document.dispose();
@@ -137,6 +147,8 @@ class PdfApi {
   static void sendEmail(Employee employee, BuildContext context) async {
     final path = Platform.isAndroid ? await getExternalStorageDirectory() : await getApplicationDocumentsDirectory();
     final employeePDFPath = '${path!.path}/employee_pdf/${employee.name}_${employee.id}_pdf';
+    print (employeePDFPath);
+    print (Directory(employeePDFPath).existsSync());
     if (Directory(employeePDFPath).existsSync()) {
       if (employeePDFPath.isNotEmpty){
         final fileName = await Directory(employeePDFPath).list().first;

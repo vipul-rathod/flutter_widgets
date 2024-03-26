@@ -33,7 +33,6 @@ class MyFormPageState extends State<MyFormPage> {
   String? genGroupVal = 'male';
   String? profileImage;
   bool isButtonPressed = false;
-  double? screenWidth;
   String? pathToImage;
   String? tmpPath;
   Employee? employee;
@@ -139,7 +138,7 @@ class MyFormPageState extends State<MyFormPage> {
 
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 0),
-                child: screenWidth! > 600
+                child: size.width > 600
                     ? Row(
                         children: <Widget>[
                           Expanded(
