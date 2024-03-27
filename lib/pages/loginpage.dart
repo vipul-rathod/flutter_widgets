@@ -57,60 +57,63 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text('Login Page'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextFormField(
-              label: 'UserName',
-              hint: 'Enter User Name',
-              controller: usernameCtrl!,
-              prefixIcon: Icons.people,
-              iconColor: Colors.indigo,
-              fontColor: Colors.indigo,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyTextFormField(
-              label: 'Password',
-              hint: 'Enter Password',
-              controller: passwordCtrl!,
-              prefixIcon: Icons.password_rounded,
-              iconColor: Colors.indigo,
-              fontColor: Colors.indigo,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: validateLogin,
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: size.width > 600 ? 25 : 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextFormField(
+                label: 'UserName',
+                hint: 'Enter User Name',
+                controller: usernameCtrl!,
+                prefixIcon: Icons.people,
+                iconColor: Colors.indigo,
+                fontColor: Colors.indigo,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextFormField(
+                label: 'Password',
+                hint: 'Enter Password',
+                controller: passwordCtrl!,
+                prefixIcon: Icons.password_rounded,
+                iconColor: Colors.indigo,
+                fontColor: Colors.indigo,
+                obscureText: true,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: validateLogin,
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    fontSize: size.width > 600 ? 25 : 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: scanBarcode,
-              child: Text(
-                'Login using QRCode Scan',
-                style: TextStyle(
-                  fontSize: size.width > 600 ? 25 : 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: scanBarcode,
+                child: Text(
+                  'Login using QRCode Scan',
+                  style: TextStyle(
+                    fontSize: size.width > 600 ? 25 : 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

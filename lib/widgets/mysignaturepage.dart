@@ -38,28 +38,30 @@ class _MySignaturePageState extends State<MySignaturePage> {
       fontSize: 15,
       iconSize: 25,
       width: 300,
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(0),
-            child: Signature(
-              controller: controller!,
-              backgroundColor: Colors.black,
-              height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height*0.5 : MediaQuery.of(context).size.height*0.2,
-              width: MediaQuery.of(context).size.width,
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Signature(
+                controller: controller!,
+                backgroundColor: Colors.black,
+                height: MediaQuery.of(context).orientation == Orientation.portrait ? MediaQuery.of(context).size.height*0.5 : MediaQuery.of(context).size.height*0.5,
+                width: MediaQuery.of(context).size.width,
+              ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(0),
-            child: buildButtons(context),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(0),
-            child: buildSwapOrientation()
-          ),
-        ],
+        
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: buildButtons(context),
+            ),
+        
+            Padding(
+              padding: const EdgeInsets.all(0),
+              child: buildSwapOrientation()
+            ),
+          ],
+        ),
       ),
     );
   Widget buildSwapOrientation() {

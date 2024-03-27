@@ -26,7 +26,7 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
 
   @override
   Widget build(BuildContext context){
-    if (MediaQuery.of(context).size.width < 600){
+    // if (MediaQuery.of(context).size.width < 600){
       return Container(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
@@ -85,59 +85,65 @@ class MyRadioWidgetState extends State<MyRadioWidget>{
           ),
         ),
       );
-    }
-    else{
-      return Container(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: ListTile(
-              title: Text('Select gender: ', style: TextStyle(
-                color: Colors.indigo,
-                fontSize: widget.fontSize,
-                fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListTile(
-              title: Text('Male', style: TextStyle(
-                color: Colors.indigo,
-                fontSize: widget.fontSize,
-                fontWeight: FontWeight.bold
-                ),
-              ),
-              leading: Radio<String?>(
-                value: 'male',
-                groupValue: widget.groupVal,
-                onChanged: (String? value){
-                  widget.onChanged.call(value!);
-                },
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListTile(
-              title: Text('Female', style: TextStyle(
-                color: Colors.indigo,
-                fontSize: widget.fontSize,
-                fontWeight: FontWeight.bold
-                ),
-              ),
-              leading: Radio<String?>(
-                value: 'female',
-                groupValue: widget.groupVal,
-                onChanged: (String? value){
-                  widget.onChanged.call(value!);
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-    }
+    // }
+    // else{
+    //   return Container(
+    //   padding: const EdgeInsets.all(20),
+    //   child: Row(
+    //     children: <Widget>[
+    //       Expanded(
+    //         flex: 1,
+    //         child: ListTile(
+    //           title: Text('Select gender: ', style: TextStyle(
+    //             color: Colors.indigo,
+    //             fontSize: widget.fontSize,
+    //             fontWeight: FontWeight.bold
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //       Expanded(
+    //         flex: 1,
+    //         child: ListTile(
+    //           title: Text('Male', style: TextStyle(
+    //             color: Colors.indigo,
+    //             fontSize: widget.fontSize,
+    //             fontWeight: FontWeight.bold
+    //             ),
+    //           ),
+    //           leading: Radio<String?>(
+    //             value: 'male',
+    //             groupValue: widget.groupVal,
+    //             onChanged: (String? value){
+    //               widget.onChanged.call(value!);
+    //             },
+    //           ),
+    //         ),
+    //       ),
+    //       Expanded(
+    //         flex: 1,
+    //         child: Padding(
+    //           padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
+    //           child: ListTile(
+    //             title: Text('Female', style: TextStyle(
+    //               color: Colors.indigo,
+    //               fontSize: widget.fontSize,
+    //               fontWeight: FontWeight.bold
+    //               ),
+    //             ),
+    //             leading: Radio<String?>(
+    //               value: 'female',
+    //               groupValue: widget.groupVal,
+    //               onChanged: (String? value){
+    //                 widget.onChanged.call(value!);
+    //               },
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+    // }
   }
 }

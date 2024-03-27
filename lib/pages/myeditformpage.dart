@@ -99,6 +99,31 @@ class MyEditFormPageState extends State<MyEditFormPage> {
     return getImagePath;
   }
 
+
+String text = '';
+convert(TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+
+    if (newText.length == 10) {
+      // The below code gives a range error if not 10.
+      RegExp phone = RegExp(r'(\d{3})(\d{3})(\d{4})');
+      var matches = phone.allMatches(newValue.text);
+      var match = matches.elementAt(0);
+      newText = '(${match.group(1)}) ${match.group(2)}-${match.group(3)}';
+    }
+
+    setState(() {
+      text = newText;
+    });
+
+    return TextEditingValue(
+        text: newText,
+        selection: TextSelection(
+            baseOffset: newValue.text.length,
+            extentOffset: newValue.text.length));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -181,12 +206,13 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                 fontColor: Colors.black,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(10)
+                                  LengthLimitingTextInputFormatter(10),
+                                  TextInputFormatter.withFunction((oldValue, newValue) => convert(oldValue, newValue))
                                 ],
                                 validator: (value) {
-                                  if (value!.length >= 11 ||
-                                      value.length <= 9) {
-                                    return "${10 - value.length} digit more to go.";
+                                  if (value!.length >= 15 ||
+                                      value.length <= 3) {
+                                    return "${14 - value.length} digit more to go.";
                                   }
                                   return null;
                                 },
@@ -231,12 +257,13 @@ class MyEditFormPageState extends State<MyEditFormPage> {
                                 fontColor: Colors.black,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(10)
+                                  LengthLimitingTextInputFormatter(10),
+                                  TextInputFormatter.withFunction((oldValue, newValue) => convert(oldValue, newValue))
                                 ],
                                 validator: (value) {
-                                  if (value!.length >= 11 ||
-                                      value.length <= 9) {
-                                    return "${10 - value.length} digit more to go.";
+                                  if (value!.length >= 15 ||
+                                      value.length <= 13) {
+                                    return "${14 - value.length} digit more to go.";
                                   }
                                   return null;
                                 },

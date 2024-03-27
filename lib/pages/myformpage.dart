@@ -61,6 +61,30 @@ class MyFormPageState extends State<MyFormPage> {
     return tmpimgpath;
   }
 
+String text = '';
+convert(TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+
+    if (newText.length == 10) {
+      // The below code gives a range error if not 10.
+      RegExp phone = RegExp(r'(\d{3})(\d{3})(\d{4})');
+      var matches = phone.allMatches(newValue.text);
+      var match = matches.elementAt(0);
+      newText = '(${match.group(1)}) ${match.group(2)}-${match.group(3)}';
+    }
+
+    setState(() {
+      text = newText;
+    });
+
+    return TextEditingValue(
+        text: newText,
+        selection: TextSelection(
+            baseOffset: newValue.text.length,
+            extentOffset: newValue.text.length));
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -151,11 +175,13 @@ class MyFormPageState extends State<MyFormPage> {
                               fontColor: Colors.black,
                               inputFormatter: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10)
+                                LengthLimitingTextInputFormatter(10),
+                                TextInputFormatter.withFunction((oldValue, newValue) => convert(oldValue, newValue))
                               ],
+                              keyboardType: TextInputType.number,
                               validator: (value) {
-                                if (value!.length >= 11 || value.length <= 9) {
-                                  return "${10 - value.length} digit more to go.";
+                                if (value!.length >= 15 || value.length <= 13) {
+                                  return "${14 - value.length} digit more to go.";
                                 }
                                 return null;
                               },
@@ -199,11 +225,13 @@ class MyFormPageState extends State<MyFormPage> {
                             fontColor: Colors.black,
                             inputFormatter: [
                               FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(10)
+                              LengthLimitingTextInputFormatter(10),
+                              TextInputFormatter.withFunction((oldValue, newValue) => convert(oldValue, newValue))
                             ],
+                            keyboardType: TextInputType.number,
                             validator: (value) {
-                              if (value!.length >= 11 || value.length <= 9) {
-                                return "${10 - value.length} digit more to go.";
+                              if (value!.length >= 15 || value.length <= 13) {
+                                return "${14 - value.length} digit more to go.";
                               }
                               return null;
                             },

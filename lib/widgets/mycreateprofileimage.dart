@@ -110,7 +110,9 @@ class _MyProfileImageState extends State<MyProfileImage> {
   }
 
   void pickImage() async {
+    await Permission.manageExternalStorage.request();
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    
     setState(() {
       _image = File(image!.path);
       saveImage(_image!.path);
@@ -136,7 +138,7 @@ class _MyProfileImageState extends State<MyProfileImage> {
 
     if (newPath.isNotEmpty){
       final basenameWithExtension = '${uuid.v1()}${syspath.extension(path)}';
-      await Permission.storage.request();
+      // await Permission.storage.request();
       if (await Permission.storage.isGranted){
         galleryImagePath = showImageSize(path, syspath.join(newPath, basenameWithExtension));
       }
@@ -157,12 +159,13 @@ class _MyProfileImageState extends State<MyProfileImage> {
     int sizeInBytes = file.lengthSync();
     double sizeInKB = sizeInBytes/1024;
     if (sizeInKB <= 1024){
+      print ("If condition $targetPath");
       compressImageAndGetFile(imageFile, targetPath);
     }
     else{
+      print ("Else condition $targetPath");
       compressImageAndGetFile(imageFile, targetPath);
     }
-    
     return File(targetPath);
   }
 

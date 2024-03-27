@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 class MyTextFormField extends StatefulWidget{
   const MyTextFormField({super.key, required this.label, required this.hint, required this.controller,
     required this.prefixIcon, this.onTap, this.focusNode, this.validator,
-    required this.iconColor, required this.fontColor, this.inputFormatter, this.suffixIcon});
+    required this.iconColor, required this.fontColor, this.inputFormatter, this.keyboardType,this.suffixIcon, this.obscureText=false});
 
   final String label;
   final String hint;
@@ -13,11 +13,12 @@ class MyTextFormField extends StatefulWidget{
   final Color iconColor;
   final Color fontColor;
   final List<TextInputFormatter>? inputFormatter;
+  final dynamic keyboardType;
   final IconData? suffixIcon;
   final Function()? onTap;
   final FocusNode? focusNode;
   final String? Function(String?)? validator;
-  
+  final bool obscureText;
 
 
 
@@ -36,6 +37,7 @@ class MyTextFormFieldState extends State<MyTextFormField>{
       maxLength: 25,
       focusNode: widget.focusNode,
       inputFormatters: widget.inputFormatter,
+      keyboardType: widget.keyboardType,
       style: TextStyle(
         fontSize: size.width > 600 ? 25 : 15,
         color: widget.fontColor,
@@ -68,6 +70,7 @@ class MyTextFormFieldState extends State<MyTextFormField>{
           fontSize: size.width > 600 ? 25 : 15, color: Colors.red),
       ),
       validator: widget.validator,
+      obscureText: widget.obscureText,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       onTap: widget.onTap,
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:test_widgets/pages/loginpage.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
 import 'package:test_widgets/widgets/mydrawer.dart';
@@ -82,11 +83,26 @@ class MyScaffold extends StatelessWidget{
       color: Colors.white,
       items: [
         PopupMenuItem<String>(
-          child: const Text('Scan Barcode'),
-          // onTap: () {ScanBarcode.scanBarcode();},
-          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ScanBarcode()));},
+          child: const Text('LogOut'),
+          onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => logOut(context)));},
+          // onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ScanBarcode()));},
         ),
       ]
+    );
+  }
+  Widget logOut(context) {
+    return AlertDialog(
+      title: const Text('Are you sure to logout?'),
+      actions: <Widget>[
+        ElevatedButton(
+          onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));},
+          child: const Text('LogOut'),
+        ),
+                ElevatedButton(
+          onPressed: () {Navigator.of(context).pop();},
+          child: const Text('Cancel'),
+        ),
+      ],
     );
   }
 }
