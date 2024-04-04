@@ -159,11 +159,9 @@ class _MyProfileImageState extends State<MyProfileImage> {
     int sizeInBytes = file.lengthSync();
     double sizeInKB = sizeInBytes/1024;
     if (sizeInKB <= 1024){
-      print ("If condition $targetPath");
       compressImageAndGetFile(imageFile, targetPath);
     }
     else{
-      print ("Else condition $targetPath");
       compressImageAndGetFile(imageFile, targetPath);
     }
     return File(targetPath);

@@ -135,7 +135,6 @@ class PdfApi {
     final fileName = '$employeePDFPath/${employee.name}_${DateTime.now().toLocal()}.pdf';
     final file = File(fileName);
     file.writeAsBytes(await document.save());
-    print (file.path);
     document.dispose();
     return file;
   }
@@ -144,8 +143,7 @@ class PdfApi {
     final path = Platform.isAndroid ? await getExternalStorageDirectory() : await getApplicationDocumentsDirectory();
     final tmpabc = (path!.parent).parent;
 
-    final employeePDFPath = Platform.isAndroid ? '${path!.path}/employee_pdf/${employee.name}_${employee.id}_pdf' : '${tmpabc.path}/test_widget/employee_pdf/${employee.name}_${employee.id}_pdf';
-    print (employeePDFPath);
+    final employeePDFPath = Platform.isAndroid ? '${path.path}/employee_pdf/${employee.name}_${employee.id}_pdf' : '${tmpabc.path}/test_widget/employee_pdf/${employee.name}_${employee.id}_pdf';
     if (Directory(employeePDFPath).existsSync()) {
       if (employeePDFPath.isNotEmpty){
         final fileName = await Directory(employeePDFPath).list().first;

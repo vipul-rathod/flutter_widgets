@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:test_widgets/pages/loginpage.dart';
 import 'package:test_widgets/pages/myhomepage.dart';
 import 'package:test_widgets/widgets/mydrawer.dart';
 import 'package:test_widgets/pages/myform.dart';
-import 'package:test_widgets/widgets/scanbarcode.dart';
 
 class MyScaffold extends StatelessWidget{
   final Widget body;
@@ -18,11 +16,13 @@ class MyScaffold extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     final size = MediaQuery.of(context).size;
+    final orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(size: iconSize, color: Colors.white),
-        toolbarHeight: 100,
+        toolbarHeight: orientation.name == "landscape" ? 50 : 100,
         title: Text(title, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold, color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 20, 45, 90),
         actions: [
@@ -35,7 +35,7 @@ class MyScaffold extends StatelessWidget{
       drawer: MyDrawer(fontSize: fontSize, width: width,),
 
       bottomNavigationBar: BottomAppBar(
-        height: 60,
+        height: orientation.name == "landscape" ? 30 : 60,
         color: const Color.fromARGB(255, 20, 45, 90),
         shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
@@ -45,6 +45,7 @@ class MyScaffold extends StatelessWidget{
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.home, size: iconSize*1.5, color: Colors.yellow[200],),
